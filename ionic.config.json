@@ -1,0 +1,7 @@
+{
+  "name": "shop-manager",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
