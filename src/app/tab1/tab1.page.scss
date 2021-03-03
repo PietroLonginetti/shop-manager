@@ -1,0 +1,19 @@
+.card-open{
+    color: rgba(124, 124, 124, 0.863); 
+    font-size: 12px; transform: translateY(3px); 
+    padding-right: 16px;
+    transform: translateY(5px) !important;
+    display: inline;
+    position: absolute;
+    right: 0;
+}
+.card-title{
+    max-width: 65%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+.card-stars{
+    color:#f6d12d;
+}
