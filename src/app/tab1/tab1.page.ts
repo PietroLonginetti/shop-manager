@@ -41,7 +41,8 @@ export class Tab1Page {
         {sat: [
           {from: '8:00', to: '12:00'}
         ]},
-      ]
+      ],
+      open: true
     },
     {
       MBLink: '',
@@ -57,7 +58,8 @@ export class Tab1Page {
         {thursday: '8:00-12:00/14:00-17:00'},
         {friday: '8:00-12:00/14:00-17:00'},
         {saturday: '8:00-12:00'},
-      ]
+      ],
+      open: false
     },
     {
       MBLink: '',
@@ -73,7 +75,8 @@ export class Tab1Page {
         {thursday: '8:00-12:00/14:00-17:00'},
         {friday: '8:00-12:00/14:00-17:00'},
         {saturday: '8:00-12:00'},
-      ]
+      ],
+      open: true
     }
   ]
   cards : any;
@@ -102,5 +105,12 @@ export class Tab1Page {
         card.style.display = shouldShow ? 'block' : 'none';
       })
     })
+  }
+  isOpen(i: number){
+    if(this.shops[i].open){
+      return 'Now Open'
+    } else{
+      return 'Closed'
+    }
   }
 }
