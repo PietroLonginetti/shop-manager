@@ -1,11 +1,11 @@
 .card-open{
     color: rgba(124, 124, 124, 0.863); 
-    font-size: 12px; transform: translateY(3px); 
+    font-size: 12px; 
     padding-right: 16px;
     display: inline;
     position: absolute;
     right: 0;
-    bottom: 20px;
+    margin: 0;
 }
 .card-title{
     max-width: 65%;

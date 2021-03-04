@@ -16,97 +16,67 @@ export class Tab1Page {
       img: 'https://placeimg.com/360/150/any',
       valutation: Array(3),
       address: 'Via Roma 2, 50125',
+      telephone: '+390555047041',
       hours: [
-        {
-          sun: [
-          ]
-        },
-        {
-          mon: [
-            { from: '8:00', to: '12:00' },
-            { from: '14:00', to: '17:00' }
-          ]
-        },
-        {
-          tue: [
-            { from: '8:00', to: '12:00' },
-            { from: '14:00', to: '17:00' }
-          ]
-        },
-        {
-          wed: [
-            { from: '8:00', to: '12:00' },
-            { from: '14:00', to: '17:00' }
-          ]
-        },
-        {
-          thu: [
-            { from: '8:00', to: '12:00' },
-            { from: '14:00', to: '17:00' }
-          ]
-        },
-        {
-          fri: [
-            { from: '8:00', to: '12:00' },
-            { from: '14:00', to: '17:00' }
-          ]
-        },
-        {
-          sat: [
-            { from: '8:00', to: '12:00' }
-          ]
-        },
-      ],
-      open: true
+        [], //sun
+        [ //mon
+          { from: '8:00', to: '12:00' },
+          { from: '14:00', to: '17:00' }
+        ], 
+        [ //tue
+          { from: '8:00', to: '12:00' },
+          { from: '14:00', to: '17:00' }
+        ], 
+        [ //wed
+          { from: '8:00', to: '12:00' },
+          { from: '14:00', to: '17:00' }
+        ], 
+        [ //thu
+          { from: '8:00', to: '12:00' },
+          { from: '14:00', to: '17:00' }
+        ], 
+        [ //fri
+          { from: '8:00', to: '12:00' },
+          { from: '14:00', to: '17:00' }
+        ], 
+        [ //sat
+          { from: '8:00', to: '12:00' }
+        ]  
+      ]
     },
     {
       MBLink: '',
       name: 'The best shop',
-      img: 'https://placeimg.com/360/150/any/any',
+      img: 'https://placeimg.com/360/150',
       valutation: Array(4),
       address: 'Via Fantechi 25, 50133',
+      telephone: '+390553298730',
       hours: [
-        {
-          sun: [
-          ]
-        },
-        {
-          mon: [
-            { from: '8:00', to: '12:00' },
-            { from: '14:00', to: '17:00' }
-          ]
-        },
-        {
-          tue: [
-            { from: '8:00', to: '12:00' },
-            { from: '14:00', to: '17:00' }
-          ]
-        },
-        {
-          wed: [
-            { from: '8:00', to: '12:00' },
-            { from: '14:00', to: '17:00' }
-          ]
-        },
-        {
-          thu: [
-            { from: '8:00', to: '12:00' },
-            { from: '14:00', to: '17:00' }
-          ]
-        },
-        {
-          fri: [
-            { from: '8:00', to: '12:00' },
-            { from: '14:00', to: '17:00' }
-          ]
-        },
-        {
-          sat: [
-            { from: '8:00', to: '12:00' }
-          ]
-        },
-      ],
-      open: false
+        [], //sun
+        [ //mon
+          { from: '8:00', to: '12:00' },
+          { from: '14:00', to: '17:00' }
+        ], 
+        [ //tue
+          { from: '8:00', to: '12:00' },
+          { from: '14:00', to: '17:00' }
+        ], 
+        [ //wed
+          { from: '8:00', to: '12:00' },
+          { from: '14:00', to: '17:00' }
+        ], 
+        [ //thu
+          { from: '8:00', to: '12:00' },
+          { from: '14:00', to: '17:00' }
+        ], 
+        [ //fri
+          { from: '8:00', to: '12:00' },
+          { from: '14:00', to: '17:00' }
+        ], 
+        [ //sat
+          { from: '8:00', to: '12:00' }
+        ]  
+      ]
     }
   ]
   cards: any;
@@ -118,9 +88,6 @@ export class Tab1Page {
     this.cards = document.getElementById('shop-cards');
     this.list = document.getElementById('shop-list');
     this.updateVis();
-
-    console.log(this.list);
-    console.log(this.cards);
   }
 
   private updateVis(): void {
@@ -174,11 +141,22 @@ export class Tab1Page {
       })
     })
   }
-  isOpen(i: number) {
-    if (this.shops[i].open) {
-      return 'Now Open'
-    } else {
-      return 'Closed'
-    }
+  isOpen(i: number): boolean {
+    let now = new Date();
+    let day: number = now.getUTCDay();
+    let hour: number = now.getUTCHours();
+    let minutes: number = now.getUTCMinutes();
+
+    this.shops[i].hours[day].forEach(turn => {
+      let fromHour:number, toHour:number, fromMinutes:number, toMinutes:number;
+      [fromHour, fromMinutes] = turn.from.split(':').map(x => parseInt(x));
+      [toHour, toMinutes] = turn.to.split(':').map(x => parseInt(x));
+      if(hour > fromHour && hour < toHour){
+        return true;
+      } else if((hour === fromHour && minutes >= fromMinutes) || (hour === toHour && minutes <= toMinutes)){
+        return true;
+      } 
+    })
+    return false;
   }
 }
