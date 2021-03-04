@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { IonInput, PopoverController } from '@ionic/angular';
 import { HomePopoverComponent } from '../home-popover/home-popover.component';
 
 @Component({
@@ -9,6 +9,7 @@ import { HomePopoverComponent } from '../home-popover/home-popover.component';
 })
 export class Tab1Page {
   vis: string = 'cards';
+  searchBar : any;
   shops = [
     {
       MBLink: '',
@@ -85,6 +86,7 @@ export class Tab1Page {
   constructor(public popoverController: PopoverController) {
   }
   ngOnInit(): void {
+    this.searchBar = document.getElementsByTagName('ion-searchbar')[0]
     this.cards = document.getElementById('shop-cards');
     this.list = document.getElementById('shop-list');
     this.updateVis();
@@ -92,12 +94,13 @@ export class Tab1Page {
 
   private updateVis(): void {
     if (this.vis === 'cards') {
-      this.cards.style.display = 'initial';
+      this.cards.style.display = 'block';
       this.list.style.display = 'none';
     } else if (this.vis === 'list') {
       this.cards.style.display = 'none';
-      this.list.style.display = 'initial';
+      this.list.style.display = 'block';
     }
+    
   }
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
@@ -110,6 +113,8 @@ export class Tab1Page {
       if (res.data === undefined || res.data === null) { }
       else if (this.vis != res.data) {
         this.vis = res.data;
+        this.searchBar.value = '';
+        this.findShop();
         this.updateVis();
       }
     })
@@ -118,20 +123,20 @@ export class Tab1Page {
   addShop() {
 
   }
-  findShop(ev: any) {
+  findShop() {
     let searchList: any;
     if (this.vis === 'cards')
       searchList = [...this.cards.children];
     else if (this.vis === 'list')
       searchList = [...this.list.children];
-    const text = ev.target.value.toLowerCase();
+    const text = this.searchBar.value.toLowerCase();
 
     requestAnimationFrame(() => {
       searchList.forEach(item => {
-        let shouldShow: boolean;
+        let shouldShow: boolean = item.children[1];
         switch (this.vis) {
           case "cards":
-            shouldShow = item.children[2].children[0].textContent.toLowerCase().indexOf(text) > -1;
+            shouldShow = item.children[1].children[0].textContent.toLowerCase().indexOf(text) > -1;
             break;
           case "list":
             shouldShow = item.children[1].textContent.toLowerCase().indexOf(text) > -1;
@@ -162,6 +167,7 @@ export class Tab1Page {
   callShop(ev: MouseEvent, i: number){
     ev.stopPropagation();
     console.log('calling shop ' + i);
+
   }
   openCard(ev: MouseEvent, i: number){
     console.log('opening card ' + i);

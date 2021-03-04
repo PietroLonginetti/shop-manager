@@ -20,7 +20,7 @@
 <ion-content [fullscreen]="true">
   <div id="container" style="padding-bottom: 56px">
     <ion-toolbar>
-      <ion-searchbar (ionInput)="findShop($event)" placeholder="Find your shop!" style="padding-bottom: 0;">
+      <ion-searchbar (ionChange)="findShop()" placeholder="Find your shop!" style="padding-bottom: 0;">
       </ion-searchbar>
     </ion-toolbar>
 
