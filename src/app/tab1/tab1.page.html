@@ -19,23 +19,27 @@
 
 <ion-content [fullscreen]="true">
   <div id="container" style="padding-bottom: 56px">
-    <ion-toolbar style="margin-bottom: -5px;">
+    <ion-toolbar>
       <ion-searchbar (ionInput)="findShop($event)" placeholder="Find your shop!" style="padding-bottom: 0;">
       </ion-searchbar>
     </ion-toolbar>
 
     <div id="shop-cards">
-      <ion-card *ngFor="let shop of shops; let i = index;">
+      <ion-card *ngFor="let shop of shops; let i = index;" button="true" (click)="openCard($event, i)">
         <img [src]="shop.img">
         <ion-card-header>
-          <ion-card-subtitle>
-            <ion-icon *ngFor="let star of shop.valutation" name="star" class="card-stars"></ion-icon>
-            <p class="card-open">{{isOpen(i)?'Now Open':'Closed'}}</p>
-          </ion-card-subtitle>
+          <ion-card-title class="card-title">{{shop.name}}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <ion-card-title slot="start" class="card-title">{{shop.name}}</ion-card-title>
-          <ion-chip color="primary" outline="true"><ion-icon name="call"></ion-icon></ion-chip>
+          <div style="width: 80px">
+            <ion-icon *ngFor="let star of shop.valutation" name="star" class="card-stars"></ion-icon>
+          </div>
+          <ion-chip color="primary" outline="true">
+            <ion-icon name="call" style="margin: 0" (click)="callShop($event, i);"></ion-icon>
+          </ion-chip>
+          <div style="width: 80px; text-align: end;">
+            <p class="card-open">{{isOpen(i)?'Now Open':'Closed'}}</p>
+          </div>
         </ion-card-content>
       </ion-card>
     </div>

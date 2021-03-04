@@ -14,7 +14,7 @@ export class Tab1Page {
       MBLink: '',
       name: 'Good shop',
       img: 'https://placeimg.com/360/150/any',
-      valutation: Array(3),
+      valutation: Array(2),
       address: 'Via Roma 2, 50125',
       telephone: '+390555047041',
       hours: [
@@ -48,7 +48,7 @@ export class Tab1Page {
       MBLink: '',
       name: 'The best shop',
       img: 'https://placeimg.com/360/150',
-      valutation: Array(4),
+      valutation: Array(5),
       address: 'Via Fantechi 25, 50133',
       telephone: '+390553298730',
       hours: [
@@ -158,5 +158,12 @@ export class Tab1Page {
       } 
     })
     return false;
+  }
+  callShop(ev: MouseEvent, i: number){
+    ev.stopPropagation();
+    console.log('calling shop ' + i);
+  }
+  openCard(ev: MouseEvent, i: number){
+    console.log('opening card ' + i);
   }
 }

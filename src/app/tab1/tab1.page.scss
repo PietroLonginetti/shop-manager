@@ -1,18 +1,19 @@
+ion-card-content{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 .card-open{
     color: rgba(124, 124, 124, 0.863); 
     font-size: 12px; 
     padding-right: 16px;
-    display: inline;
-    position: absolute;
-    right: 0;
     margin: 0;
+    padding: 0; 
 }
 .card-title{
-    max-width: 65%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: inline-block;
 }
 .card-stars{
     color:#f6d12d;
