@@ -24,7 +24,7 @@
     </ion-toolbar>
 
     <div id="shop-cards">
-      <ion-card *ngFor="let shop of shops; let i = index;" button="true" routerLink="shop" routerDirection="forward">
+      <ion-card *ngFor="let shop of shops; let i = index;" button="true" routerLink="shop/{{shops[i]}}" routerDirection="forward">
         <img [src]="shop.img">
         <ion-card-header>
           <ion-card-title class="card-title">{{shop.name}}</ion-card-title>
@@ -44,7 +44,7 @@
     </div>
 
     <ion-list id="shop-list">
-      <ion-item *ngFor="let shop of shops; let i = index;" button="true" (click)="openCard($event, i)">
+      <ion-item *ngFor="let shop of shops; let i = index;" button="true" routerLink="shop/42" routerDirection="forward">
         <ion-avatar slot="start"><img [src]="shop.img"></ion-avatar>
         <ion-label>{{shop.name}}</ion-label>
         <ion-icon *ngFor="let star of shop.valutation" name="star" class="card-stars" style="font-size: 16px;">
