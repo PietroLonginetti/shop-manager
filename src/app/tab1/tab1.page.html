@@ -44,7 +44,7 @@
     </div>
 
     <ion-list id="shop-list">
-      <ion-item *ngFor="let shop of shops; let i = index;" href="#">
+      <ion-item *ngFor="let shop of shops; let i = index;" button="true" (click)="openCard($event, i)">
         <ion-avatar slot="start"><img [src]="shop.img"></ion-avatar>
         <ion-label>{{shop.name}}</ion-label>
         <ion-icon *ngFor="let star of shop.valutation" name="star" class="card-stars" style="font-size: 16px;">
