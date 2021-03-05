@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
-import { HomePopoverComponent } from '../home-popover/home-popover.component';
+import { HomePopoverComponent } from './home-popover/home-popover.component';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 
 

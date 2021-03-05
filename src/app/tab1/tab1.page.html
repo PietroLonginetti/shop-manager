@@ -24,7 +24,7 @@
     </ion-toolbar>
 
     <div id="shop-cards">
-      <ion-card *ngFor="let shop of shops; let i = index;" button="true" (click)="openCard($event, i)">
+      <ion-card *ngFor="let shop of shops; let i = index;" button="true" routerLink="shop" routerDirection="forward">
         <img [src]="shop.img">
         <ion-card-header>
           <ion-card-title class="card-title">{{shop.name}}</ion-card-title>

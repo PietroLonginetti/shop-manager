@@ -6,7 +6,7 @@ import { Tab1Page } from './tab1.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
-import { HomePopoverComponent } from '../home-popover/home-popover.component';
+import { HomePopoverComponent } from './home-popover/home-popover.component';
 
 @NgModule({
   imports: [
