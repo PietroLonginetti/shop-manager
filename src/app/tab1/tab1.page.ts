@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonInput, PopoverController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 import { HomePopoverComponent } from '../home-popover/home-popover.component';
 
 @Component({
@@ -37,7 +37,7 @@ export class Tab1Page {
           { from: '14:00', to: '17:00' }
         ], 
         [ //fri
-          { from: '8:00', to: '12:00' },
+          { from: '8:00', to: '11:00' },
           { from: '14:00', to: '17:00' }
         ], 
         [ //sat
@@ -121,7 +121,7 @@ export class Tab1Page {
     return await popover.present();
   }
   addShop() {
-
+    console.log('Adding shop');
   }
   findShop() {
     let searchList: any;
@@ -133,15 +133,10 @@ export class Tab1Page {
 
     requestAnimationFrame(() => {
       searchList.forEach(item => {
-        let shouldShow: boolean = item.children[1];
-        switch (this.vis) {
-          case "cards":
-            shouldShow = item.children[1].children[0].textContent.toLowerCase().indexOf(text) > -1;
-            break;
-          case "list":
-            shouldShow = item.children[1].textContent.toLowerCase().indexOf(text) > -1;
-            break;
-        }
+        let shouldShow = item.children[1];
+        if(this.vis === 'cards'){
+          shouldShow = shouldShow.children[0];
+        } shouldShow = shouldShow.textContent.toLowerCase().indexOf(text) > -1;
         item.style.display = shouldShow ? 'block' : 'none';
       })
     })
@@ -152,17 +147,18 @@ export class Tab1Page {
     let hour: number = now.getUTCHours();
     let minutes: number = now.getUTCMinutes();
 
+    let open: boolean = false;
     this.shops[i].hours[day].forEach(turn => {
       let fromHour:number, toHour:number, fromMinutes:number, toMinutes:number;
       [fromHour, fromMinutes] = turn.from.split(':').map(x => parseInt(x));
       [toHour, toMinutes] = turn.to.split(':').map(x => parseInt(x));
       if(hour > fromHour && hour < toHour){
-        return true;
+        open = true;
       } else if((hour === fromHour && minutes >= fromMinutes) || (hour === toHour && minutes <= toMinutes)){
-        return true;
+        open = true;
       } 
     })
-    return false;
+    return open;
   }
   callShop(ev: MouseEvent, i: number){
     ev.stopPropagation();
