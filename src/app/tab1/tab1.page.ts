@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { HomePopoverComponent } from './home-popover/home-popover.component';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -9,8 +10,8 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
-  listVisualization: boolean = false;
+export class Tab1Page{
+  listVisualization: boolean;
   searchBar : any;
   shops = [
     {
@@ -85,15 +86,26 @@ export class Tab1Page {
   cards: any;
   list: any;
 
-  constructor(public popoverController: PopoverController, private callNumber : CallNumber) {
-    console.log(this.listVisualization)
+  constructor(public popoverController: PopoverController, private callNumber : CallNumber, private storage: Storage) {
   }
   ngOnInit(): void {
     this.searchBar = document.getElementsByTagName('ion-searchbar')[0]
     this.cards = document.getElementById('shop-cards');
     this.list = document.getElementById('shop-list');
-    this.updateVis();
+
+    this.storage.get('listVis')
+    .then(res => {
+      console.log('Visualizzazione a ' + (res?'lista':'carte'));
+      this.listVisualization = res;
+    })
+    .catch(() => {
+      console.error('No listVis variable found in storage')
+      this.storage.set('listVis' , false);
+      this.listVisualization = false;
+    })
+    .finally(() => this.updateVis());
   }
+
 
   private updateVis(): void {
     if (!this.listVisualization) {
@@ -115,6 +127,7 @@ export class Tab1Page {
     popover.onDidDismiss().then(res => {
       if (res.data === undefined || res.data === null) { }
       else if (this.listVisualization!= res.data) {
+        this.storage.set('listVis', res.data);
         this.listVisualization = res.data;
         this.searchBar.value = '';
         this.findShop();
