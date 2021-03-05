@@ -10,7 +10,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-  vis: string = 'cards';
+  listVisualization: boolean = false;
   searchBar : any;
   shops = [
     {
@@ -86,6 +86,7 @@ export class Tab1Page {
   list: any;
 
   constructor(public popoverController: PopoverController, private callNumber : CallNumber) {
+    console.log(this.listVisualization)
   }
   ngOnInit(): void {
     this.searchBar = document.getElementsByTagName('ion-searchbar')[0]
@@ -95,10 +96,10 @@ export class Tab1Page {
   }
 
   private updateVis(): void {
-    if (this.vis === 'cards') {
+    if (!this.listVisualization) {
       this.cards.style.display = 'block';
       this.list.style.display = 'none';
-    } else if (this.vis === 'list') {
+    } else if (this.listVisualization) {
       this.cards.style.display = 'none';
       this.list.style.display = 'block';
     }
@@ -107,14 +108,14 @@ export class Tab1Page {
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: HomePopoverComponent,
-      componentProps: { vis: this.vis },
+      componentProps: { vis: this.listVisualization },
       event: ev,
       translucent: true,
     });
     popover.onDidDismiss().then(res => {
       if (res.data === undefined || res.data === null) { }
-      else if (this.vis != res.data) {
-        this.vis = res.data;
+      else if (this.listVisualization!= res.data) {
+        this.listVisualization = res.data;
         this.searchBar.value = '';
         this.findShop();
         this.updateVis();
@@ -127,16 +128,16 @@ export class Tab1Page {
   }
   findShop() {
     let searchList: any;
-    if (this.vis === 'cards')
+    if (!this.listVisualization)
       searchList = [...this.cards.children];
-    else if (this.vis === 'list')
+    else if (this.listVisualization)
       searchList = [...this.list.children];
     const text = this.searchBar.value.toLowerCase();
 
     requestAnimationFrame(() => {
       searchList.forEach(item => {
         let shouldShow = item.children[1];
-        if(this.vis === 'cards'){
+        if(!this.listVisualization){
           shouldShow = shouldShow.children[0];
         } shouldShow = shouldShow.textContent.toLowerCase().indexOf(text) > -1;
         item.style.display = shouldShow ? 'block' : 'none';

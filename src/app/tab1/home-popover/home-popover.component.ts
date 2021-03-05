@@ -7,12 +7,12 @@ import { AlertController, NavParams, PopoverController } from '@ionic/angular';
   styleUrls: ['./home-popover.component.scss'],
 })
 export class HomePopoverComponent implements OnInit {
-  vis: string;
+  listVisualization:boolean = false;
 
   constructor(public popoverController: PopoverController,
     public alertController: AlertController, 
     public navParams: NavParams) { 
-      this.vis = this.navParams.get('vis');
+      this.listVisualization = this.navParams.get('vis');
     }
 
   ngOnInit() {}
@@ -28,23 +28,23 @@ export class HomePopoverComponent implements OnInit {
         type: 'radio',
         label: 'Cards',
         value: 0,
-        checked: this.vis == 'cards'
+        checked: !this.listVisualization
       },
       {
         name: 'list',
         type: 'radio',
         label: 'List',
         value: 1,
-        checked: this.vis == 'list'
+        checked: this.listVisualization
       }
     ],
     buttons: [{
       text: 'Ok',
       handler: (data: any) => {
         if(data === 1){
-          this.popoverController.dismiss('list')
+          this.popoverController.dismiss(true)
         } else if(data === 0){
-          this.popoverController.dismiss('cards')
+          this.popoverController.dismiss(false)
         }
       }
     }]
