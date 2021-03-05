@@ -1,7 +1,8 @@
 {
   "name": "shop-manager",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

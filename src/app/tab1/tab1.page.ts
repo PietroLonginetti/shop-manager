@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { HomePopoverComponent } from '../home-popover/home-popover.component';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+
 
 @Component({
   selector: 'app-tab1',
@@ -83,7 +85,7 @@ export class Tab1Page {
   cards: any;
   list: any;
 
-  constructor(public popoverController: PopoverController) {
+  constructor(public popoverController: PopoverController, private callNumber : CallNumber) {
   }
   ngOnInit(): void {
     this.searchBar = document.getElementsByTagName('ion-searchbar')[0]
@@ -162,8 +164,9 @@ export class Tab1Page {
   }
   callShop(ev: MouseEvent, i: number){
     ev.stopPropagation();
-    console.log('calling shop ' + i);
-
+    this.callNumber.callNumber(this.shops[i].telephone, true)
+      .then(res => console.log('calling shop ' + i))
+      .catch(err => console.error('Error opening dialer'));
   }
   openCard(ev: MouseEvent, i: number){
     console.log('opening card ' + i);
