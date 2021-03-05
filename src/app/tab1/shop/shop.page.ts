@@ -7,12 +7,12 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./shop.page.scss'],
 })
 export class ShopPage implements OnInit {
-  data = null;
+  id = null;
 
   constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.data = this.activatedRoute.snapshot.paramMap.get('data');
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
 }

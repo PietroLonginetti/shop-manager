@@ -8,7 +8,7 @@ const routes: Routes = [
     component: Tab1Page,
   },
   {
-    path: 'shop/:data',
+    path: 'shop/:id',
     loadChildren: () => import('./shop/shop.module').then( m => m.ShopPageModule)
   }
 ];
