@@ -43,7 +43,7 @@
       </ion-card>
     </div>
 
-    <ion-list id="shop-list">
+    <ion-list id="shop-list" lines="none">
       <ion-item *ngFor="let shop of shops; let i = index;" routerLink="shop/{{i}}" routerDirection="forward">
         <ion-avatar slot="start"><img [src]="shop.img"></ion-avatar>
         <ion-label>{{shop.name}}</ion-label>

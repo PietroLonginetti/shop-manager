@@ -8,6 +8,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { HomePopoverComponent } from './home-popover/home-popover.component';
 
+
 @NgModule({
   imports: [
     IonicModule,

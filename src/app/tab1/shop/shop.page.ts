@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, PopoverController } from '@ionic/angular';
 import { ShopDataExchangeService } from '../shop-data-exchange.service';
+import { ShopPopoverComponent } from './shop-popover/shop-popover.component';
 
 @Component({
   selector: 'app-shop',
@@ -12,7 +13,8 @@ export class ShopPage implements OnInit {
   id = null;
   shop = null;
 
-  constructor(private activatedRoute: ActivatedRoute, private navCtrl: NavController, private exService: ShopDataExchangeService) {
+  constructor(private activatedRoute: ActivatedRoute, private navCtrl: NavController, 
+    private exService: ShopDataExchangeService, private popoverController: PopoverController) {
   } 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -22,8 +24,13 @@ export class ShopPage implements OnInit {
   goBack(){
     this.navCtrl.back();
   }
-  presentPopover(ev){
-
+  async presentPopover(ev: any){
+    const popover = await this.popoverController.create({
+      component: ShopPopoverComponent,
+      event: ev,
+      translucent: true 
+    });
+    return await popover.present();
   }
 
 }
