@@ -1,6 +1,20 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>shop {{id}}</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>{{shop.name}}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="presentPopover($event)">
+        <ion-icon name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 

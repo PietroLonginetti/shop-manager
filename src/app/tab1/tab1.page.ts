@@ -3,6 +3,7 @@ import { PopoverController } from '@ionic/angular';
 import { HomePopoverComponent } from './home-popover/home-popover.component';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { Storage } from '@ionic/storage';
+import { ShopDataExchangeService } from './shop-data-exchange.service';
 
 
 @Component({
@@ -13,80 +14,15 @@ import { Storage } from '@ionic/storage';
 export class Tab1Page{
   listVisualization: boolean;
   searchBar : any;
-  shops = [
-    {
-      MBLink: '',
-      name: 'Good shop',
-      img: 'https://placeimg.com/360/150/any',
-      valutation: Array(2),
-      address: 'Via Roma 2, 50125',
-      telephone: '+390555047041',
-      hours: [
-        [], //sun
-        [ //mon
-          { from: '8:00', to: '12:00' },
-          { from: '14:00', to: '17:00' }
-        ], 
-        [ //tue
-          { from: '8:00', to: '12:00' },
-          { from: '14:00', to: '17:00' }
-        ], 
-        [ //wed
-          { from: '8:00', to: '12:00' },
-          { from: '14:00', to: '17:00' }
-        ], 
-        [ //thu
-          { from: '8:00', to: '12:00' },
-          { from: '14:00', to: '17:00' }
-        ], 
-        [ //fri
-          { from: '8:00', to: '11:00' },
-          { from: '14:00', to: '17:00' }
-        ], 
-        [ //sat
-          { from: '8:00', to: '12:00' }
-        ]  
-      ]
-    },
-    {
-      MBLink: '',
-      name: 'The best shop',
-      img: 'https://placeimg.com/360/150',
-      valutation: Array(5),
-      address: 'Via Fantechi 25, 50133',
-      telephone: '+390553298730',
-      hours: [
-        [], //sun
-        [ //mon
-          { from: '8:00', to: '12:00' },
-          { from: '14:00', to: '17:00' }
-        ], 
-        [ //tue
-          { from: '8:00', to: '12:00' },
-          { from: '14:00', to: '17:00' }
-        ], 
-        [ //wed
-          { from: '8:00', to: '12:00' },
-          { from: '14:00', to: '17:00' }
-        ], 
-        [ //thu
-          { from: '8:00', to: '12:00' },
-          { from: '14:00', to: '17:00' }
-        ], 
-        [ //fri
-          { from: '8:00', to: '12:00' },
-          { from: '14:00', to: '17:00' }
-        ], 
-        [ //sat
-          { from: '8:00', to: '12:00' }
-        ]  
-      ]
-    }
-  ]
+  shops = [];
   cards: any;
   list: any;
 
-  constructor(public popoverController: PopoverController, private callNumber : CallNumber, private storage: Storage) {
+  constructor(public popoverController: PopoverController, private callNumber : CallNumber, private storage: Storage, 
+    private exService: ShopDataExchangeService) {
+      for(let i=0; i<exService.getShops().length; i++){
+        this.shops.push(exService.getShop(i));
+      }
   }
   ngOnInit(): void {
     this.searchBar = document.getElementsByTagName('ion-searchbar')[0]
@@ -105,7 +41,6 @@ export class Tab1Page{
     })
     .finally(() => this.updateVis());
   }
-
 
   private updateVis(): void {
     if (!this.listVisualization) {
