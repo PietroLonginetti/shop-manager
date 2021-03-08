@@ -33,9 +33,17 @@ export class ShopPage implements OnInit {
   async presentPopover(ev: any){
     const popover = await this.popoverController.create({
       component: ShopPopoverComponent,
+      componentProps: { music: this.shop.automations.music, heating: this.shop.automations.heating },
       event: ev,
       translucent: true 
     });
+    popover.onDidDismiss().then(res => {
+      this.shop.automations.music = false;
+      this.shop.automations.heating = false;
+      res.data.forEach(el => {
+        this.shop.automations[el] = true;
+      });
+    })
     return await popover.present();
   }
   callShop(ev: MouseEvent){
@@ -44,6 +52,5 @@ export class ShopPage implements OnInit {
       .then(res => console.log('calling shop'))
       .catch(err => console.error('Error opening dialer'));
   }
-
 
 }

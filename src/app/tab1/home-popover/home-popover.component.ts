@@ -7,10 +7,9 @@ import { AlertController, NavParams, PopoverController } from '@ionic/angular';
   styleUrls: ['./home-popover.component.scss'],
 })
 export class HomePopoverComponent implements OnInit {
-  listVisualization:boolean = false;
+  listVisualization: boolean;
 
-  constructor(public popoverController: PopoverController,
-    public alertController: AlertController, 
+  constructor(private popoverController: PopoverController, public alertController: AlertController, 
     public navParams: NavParams) { 
       this.listVisualization = this.navParams.get('vis');
     }
@@ -52,10 +51,10 @@ export class HomePopoverComponent implements OnInit {
     await alert.present();
   }
 
-  async presentInfAlert(){
+  async presentHelpAlert(){
     const alert = await this.alertController.create({
       backdropDismiss: false,
-      header: 'Informations',
+      header: 'What am I watching?',
       message: 'In this section a list of all the shops managed by you is presented. You can interact with them by clicking on the tabs or search for them in the search bar. You can also add a new store by clicking a "plus" form in the top right.',
       buttons: [{
         text: 'Ok',

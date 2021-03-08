@@ -37,7 +37,8 @@ export class ShopDataExchangeService {
         [ //sat
           { from: '8:00', to: '12:00' }
         ]  
-      ]
+      ],
+      automations: {music: false, heating: false}
     },
     {
       MBLink: '',
@@ -51,8 +52,6 @@ export class ShopDataExchangeService {
         [ //mon
           { from: '8:00', to: '12:00' },
           { from: '14:00', to: '17:00' },
-          { from: '21:00', to: '24:00' },
-          { from: '21:00', to: '24:00' },
           { from: '21:00', to: '24:00' }
         ], 
         [ //tue
@@ -74,7 +73,8 @@ export class ShopDataExchangeService {
         [ //sat
           { from: '8:00', to: '12:00' }
         ]  
-      ]
+      ],
+      automations: {music: false, heating: false}
     }
   ]
 
