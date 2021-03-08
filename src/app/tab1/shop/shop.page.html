@@ -2,13 +2,12 @@
   <ion-toolbar>
 
     <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
+      <ion-button routerLink="/tabs/tab1" routerDirection="back">
         <ion-icon name="chevron-back"></ion-icon>
       </ion-button>
     </ion-buttons>
 
     <ion-title>{{shop.name}}</ion-title>
-
 
     <ion-buttons slot="end">
       <ion-button detail="false">
@@ -22,19 +21,22 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
   <ion-slides pager="true" style="max-height: 150px;">
     <ion-slide *ngFor="let img of shop.imgs">
       <img [src]="img" style="width: 100%;">
     </ion-slide>
   </ion-slides>
-
-
-
+  <div class="stars-container">
+    <ion-icon *ngFor="let star of shop.valutation" name="star" class="stars"></ion-icon>
+  </div>
+  
 
 </ion-content>
 
-<ion-footer>
+
+<ion-footer class="ion-no-border">
   <ion-toolbar>
     <ion-buttons style="justify-content: center;">
       <ion-button color="success" fill="solid" [disabled]="this.shop.MBLink == ''? true: false">
