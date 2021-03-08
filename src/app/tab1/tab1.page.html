@@ -25,7 +25,7 @@
 
     <div id="shop-cards">
       <ion-card *ngFor="let shop of shops; let i = index;" routerLink="shop/{{i}}" routerDirection="forward">
-        <img [src]="shop.img">
+        <img [src]="shop.imgs[0]">
         <ion-card-header>
           <ion-card-title class="card-title">{{shop.name}}</ion-card-title>
         </ion-card-header>
@@ -45,7 +45,7 @@
 
     <ion-list id="shop-list" lines="none">
       <ion-item *ngFor="let shop of shops; let i = index;" routerLink="shop/{{i}}" routerDirection="forward">
-        <ion-avatar slot="start"><img [src]="shop.img"></ion-avatar>
+        <ion-avatar slot="start"><img [src]="shop.imgs[0]"></ion-avatar>
         <ion-label>{{shop.name}}</ion-label>
         <ion-icon *ngFor="let star of shop.valutation" name="star" class="card-stars" style="font-size: 16px;">
         </ion-icon>
