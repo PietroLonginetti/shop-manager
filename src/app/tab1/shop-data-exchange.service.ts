@@ -50,7 +50,10 @@ export class ShopDataExchangeService {
         [], //sun
         [ //mon
           { from: '8:00', to: '12:00' },
-          { from: '14:00', to: '17:00' }
+          { from: '14:00', to: '17:00' },
+          { from: '21:00', to: '24:00' },
+          { from: '21:00', to: '24:00' },
+          { from: '21:00', to: '24:00' }
         ], 
         [ //tue
           { from: '8:00', to: '12:00' },
