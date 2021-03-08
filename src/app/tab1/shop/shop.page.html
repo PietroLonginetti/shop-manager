@@ -23,10 +23,23 @@
 </ion-header>
 
 <ion-content>
-  <ion-slides pager="true">
+  <ion-slides pager="true" style="max-height: 150px;">
     <ion-slide *ngFor="let img of shop.imgs">
       <img [src]="img" style="width: 100%;">
     </ion-slide>
   </ion-slides>
 
+
+
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons style="justify-content: center;">
+      <ion-button color="success" fill="solid" [disabled]="this.shop.MBLink == ''? true: false">
+        Go to Google My Businness
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
