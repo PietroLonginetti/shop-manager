@@ -15,27 +15,27 @@ export class ShopDataExchangeService {
       hours: [
         [], //sun
         [ //mon
-          { from: '8:00', to: '12:00' },
+          { from: '08:00', to: '12:00' },
           { from: '14:00', to: '17:00' }
         ], 
         [ //tue
-          { from: '8:00', to: '12:00' },
+          { from: '08:00', to: '12:00' },
           { from: '14:00', to: '17:00' }
         ], 
         [ //wed
-          { from: '8:00', to: '12:00' },
+          { from: '08:00', to: '12:00' },
           { from: '14:00', to: '17:00' }
         ], 
         [ //thu
-          { from: '8:00', to: '12:00' },
+          { from: '08:00', to: '12:00' },
           { from: '14:00', to: '17:00' }
         ], 
         [ //fri
-          { from: '8:00', to: '11:00' },
+          { from: '08:00', to: '11:00' },
           { from: '14:00', to: '17:00' }
         ], 
         [ //sat
-          { from: '8:00', to: '12:00' }
+          { from: '08:00', to: '12:00' }
         ]  
       ],
       automations: {music: false, heating: false}
@@ -50,28 +50,28 @@ export class ShopDataExchangeService {
       hours: [
         [], //sun
         [ //mon
-          { from: '8:00', to: '12:00' },
+          { from: '08:00', to: '12:00' },
           { from: '14:00', to: '17:00' },
           { from: '21:00', to: '24:00' }
         ], 
         [ //tue
-          { from: '8:00', to: '12:00' },
+          { from: '08:00', to: '12:00' },
           { from: '14:00', to: '17:00' }
         ], 
         [ //wed
-          { from: '8:00', to: '12:00' },
+          { from: '08:00', to: '12:00' },
           { from: '14:00', to: '17:00' }
         ], 
         [ //thu
-          { from: '8:00', to: '12:00' },
+          { from: '08:00', to: '12:00' },
           { from: '14:00', to: '17:00' }
         ], 
         [ //fri
-          { from: '8:00', to: '12:00' },
+          { from: '08:00', to: '12:00' },
           { from: '14:00', to: '17:00' }
         ], 
         [ //sat
-          { from: '8:00', to: '12:00' }
+          { from: '08:00', to: '12:00' }
         ]  
       ],
       automations: {music: false, heating: false}
@@ -82,6 +82,9 @@ export class ShopDataExchangeService {
 
   public getShops(){
     return this.shops;
+  }
+  public setShop(shop: any, id: number){
+    this.shops[id] = shop;
   }
 
   public getShop(i: number){

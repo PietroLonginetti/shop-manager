@@ -1,3 +1,27 @@
+ion-input{
+    border: 1px solid rgb(197, 197, 197);
+    border-radius: 5px;
+}
+ion-header ion-input{
+    margin-left: 15px;
+    width: 90%;
+    height: 2.5rem;
+}
+ion-content ion-input{
+    height: 2.3rem;
+}
+.datetime-container{
+    display: flex;
+    align-items: center;
+}
+ion-datetime{
+    display: inline-block;
+    padding: 2px 4px;
+    margin: 2px 2px;
+    border: 1px solid rgb(197, 197, 197);
+    border-radius: 5px;
+    min-width: 4.5rem;
+}
 ion-slides{
     max-height: 30%;
 }
@@ -17,7 +41,7 @@ ion-slide img{
     border: 1px solid rgb(235, 68, 90, .5); 
     border-radius: 10px;
     height: 2rem;
-    margin: 0.4rem;
+    margin: 15px;
 }
 .trash-buttons ion-icon{
     font-size: x-large;
@@ -36,7 +60,6 @@ ion-slide img{
 }
 .main-grid{
     padding: 5px 15px;
-    height: 70%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -50,8 +73,14 @@ ion-slide img{
 }
 .hours-grid {
     padding: 0;
-    font-size: small;
+    font-size: 15px;
 }
 ion-footer{
     padding: 8px 0;
+}
+ion-footer ion-input{
+    border: 1px solid #2dd36f;
+    border-radius: 5px;
+    height: 2.5rem;
+    margin: 0 15px;
 }
