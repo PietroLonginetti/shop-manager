@@ -1,0 +1,73 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController} from '@ionic/angular';
+import { ShopDataExchangeService } from '../shop-data-exchange.service';
+
+@Component({
+  selector: 'app-shop-editor',
+  templateUrl: './shop-editor.page.html',
+  styleUrls: ['./shop-editor.page.scss'],
+})
+export class ShopEditorPage implements OnInit {
+  id = null;
+  shop = null;
+  modifications = null;
+  weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  constructor(private activatedRoute: ActivatedRoute, private router:Router, private exService: ShopDataExchangeService, 
+      private alertController:  AlertController) {
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.shop = this.exService.getShop(this.id);
+    this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
+    console.log(this.shop);
+    this.modifications.name = "bruh";
+    console.log(this.modifications);
+  }
+  ngOnInit() {
+  }
+
+  async confirmAlert(){
+    const alert = await this.alertController.create({
+      backdropDismiss: false,
+      header: 'Are you sure?',
+      message: 'Do you really want apply those changes? This process cannot be undone.',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => { console.log('Modifications discarded'); }
+        },
+        {
+          text: 'Yes',
+          handler: () => { this.router.navigate(['/tabs/tab1/shop/' + this.id]);
+        }
+        }
+      ]
+    })
+    await alert.present();
+  }
+
+  async discardAlert(){
+    const alert = await this.alertController.create({
+      backdropDismiss: false,
+      header: 'Are you sure?',
+      message: 'Do you really want discard those changes? All your changes will be lost.',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => { console.log('Returned to modification page'); }
+        },
+        {
+          text: 'Yes',
+          handler: () => { this.router.navigate(['/tabs/tab1/shop/' + this.id]);
+        }
+        }
+      ]
+    })
+    await alert.present();
+  }
+
+  deletePhoto(imgId: number) {
+    this.shop.imgs.splice(imgId, 1);
+  }
+
+}

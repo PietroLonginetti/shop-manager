@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: 'shop/:id',
     loadChildren: () => import('./shop/shop.module').then( m => m.ShopPageModule)
+  },
+  {
+    path: 'shop-editor/:id',
+    loadChildren: () => import('./shop-editor/shop-editor.module').then( m => m.ShopEditorPageModule)
   }
 ];
 
