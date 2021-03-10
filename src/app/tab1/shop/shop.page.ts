@@ -15,38 +15,37 @@ export class ShopPage implements OnInit {
   shop = null;
   weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  constructor(private activatedRoute: ActivatedRoute, private navCtrl: NavController, 
+  constructor(private activatedRoute: ActivatedRoute, private navCtrl: NavController,
     private exService: ShopDataExchangeService, private popoverController: PopoverController,
     private callNumber: CallNumber) {
-  } 
+  }
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.shop = this.exService.getShop(this.id)
   }
 
-  injectDivider(day: Array<Object>, turn: number): string{
-    return turn == day.length-1? '': ',\xa0';
-  }
-  goBack(): void{
+  goBack(): void {
     this.navCtrl.back();
   }
-  async presentPopover(ev: any){
+  async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: ShopPopoverComponent,
       componentProps: { music: this.shop.automations.music, heating: this.shop.automations.heating },
       event: ev,
-      translucent: true 
+      translucent: true
     });
     popover.onDidDismiss().then(res => {
-      this.shop.automations.music = false;
-      this.shop.automations.heating = false;
-      res.data.forEach(el => {
-        this.shop.automations[el] = true;
-      });
+      if (res.data != undefined) {
+        this.shop.automations.music = false;
+        this.shop.automations.heating = false;
+        res.data.forEach(el => {
+          this.shop.automations[el] = true;
+        });
+      }
     })
     return await popover.present();
   }
-  callShop(ev: MouseEvent){
+  callShop(ev: MouseEvent) {
     ev.stopPropagation();
     this.callNumber.callNumber(this.shop.telephone, true)
       .then(res => console.log('calling shop'))

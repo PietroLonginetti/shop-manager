@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-input type="text" placeholder="shop name" value="{{modifications.name}}"></ion-input>
+    <ion-input [(ngModel)]="modifications.name" type="text" (ionInput)="this.modified = true"
+    placeholder="shop name" value="{{modifications.name}}"></ion-input>
 
     <ion-buttons slot="end">
       <ion-button id="discard-btn" (click)="discardAlert()">
@@ -40,13 +41,17 @@
     <ion-row>
       <ion-col size="3">Address:</ion-col>
       <ion-col size="9">
-        <ion-input type="text" placeholder="address" value="{{modifications.address}}"></ion-input>
+        <ion-input [(ngModel)]="modifications.address" (ionInput)="this.modified = true"
+          type="text" placeholder="address" value="{{modifications.address}}">
+        </ion-input>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size="3">Phone:</ion-col>
       <ion-col size="9">
-        <ion-input type="tel" placeholder="phone number" value="{{modifications.telephone}}"></ion-input>
+        <ion-input [(ngModel)]="modifications.telephone" (ionInput)="this.modified = true"
+          type="tel" placeholder="phone number" value="{{modifications.telephone}}">
+        </ion-input>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -58,11 +63,15 @@
             <ion-grid class="hours-grid">
               <ion-row *ngFor="let turn of day; let t = index">
                 <ion-col size="4">
-                  <ion-datetime [(ngModel)]="turn.from" display-format="h:mm A" picker-format="h:mm A" value="{{turn.from}}"></ion-datetime>
+                  <ion-datetime [(ngModel)]="turn.from" (ionFocus)="this.modified = true"
+                    display-format="H:mm" picker-format="H:mm" doneText="select" value="{{turn.from}}">
+                  </ion-datetime>
                 </ion-col>
                 <ion-col size="1" style="justify-content: center;">-</ion-col>
                 <ion-col size="4">
-                  <ion-datetime [(ngModel)]="turn.to" display-format="h:mm A" picker-format="h:mm A" value="{{turn.to}}"></ion-datetime>
+                  <ion-datetime [(ngModel)]="turn.to" (ionFocus)="this.modified = true"
+                    display-format="H:mm" picker-format="H:mm" doneText="select" value="{{turn.to}}">
+                  </ion-datetime>
                 </ion-col>
                 <ion-col size="3">
                   <ion-button (click)="removeTurn(day, t)" size="small" fill="clear" color="danger">
@@ -85,7 +94,8 @@
   </ion-grid>
   <ion-toolbar>
     <ion-buttons style="justify-content: center;">
-      <ion-input id="gmlink" type="url" placeholder="Google My Business Link" value="{{modifications.MBLink}}">
+      <ion-input [(ngModel)]="modifications.MBLink" (ionInput)="this.modified = true"
+        id="gmlink" type="url" placeholder="Google My Business Link" value="{{modifications.MBLink}}">
       </ion-input>
     </ion-buttons>
   </ion-toolbar>

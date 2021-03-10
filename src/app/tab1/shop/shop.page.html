@@ -50,12 +50,14 @@
         <ion-grid class="hours-grid">
           <ion-row *ngFor="let day of shop.hours; let i = index">
             <ion-col size="2">{{weekDays[i]}}</ion-col>
-            <ion-col size="10">
-              <p style="margin: 0">
-                <span *ngIf="day.length == 0" style="color:rgb(153, 153, 153)"><em>Closed</em></span>
-                <span style="display: inline-block" *ngFor="let turn of day; let t = index">
-                  {{turn.from}}-{{turn.to}}{{injectDivider(day, t)}}</span>
-              </p>
+            <ion-col size="10" style="flex-wrap: wrap;">
+              <span *ngIf="day.length == 0" style="color:rgb(153, 153, 153)"><em>Closed</em></span>
+              <div style="display: flex;" *ngFor="let turn of day; let t = index">
+                <ion-datetime readonly="true" [value]="turn.from" display-format="H:mm"></ion-datetime>
+                <span style="margin: 0 2px;">-</span>
+                <ion-datetime readonly="true" [value]="turn.to" display-format="H:mm"></ion-datetime>
+                <pre *ngIf="t != day.length - 1" style="margin: 0;">, </pre>
+              </div>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -71,6 +73,3 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-content>
-
-
-

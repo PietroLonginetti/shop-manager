@@ -20,6 +20,8 @@ export class ShopEditorPage implements OnInit {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.shop = this.exService.getShop(this.id);
     this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
+
+    console.log(this.modified)
   }
   ngOnInit() {
   }
@@ -65,7 +67,6 @@ export class ShopEditorPage implements OnInit {
           {
             text: 'Yes',
             handler: () => {
-              this.modifications = JSON.parse(JSON.stringify(this.shop)); //Undo all changes
               this.router.navigate(['/tabs/tab1/shop/' + this.id]);
             }
           }
@@ -82,14 +83,12 @@ export class ShopEditorPage implements OnInit {
     this.modified = true;
     this.modifications.imgs.splice(imgId, 1);
   }
-
   loadNewTurn(i: number) {
-    this.modifications.hours[i].push({from: '', to: ''})
-    console.log(this.modifications.hours)
+    this.modified = true;
+    this.modifications.hours[i].push({from: '', to: ''});
   }
   removeTurn(day: Array<Object>, t:number){
+    this.modified = true;
     day.splice(t,1);
-    console.log(this.modifications.hours)
   }
-
 }
