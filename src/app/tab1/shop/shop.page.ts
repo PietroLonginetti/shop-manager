@@ -21,7 +21,7 @@ export class ShopPage implements OnInit {
   }
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.shop = this.exService.getShop(this.id)
+    this.exService.getShop(this.id).subscribe(shop => {this.shop = shop})
   }
 
   goBack(): void {

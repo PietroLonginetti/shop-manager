@@ -18,7 +18,7 @@ export class ShopEditorPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private exService: ShopDataExchangeService,
     private alertController: AlertController) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.shop = this.exService.getShop(this.id);
+    this.exService.getShop(this.id).subscribe(shop => {this.shop = shop});
     this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
 
     console.log(this.modified)
@@ -40,7 +40,7 @@ export class ShopEditorPage implements OnInit {
           {
             text: 'Yes',
             handler: () => {
-              this.exService.setShop(this.modifications, this.id);
+              this.exService.modifyShop(this.modifications, this.id);
               this.router.navigate(['/tabs/tab1/shop/' + this.id]);
             }
           }

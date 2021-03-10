@@ -20,8 +20,9 @@ export class Tab1Page{
 
   constructor(public popoverController: PopoverController, private callNumber : CallNumber, private storage: Storage, 
     private exService: ShopDataExchangeService) {
-      for(let i=0; i<exService.getShops().length; i++){
-        this.shops.push(exService.getShop(i));
+      this.shops = Array(this.exService.numOfShops);
+      for(let i=0; i<this.exService.numOfShops; i++){
+        this.exService.getShop(i).subscribe(shop => {this.shops[i] = shop});
       }
   }
   ngOnInit(): void {

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShopDataExchangeService {
-  private shops = [
-    {
+  private _shops = [
+    new BehaviorSubject<Object>({
       MBLink: '',
       name: 'Good shop',
       imgs: ['https://placeimg.com/360/150', 'https://placeimg.com/360/150/any', 'https://placeimg.com/360/150/any/any'],
@@ -18,30 +19,30 @@ export class ShopDataExchangeService {
           { from: '2021-03-10T08:00Z', to: '2021-03-10T12:00Z' },
           { from: '2021-03-10T14:00Z', to: '2021-03-10T17:00Z' },
           { from: '2021-03-10T14:00Z', to: '2021-03-10T17:00Z' }
-        ], 
+        ],
         [ //tue
           { from: '2021-03-10T08:00Z', to: '2021-03-10T12:00Z' },
           { from: '2021-03-10T14:00Z', to: '2021-03-10T17:00Z' }
-        ], 
+        ],
         [ //wed
           { from: '2021-03-10T08:00Z', to: '2021-03-10T12:00Z' },
           { from: '2021-03-10T14:00Z', to: '2021-03-10T17:00Z' }
-        ], 
+        ],
         [ //thu
           { from: '2021-03-10T08:00Z', to: '2021-03-10T12:00Z' },
           { from: '2021-03-10T14:00Z', to: '2021-03-10T17:00Z' }
-        ], 
+        ],
         [ //fri
           { from: '2021-03-10T08:00Z', to: '2021-03-10T12:00Z' },
           { from: '2021-03-10T14:00Z', to: '2021-03-10T17:00Z' }
-        ], 
+        ],
         [ //sat
           { from: '2021-03-10T08:00Z', to: '2021-03-10T12:00Z' }
-        ]  
+        ]
       ],
-      automations: {music: false, heating: false}
-    },
-    {
+      automations: { music: false, heating: false }
+    }),
+    new BehaviorSubject<Object>({
       MBLink: '',
       name: 'The best shop',
       imgs: ['https://placeimg.com/360/150/any/any/any', 'https://placeimg.com/360/150/any/any', 'https://placeimg.com/360/150/any'],
@@ -53,41 +54,39 @@ export class ShopDataExchangeService {
         [ //mon
           { from: '2021-03-10T08:00Z', to: '2021-03-10T12:00Z' },
           { from: '2021-03-10T14:00Z', to: '2021-03-10T17:00Z' }
-        ], 
+        ],
         [ //tue
           { from: '2021-03-10T08:00Z', to: '2021-03-10T12:00Z' },
           { from: '2021-03-10T14:00Z', to: '2021-03-10T17:00Z' }
-        ], 
+        ],
         [ //wed
           { from: '2021-03-10T08:00Z', to: '2021-03-10T12:00Z' },
           { from: '2021-03-10T14:00Z', to: '2021-03-10T17:00Z' }
-        ], 
+        ],
         [ //thu
           { from: '2021-03-10T08:00Z', to: '2021-03-10T12:00Z' },
           { from: '2021-03-10T14:00Z', to: '2021-03-10T17:00Z' }
-        ], 
+        ],
         [ //fri
           { from: '2021-03-10T08:00Z', to: '2021-03-10T12:00Z' },
           { from: '2021-03-10T14:00Z', to: '2021-03-10T17:00Z' }
-        ], 
+        ],
         [ //sat
           { from: '2021-03-10T08:00Z', to: '2021-03-10T12:00Z' }
-        ]  
+        ]
       ],
-      automations: {music: false, heating: false}
-    }
+      automations: { music: false, heating: false }
+    })
   ]
-
   constructor() { }
 
-  public getShops(){
-    return this.shops;
+  public modifyShop(modifications: Object, id: number) {
+    this._shops[id].next(modifications);
   }
-  public setShop(shop: any, id: number){
-    this.shops[id] = shop;
+  get numOfShops() {
+    return this._shops.length;
   }
-
-  public getShop(i: number){
-    return this.shops[i];
+  public getShop(i: number) {
+    return this._shops[i].asObservable();
   }
 }
