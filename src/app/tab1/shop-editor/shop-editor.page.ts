@@ -10,6 +10,7 @@ import { ShopDataExchangeService } from '../shop-data-exchange.service';
 })
 export class ShopEditorPage implements OnInit {
   id = null;
+  shop = null;
   modified: boolean = false;
   modifications = null;
   weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -17,8 +18,8 @@ export class ShopEditorPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private exService: ShopDataExchangeService,
     private alertController: AlertController) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    const shop = this.exService.getShop(this.id);
-    this.modifications = JSON.parse(JSON.stringify(shop)); //Deep copy
+    this.shop = this.exService.getShop(this.id);
+    this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
   }
   ngOnInit() {
   }
@@ -44,40 +45,51 @@ export class ShopEditorPage implements OnInit {
         ]
       })
       await alert.present();
-    } 
+    }
     else {
       this.router.navigate(['/tabs/tab1/shop/' + this.id]);
     }
   }
 
   async discardAlert() {
-
-    const alert = await this.alertController.create({
-      backdropDismiss: false,
-      header: 'Are you sure?',
-      message: 'Do you really want discard those changes? All your changes will be lost.',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => { console.log('Returned to modification page'); }
-        },
-        {
-          text: 'Yes',
-          handler: () => {
-            this.router.navigate(['/tabs/tab1/shop/' + this.id]);
+    if (this.modified) {
+      const alert = await this.alertController.create({
+        backdropDismiss: false,
+        header: 'Are you sure?',
+        message: 'Do you really want discard those changes? All your changes will be lost.',
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: () => { console.log('Returned to modification page'); }
+          },
+          {
+            text: 'Yes',
+            handler: () => {
+              this.modifications = JSON.parse(JSON.stringify(this.shop)); //Undo all changes
+              this.router.navigate(['/tabs/tab1/shop/' + this.id]);
+            }
           }
-        }
-      ]
-    })
-    await alert.present();
+        ]
+      })
+      await alert.present();
+    }
+    else{
+      this.router.navigate(['/tabs/tab1/shop/' + this.id]);
+    }
   }
 
   deletePhoto(imgId: number) {
     this.modified = true;
     this.modifications.imgs.splice(imgId, 1);
   }
-  loadNewTurn(day: number){
 
+  loadNewTurn(i: number) {
+    this.modifications.hours[i].push({from: '', to: ''})
+    console.log(this.modifications.hours)
+  }
+  removeTurn(day: Array<Object>, t:number){
+    day.splice(t,1);
+    console.log(this.modifications.hours)
   }
 
 }

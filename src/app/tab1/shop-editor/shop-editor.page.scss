@@ -3,6 +3,7 @@ ion-input{
     border-radius: 5px;
 }
 ion-header ion-input{
+    border: 1px solid #3880ff;
     margin-left: 15px;
     width: 90%;
     height: 2.5rem;
@@ -10,17 +11,13 @@ ion-header ion-input{
 ion-content ion-input{
     height: 2.3rem;
 }
-.datetime-container{
-    display: flex;
-    align-items: center;
-}
 ion-datetime{
+    margin: 0;
     display: inline-block;
     padding: 2px 4px;
-    margin: 2px 2px;
     border: 1px solid rgb(197, 197, 197);
     border-radius: 5px;
-    min-width: 4.5rem;
+    width: 100%;
 }
 ion-slides{
     max-height: 30%;
@@ -75,10 +72,10 @@ ion-slide img{
     padding: 0;
     font-size: 15px;
 }
-ion-footer{
-    padding: 8px 0;
+.hours-grid ion-col{
+    padding: 0;
 }
-ion-footer ion-input{
+#gmlink{
     border: 1px solid #2dd36f;
     border-radius: 5px;
     height: 2.5rem;
