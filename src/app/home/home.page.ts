@@ -132,7 +132,7 @@ export class HomePage{
   }
   getListAvatar(i: number): string{
     if (this.shops[i].imgs[0] == null){
-      return '../assets/img/store.png'
+      return '../assets/img/store.jpg'
     } else return this.shops[i].imgs[0]
   }
 }
