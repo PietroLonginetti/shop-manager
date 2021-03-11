@@ -93,7 +93,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-toolbar style="margin-bottom: 68px;"> 
+  <ion-toolbar> 
     <ion-buttons style="justify-content: center;">
       <ion-input [(ngModel)]="modifications.MBLink" (ionInput)="this.modified = true"
         id="gmlink" type="url" placeholder="Google My Business Link" value="{{modifications.MBLink}}">
@@ -103,8 +103,6 @@
 
 </ion-content>
 
-<ion-footer #footer>
-  <ion-toolbar>
-      <ion-button expand="block" fill="solid" color="danger">Delete this Shop</ion-button>
-  </ion-toolbar>
+<ion-footer style="bottom: -2px" #footer>
+      <ion-button expand="full" fill="solid" color="danger" style="margin:0">Delete this Shop</ion-button>
 </ion-footer>
