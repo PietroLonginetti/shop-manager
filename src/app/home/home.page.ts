@@ -130,4 +130,9 @@ export class HomePage{
   openCard(ev: MouseEvent, i: number){
     console.log('opening card ' + i);
   }
+  getListAvatar(i: number): string{
+    if (this.shops[i].imgs[0] == null){
+      return '../assets/img/store.png'
+    } else return this.shops[i].imgs[0]
+  }
 }

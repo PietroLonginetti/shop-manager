@@ -45,7 +45,7 @@
 
     <ion-list class="inactive" id="shop-list" lines="none">
       <ion-item class="active" *ngFor="let shop of shops; let i = index;" routerLink="shop/{{i}}" routerDirection="forward">
-        <ion-avatar slot="start"><img [src]="shop.imgs[0]"></ion-avatar>
+        <ion-avatar slot="start"><img [src]="getListAvatar(i)"></ion-avatar>
         <ion-label>{{shop.name}}</ion-label>
         <ion-icon *ngFor="let star of shop.valutation" name="star" class="stars" style="font-size: 16px;">
         </ion-icon>
