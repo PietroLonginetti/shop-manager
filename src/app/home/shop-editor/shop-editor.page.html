@@ -61,7 +61,7 @@
           <div id="day{{i}}" *ngFor="let day of modifications.hours; let i = index">
             <h6 style="margin-top: 3px; margin-bottom: 6px;">{{weekDays[i]}}</h6>
             <ion-grid class="hours-grid">
-              <ion-row *ngFor="let turn of day; let t = index">
+              <ion-row *ngFor="let turn of day; let t = index" class="turn-row">
                 <ion-col size="4">
                   <ion-datetime [(ngModel)]="turn.from" (ionFocus)="this.modified = true"
                     display-format="H:mm" picker-format="H:mm" doneText="select" value="{{turn.from}}">
@@ -74,7 +74,7 @@
                   </ion-datetime>
                 </ion-col>
                 <ion-col size="3">
-                  <ion-button (click)="removeTurn(day, t)" size="small" fill="clear" color="danger">
+                  <ion-button (click)="removeTurn(i, t)" size="small" fill="clear" color="danger">
                     <ion-icon name="remove"></ion-icon>
                   </ion-button>
                 </ion-col>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, AnimationController } from '@ionic/angular';
 import { ShopDataExchangeService } from '../shop-data-exchange.service';
 
 @Component({
@@ -16,10 +16,10 @@ export class ShopEditorPage implements OnInit {
   weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private exService: ShopDataExchangeService,
-    private alertController: AlertController) {
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.exService.getShop(this.id).subscribe(shop => {this.shop = shop});
-    this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
+    private alertController: AlertController, private animationCtrl: AnimationController) {
+      this.id = this.activatedRoute.snapshot.paramMap.get('id');
+      this.exService.getShop(this.id).subscribe(shop => {this.shop = shop});
+      this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
   }
   ngOnInit() {
   }
@@ -50,7 +50,6 @@ export class ShopEditorPage implements OnInit {
       this.router.navigate(['/tabs/home/shop/' + this.id]);
     }
   }
-
   async discardAlert() {
     if (this.modified) {
       const alert = await this.alertController.create({
@@ -77,16 +76,27 @@ export class ShopEditorPage implements OnInit {
     }
   }
 
-  deletePhoto(imgId: number) {
+  async deletePhoto(imgId: number) {
     this.modified = true;
+    await this.animationCtrl.create()
+      .addElement(document.getElementById('slide' + imgId))
+      .duration(400)
+      .fromTo('opacity', '1', '0')
+      .play()
     this.modifications.imgs.splice(imgId, 1);
   }
   loadNewTurn(i: number) {
-    this.modified = true;
+    this.modified = true; 
     this.modifications.hours[i].push({from: '', to: ''});
   }
-  removeTurn(day: Array<Object>, t:number){
+  async removeTurn(i: number, t:number){
     this.modified = true;
-    day.splice(t,1);
+    await this.animationCtrl.create()
+      .addElement(document.getElementById('day' + i).getElementsByTagName('ion-row')[this.modifications.hours[i].length -1])
+      .duration(350)
+      .fromTo('opacity', '1', '0')
+      .fromTo('height', '35.3px', '0')
+      .play()
+    this.modifications.hours[i].splice(t,1);
   }
 }

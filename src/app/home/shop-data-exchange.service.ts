@@ -9,7 +9,7 @@ export class ShopDataExchangeService {
     new BehaviorSubject<Object>({
       MBLink: '',
       name: 'Good shop',
-      imgs: ['https://placeimg.com/360/150', 'https://placeimg.com/360/150/any', 'https://placeimg.com/360/150/any/any'],
+      imgs: ['https://placeimg.com/360/150', 'https://placeimg.com/360/150/any'],
       valutation: Array(2),
       address: 'Via Roma 2, 50125',
       telephone: '+390555047041',
@@ -45,7 +45,7 @@ export class ShopDataExchangeService {
     new BehaviorSubject<Object>({
       MBLink: '',
       name: 'The best shop',
-      imgs: ['https://placeimg.com/360/150/any/any/any', 'https://placeimg.com/360/150/any/any', 'https://placeimg.com/360/150/any'],
+      imgs: ['https://placeimg.com/360/150/any/any/any', 'https://placeimg.com/360/150/any/any'],
       valutation: Array(5),
       address: 'Via Fantechi 25, 50133',
       telephone: '+390553298730',
