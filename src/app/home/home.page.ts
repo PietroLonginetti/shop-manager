@@ -46,11 +46,11 @@ export class HomePage{
 
   private updateVis(): void {
     if (!this.listVisualization) {
-      this.cards.style.display = 'block';
-      this.list.style.display = 'none';
+      this.cards.classList.replace('inactive','active')
+      this.list.classList.replace('active','inactive')
     } else if (this.listVisualization) {
-      this.cards.style.display = 'none';
-      this.list.style.display = 'block';
+      this.cards.classList.replace('active','inactive')
+      this.list.classList.replace('inactive','active')
     }
     
   }
@@ -94,7 +94,11 @@ export class HomePage{
         if(!this.listVisualization){
           shouldShow = shouldShow.children[0];
         } shouldShow = shouldShow.textContent.toLowerCase().indexOf(text) > -1;
-        item.style.display = shouldShow ? 'block' : 'none';
+        if(shouldShow){
+          item.classList.replace('inactive','active')
+        } else {
+          item.classList.replace('active','inactive')
+        }
       })
     })
   }

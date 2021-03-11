@@ -18,3 +18,15 @@ ion-card-content{
 .stars{
     color:#f6d12d;
 }
+
+
+.active{
+    height: 100%;
+    opacity: 1;
+    transition: height 0.2s linear, opacity 0.2s linear;
+}
+.inactive{
+    height: 0px;
+    opacity: 0;
+    transition: height 0.2s linear, opacity 0.2s linear;
+}
