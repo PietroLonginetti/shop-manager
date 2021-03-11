@@ -83,6 +83,26 @@ export class ShopDataExchangeService {
   public modifyShop(modifications: Object, id: number) {
     this._shops[id].next(modifications);
   }
+  public addShop(){
+    this._shops.push(new BehaviorSubject<Object>({
+      MBLink: '',
+      name: '',
+      imgs: [],
+      valutation: Array(0),
+      address: '',
+      telephone: '',
+      hours: [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      automations: { music: false, heating: false }
+    }))
+  }
   get numOfShops() {
     return this._shops.length;
   }

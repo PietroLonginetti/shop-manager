@@ -4,6 +4,7 @@ import { HomePopoverComponent } from './home-popover/home-popover.component';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { Storage } from '@ionic/storage';
 import { ShopDataExchangeService } from './shop-data-exchange.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,8 +19,8 @@ export class HomePage{
   cards: any;
   list: any;
 
-  constructor(public popoverController: PopoverController, private callNumber : CallNumber, private storage: Storage, 
-    private exService: ShopDataExchangeService) {
+  constructor(public popoverController: PopoverController, private callNumber : CallNumber, 
+    private storage: Storage, private exService: ShopDataExchangeService, private router: Router) {
       this.shops = Array(this.exService.numOfShops);
       for(let i=0; i<this.exService.numOfShops; i++){
         this.exService.getShop(i).subscribe(shop => {this.shops[i] = shop});
@@ -73,7 +74,11 @@ export class HomePage{
     return await popover.present();
   }
   addShop() {
-    console.log('Adding shop');
+    this.exService.addShop();
+    let lastElIndex = this.exService.numOfShops-1
+    this.shops.push();
+    this.exService.getShop(lastElIndex).subscribe(shop => {this.shops[lastElIndex] = shop});
+    this.router.navigate(['/tabs/home/shop-editor/' + lastElIndex]);
   }
   findShop() {
     let searchList: any;
