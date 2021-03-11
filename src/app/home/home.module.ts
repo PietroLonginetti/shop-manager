@@ -2,10 +2,10 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Tab1Page } from './tab1.page';
+import { HomePage } from './home.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { Tab1PageRoutingModule } from './tab1-routing.module';
+import { HomePageRoutingModule } from './home-routing.module';
 import { HomePopoverComponent } from './home-popover/home-popover.component';
 
 
@@ -15,9 +15,9 @@ import { HomePopoverComponent } from './home-popover/home-popover.component';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    Tab1PageRoutingModule
+    HomePageRoutingModule
   ],
   entryComponents: [HomePopoverComponent],
-  declarations: [Tab1Page, HomePopoverComponent]
+  declarations: [HomePage, HomePopoverComponent]
 })
-export class Tab1PageModule {}
+export class HomePageModule {}

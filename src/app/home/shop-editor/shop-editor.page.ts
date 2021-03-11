@@ -20,8 +20,6 @@ export class ShopEditorPage implements OnInit {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.exService.getShop(this.id).subscribe(shop => {this.shop = shop});
     this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
-
-    console.log(this.modified)
   }
   ngOnInit() {
   }
@@ -41,7 +39,7 @@ export class ShopEditorPage implements OnInit {
             text: 'Yes',
             handler: () => {
               this.exService.modifyShop(this.modifications, this.id);
-              this.router.navigate(['/tabs/tab1/shop/' + this.id]);
+              this.router.navigate(['/tabs/home/shop/' + this.id]);
             }
           }
         ]
@@ -49,7 +47,7 @@ export class ShopEditorPage implements OnInit {
       await alert.present();
     }
     else {
-      this.router.navigate(['/tabs/tab1/shop/' + this.id]);
+      this.router.navigate(['/tabs/home/shop/' + this.id]);
     }
   }
 
@@ -67,7 +65,7 @@ export class ShopEditorPage implements OnInit {
           {
             text: 'Yes',
             handler: () => {
-              this.router.navigate(['/tabs/tab1/shop/' + this.id]);
+              this.router.navigate(['/tabs/home/shop/' + this.id]);
             }
           }
         ]
@@ -75,7 +73,7 @@ export class ShopEditorPage implements OnInit {
       await alert.present();
     }
     else{
-      this.router.navigate(['/tabs/tab1/shop/' + this.id]);
+      this.router.navigate(['/tabs/home/shop/' + this.id]);
     }
   }
 
