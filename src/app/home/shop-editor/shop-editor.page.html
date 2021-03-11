@@ -16,7 +16,7 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content fullscreen="true" scrollEvents="true" [appHideFooter]="footer">
   <ion-slides pager="true">
     <ion-slide *ngFor="let img of modifications.imgs; let imgId = index" id="slide{{imgId}}">
       <img [src]="img">
@@ -93,7 +93,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-toolbar>
+  <ion-toolbar style="margin-bottom: 68px;"> 
     <ion-buttons style="justify-content: center;">
       <ion-input [(ngModel)]="modifications.MBLink" (ionInput)="this.modified = true"
         id="gmlink" type="url" placeholder="Google My Business Link" value="{{modifications.MBLink}}">
@@ -103,10 +103,8 @@
 
 </ion-content>
 
-<ion-footer>
+<ion-footer #footer>
   <ion-toolbar>
-    <ion-buttons style="justify-content: center;">
-      <ion-button fill="solid" color="danger">Delete this Shop</ion-button>
-    </ion-buttons>
+      <ion-button expand="block" fill="solid" color="danger">Delete this Shop</ion-button>
   </ion-toolbar>
 </ion-footer>

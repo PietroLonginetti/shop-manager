@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ShopEditorPageRoutingModule } from './shop-editor-routing.module';
 
 import { ShopEditorPage } from './shop-editor.page';
+import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ShopEditorPageRoutingModule
+    ShopEditorPageRoutingModule,
+    SharedDirectivesModule
   ],
   declarations: [ShopEditorPage]
 })
