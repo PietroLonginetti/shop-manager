@@ -92,6 +92,7 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
   <ion-toolbar>
     <ion-buttons style="justify-content: center;">
       <ion-input [(ngModel)]="modifications.MBLink" (ionInput)="this.modified = true"
@@ -99,4 +100,13 @@
       </ion-input>
     </ion-buttons>
   </ion-toolbar>
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons style="justify-content: center;">
+      <ion-button fill="solid" color="danger">Delete this Shop</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

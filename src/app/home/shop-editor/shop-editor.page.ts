@@ -32,8 +32,7 @@ export class ShopEditorPage implements OnInit {
         message: 'Do you really want apply those changes? This process cannot be undone.',
         buttons: [
           {
-            text: 'Cancel',
-            handler: () => { console.log('Modifications discarded'); }
+            text: 'Cancel'
           },
           {
             text: 'Yes',
@@ -58,8 +57,7 @@ export class ShopEditorPage implements OnInit {
         message: 'Do you really want discard those changes? All your changes will be lost.',
         buttons: [
           {
-            text: 'Cancel',
-            handler: () => { console.log('Returned to modification page'); }
+            text: 'Cancel'
           },
           {
             text: 'Yes',
