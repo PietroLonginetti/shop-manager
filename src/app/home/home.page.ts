@@ -21,10 +21,11 @@ export class HomePage{
 
   constructor(public popoverController: PopoverController, private callNumber : CallNumber, 
     private storage: Storage, private exService: ShopDataExchangeService, private router: Router) {
-      this.shops = Array(this.exService.numOfShops);
-      for(let i=0; i<this.exService.numOfShops; i++){
-        this.exService.getShop(i).subscribe(shop => {this.shops[i] = shop});
-      }
+      this.shops = this.exService.shops
+      // for(let i=0; i<this.exService.numOfShops; i++){
+      //   this.exService.getShop(i).subscribe(shop => {this.shops[i] = shop});
+      // }
+
   }
   ngOnInit(): void {
     this.searchBar = document.getElementsByTagName('ion-searchbar')[0]
@@ -76,8 +77,8 @@ export class HomePage{
   addShop() {
     this.exService.addShop();
     let lastElIndex = this.exService.numOfShops-1
-    this.shops.push();
-    this.exService.getShop(lastElIndex).subscribe(shop => {this.shops[lastElIndex] = shop});
+    // this.shops.push();
+    // this.exService.getShop(lastElIndex).subscribe(shop => {this.shops[lastElIndex] = shop});
     this.router.navigate(['/tabs/home/shop-editor/' + lastElIndex]);
   }
   findShop() {
@@ -109,7 +110,7 @@ export class HomePage{
     let minutes: number = now.getUTCMinutes();
 
     let open: boolean = false;
-    this.shops[i].hours[day].forEach(turn => {
+    this.shops[i].value.hours[day].forEach(turn => {
       let fromHour:number, toHour:number, fromMinutes:number, toMinutes:number;
       [fromHour, fromMinutes] = turn.from.split(':').map(x => parseInt(x));
       [toHour, toMinutes] = turn.to.split(':').map(x => parseInt(x));
@@ -123,7 +124,7 @@ export class HomePage{
   }
   callShop(ev: MouseEvent, i: number){
     ev.stopPropagation();
-    this.callNumber.callNumber(this.shops[i].telephone, true)
+    this.callNumber.callNumber(this.shops[i].value.telephone, true)
       .then(res => console.log('calling shop ' + i))
       .catch(err => console.error('Error opening dialer'));
   }
@@ -131,8 +132,8 @@ export class HomePage{
     console.log('opening card ' + i);
   }
   getListAvatar(i: number): string{
-    if (this.shops[i].imgs[0] == null){
+    if (this.shops[i].value.imgs[0] == null){
       return '../assets/img/store.jpg'
-    } else return this.shops[i].imgs[0]
+    } else return this.shops[i].value.imgs[0]
   }
 }

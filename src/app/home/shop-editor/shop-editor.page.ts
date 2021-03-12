@@ -87,7 +87,7 @@ export class ShopEditorPage implements OnInit {
         {
           text: 'Yes',
           handler: () => {
-            // TODO: delete data
+            this.exService.deleteShop(this.id);
             this.router.navigate(['/tabs/home']);
           }
         }
@@ -114,9 +114,10 @@ export class ShopEditorPage implements OnInit {
     this.modified = true;
     await this.animationCtrl.create()
       .addElement(document.getElementById('day' + i).getElementsByTagName('ion-row')[this.modifications.hours[i].length - 1])
-      .duration(350)
+      .duration(300)
       .fromTo('opacity', '1', '0')
       .fromTo('height', '35.3px', '0')
+      .easing('ease-out')
       .play()
     this.modifications.hours[i].splice(t, 1);
   }

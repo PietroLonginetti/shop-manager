@@ -80,9 +80,6 @@ export class ShopDataExchangeService {
   ]
   constructor() { }
 
-  public modifyShop(modifications: Object, id: number) {
-    this._shops[id].next(modifications);
-  }
   public addShop(){
     this._shops.push(new BehaviorSubject<Object>({
       MBLink: '',
@@ -103,10 +100,19 @@ export class ShopDataExchangeService {
       automations: { music: false, heating: false }
     }))
   }
+  public modifyShop(modifications: Object, id: number) {
+    this._shops[id].next(modifications);
+  }
+  public deleteShop(i: number){
+    this._shops.splice(i,1);
+  }
   get numOfShops() {
     return this._shops.length;
   }
   public getShop(i: number) {
     return this._shops[i].asObservable();
+  }
+  get shops(){
+    return this._shops
   }
 }
