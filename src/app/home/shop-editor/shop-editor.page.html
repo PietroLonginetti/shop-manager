@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <form [formGroup]="formCtrl" (focusout)="validate($event.target, 'name')">
+    <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'name')">
       <ion-input formControlName="name" type="text" (ionInput)="this.modified = true" placeholder="Insert shop name">
       </ion-input>
     </form>
@@ -43,7 +43,7 @@
     <ion-row>
       <ion-col size="3">Address:</ion-col>
       <ion-col size="9">
-        <form [formGroup]="formCtrl" (focusout)="validate($event.target, 'address')">
+        <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'address')">
           <ion-input formControlName="address" type="text" (ionInput)="this.modified = true"
             placeholder="Insert shop name"></ion-input>
         </form>
@@ -52,7 +52,7 @@
     <ion-row>
       <ion-col size="3">Phone:</ion-col>
       <ion-col size="9">
-        <form [formGroup]="formCtrl" (focusout)="validate($event.target, 'telephone')">
+        <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'telephone')">
           <ion-input formControlName="telephone" type="tel" (ionInput)="this.modified = true"
             placeholder="Insert number"></ion-input>
         </form>
@@ -102,7 +102,7 @@
   <ion-toolbar>
     <h6 style="margin: auto 0 3px 16px">Google My Business Link:</h6>
     <div style="margin:0 15px">
-      <form [formGroup]="formCtrl" (focusout)="validate($event.target, 'MBLink')">
+      <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'MBLink')">
         <ion-input formControlName="MBLink" type="url" (ionInput)="this.modified = true"
           placeholder="http://example.com"></ion-input>
       </form>

@@ -19,7 +19,7 @@ export class ShopEditorPage implements OnInit {
 
   formCtrl: FormGroup;
 
-  validate(form, key) {
+  validateInput(form, key) {
     form = form.parentNode;
     console.log(this.formCtrl.controls[key].errors)
     if (this.formCtrl.controls[key].errors) {
@@ -51,6 +51,9 @@ export class ShopEditorPage implements OnInit {
 
   // Alerts 
   async confirmAlert() {
+    if (this.emptyTurn) {
+      await this.removeTurn(this.emptyTurn.day, this.emptyTurn.turn);
+    }
     if (this.modified) {
       const alert = await this.alertController.create({
         backdropDismiss: false,
@@ -100,7 +103,7 @@ export class ShopEditorPage implements OnInit {
     }
   }
   async deleteAlert() {
-    document.getElementsByTagName('ion-content')[0].scrollToTop(100);
+    await document.getElementsByTagName('ion-content')[0].scrollToTop(100);
     const alert = await this.alertController.create({
       backdropDismiss: false,
       header: 'Are you sure?',
@@ -135,7 +138,6 @@ export class ShopEditorPage implements OnInit {
     if (this.emptyTurn) {
       await this.removeTurn(this.emptyTurn.day, this.emptyTurn.turn);
     }
-    this.modified = true;
     this.modifications.hours[i].push({ from: '', to: '' });
     this.emptyTurn = { day: i, turn: this.modifications.hours[i].length - 1 }
   }
