@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, AnimationController } from '@ionic/angular';
 import { ShopDataExchangeService } from '../shop-data-exchange.service';
@@ -16,6 +17,23 @@ export class ShopEditorPage implements OnInit {
   modifications = null;
   weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+  formCtrl: FormGroup;
+
+  validate(form, key) {
+    form = form.parentNode;
+    console.log(this.formCtrl.controls[key].errors)
+    if (this.formCtrl.controls[key].errors) {
+      form.style.borderColor = 'rgb(235, 68, 90)';
+      form.style.backgroundColor = 'rgb(235, 68, 90, .05)';
+      console.error(this.formCtrl.controls[key].errors);
+    } else {
+      form.style.borderColor = '#3880ff';
+      form.style.backgroundColor = 'initial';
+      this.modifications[key] = this.formCtrl.get(key).value;
+    }
+    console.log(this.modifications)
+  }
+
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private exService: ShopDataExchangeService,
     private alertController: AlertController, private animationCtrl: AnimationController) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -23,6 +41,12 @@ export class ShopEditorPage implements OnInit {
     this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
   }
   ngOnInit() {
+    this.formCtrl = new FormGroup({
+      name: new FormControl(`${this.modifications.name}`, [Validators.required, Validators.minLength(2)]),
+      address: new FormControl(`${this.modifications.address}`, Validators.minLength(1)),
+      telephone: new FormControl(`${this.modifications.telephone}`, [Validators.pattern('^[+][0-9]+$'), Validators.minLength(8)]),
+      MBLink: new FormControl(`${this.modifications.MBLink}`, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'))
+    })
   }
 
   // Alerts 
@@ -113,11 +137,11 @@ export class ShopEditorPage implements OnInit {
     }
     this.modified = true;
     this.modifications.hours[i].push({ from: '', to: '' });
-    this.emptyTurn = {day: i, turn: this.modifications.hours[i].length-1}
+    this.emptyTurn = { day: i, turn: this.modifications.hours[i].length - 1 }
   }
-  checkChangeOnEmptyTurn(i: number, t: number){
-    if(this.emptyTurn){
-      if(this.emptyTurn.day === i && this.emptyTurn.turn == t){
+  checkChangeOnEmptyTurn(i: number, t: number) {
+    if (this.emptyTurn) {
+      if (this.emptyTurn.day === i && this.emptyTurn.turn == t) {
         this.emptyTurn = null;
       }
     }
