@@ -65,18 +65,16 @@
           <div id="day{{i}}" *ngFor="let day of modifications.hours; let i = index">
             <h6 style="margin-top: 3px; margin-bottom: 6px;">{{weekDays[i]}}</h6>
             <ion-grid class="hours-grid">
-              <ion-row *ngFor="let turn of day; let t = index" class="turn-row">
-                <ion-col size="4">
+              <ion-row (ionChange)="validateTurn(turn, $event); checkChangeOnEmptyTurn(i, t)" *ngFor="let turn of day; let t = index" class="turn-row">
+                <ion-col size="4" class="turn">
                   <ion-datetime [(ngModel)]="turn.from" (ionFocus)="this.modified = true"
-                    (ionChange)="checkChangeOnEmptyTurn(i, t)" display-format="H:mm" picker-format="H:mm"
-                    doneText="select" value="{{turn.from}}">
+                    display-format="H:mm" picker-format="H:mm" doneText="select" value="{{turn.from}}">
                   </ion-datetime>
                 </ion-col>
-                <ion-col size="1" style="justify-content: center;">-</ion-col>
-                <ion-col size="4">
+                <ion-col size="1" style="justify-content: center;">&#9656;</ion-col>
+                <ion-col size="4" class="turn">
                   <ion-datetime [(ngModel)]="turn.to" (ionFocus)="this.modified = true"
-                    (ionChange)="checkChangeOnEmptyTurn(i, t)" display-format="H:mm" picker-format="H:mm"
-                    doneText="select" value="{{turn.to}}">
+                    display-format="H:mm" picker-format="H:mm" doneText="select" value="{{turn.to}}">
                   </ion-datetime>
                 </ion-col>
                 <ion-col size="3">

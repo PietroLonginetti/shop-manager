@@ -18,6 +18,7 @@ ion-datetime{
     border: 1px solid rgb(197, 197, 197);
     border-radius: 5px;
     width: 100%;
+    transition: 0.3s;
 }
 ion-slides{
     max-height: 30%;
@@ -74,7 +75,7 @@ ion-slide img{
 }
 .turn-row{
     animation-name: slide-in;
-    animation-duration: 0.35s;
+    animation-duration: 0.2s;
 }
 #gmlink{
     margin: 0 15px;

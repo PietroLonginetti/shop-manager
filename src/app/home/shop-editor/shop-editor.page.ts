@@ -19,20 +19,7 @@ export class ShopEditorPage implements OnInit {
 
   formCtrl: FormGroup;
 
-  validateInput(form, key) {
-    form = form.parentNode;
-    console.log(this.formCtrl.controls[key].errors)
-    if (this.formCtrl.controls[key].errors) {
-      form.style.borderColor = 'rgb(235, 68, 90)';
-      form.style.backgroundColor = 'rgb(235, 68, 90, .05)';
-      console.error(this.formCtrl.controls[key].errors);
-    } else {
-      form.style.borderColor = '#3880ff';
-      form.style.backgroundColor = 'initial';
-      this.modifications[key] = this.formCtrl.get(key).value;
-    }
-    console.log(this.modifications)
-  }
+
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private exService: ShopDataExchangeService,
     private alertController: AlertController, private animationCtrl: AnimationController) {
@@ -124,6 +111,42 @@ export class ShopEditorPage implements OnInit {
     await alert.present();
   }
 
+  // Validators
+  validateInput(form, key) {
+    form = form.parentNode;
+    console.log(this.formCtrl.controls[key].errors)
+    if (this.formCtrl.controls[key].errors) {
+      form.style.borderColor = 'rgb(235, 68, 90)';
+      form.style.backgroundColor = 'rgb(235, 68, 90, .05)';
+      console.error(this.formCtrl.controls[key].errors);
+    } else {
+      form.style.borderColor = 'rgb(197, 197, 197)';
+      form.style.backgroundColor = 'initial';
+      this.modifications[key] = this.formCtrl.get(key).value;
+    }
+  }
+  validateTurn(turn, ev){
+    let dateTimeInput = ev.target;
+    let turnRow = dateTimeInput.parentNode.parentNode;
+    let turnsCol = turnRow.getElementsByClassName('turn')
+    let turnFrom = turnsCol[0].childNodes[0]
+    let turnTo = turnsCol[1].childNodes[0]
+
+    let fromH = parseInt(turn.from.slice(turn.from.indexOf('T')+1, turn.from.indexOf(':')));
+    let toH = parseInt(turn.to.slice(turn.to.indexOf('T')+1, turn.to.indexOf(':')));
+    let fromM = parseInt(turn.from.slice(turn.from.indexOf(':')+1, turn.from.indexOf(':')+3));
+    let toM = parseInt(turn.to.slice(turn.to.indexOf(':')+1, turn.to.indexOf(':')+3));
+
+    if(fromH < toH || (fromH == toH && fromM < toM)){
+      turnFrom.style.borderColor = turnTo.style.borderColor = 'rgb(197, 197, 197)';
+      turnFrom.style.backgroundColor = turnTo.style.backgroundColor = 'initial';
+    } else {
+      console.error('invalid turn');
+      turnFrom.style.borderColor = turnTo.style.borderColor = 'rgb(235, 68, 90)';
+      turnFrom.style.backgroundColor = turnTo.style.backgroundColor = 'rgb(235, 68, 90, .05)';
+    }
+  }
+
   // Methods
   async deletePhoto(imgId: number) {
     this.modified = true;
@@ -152,7 +175,7 @@ export class ShopEditorPage implements OnInit {
     this.modified = true;
     await this.animationCtrl.create()
       .addElement(document.getElementById('day' + i).getElementsByTagName('ion-row')[this.modifications.hours[i].length - 1])
-      .duration(300)
+      .duration(100)
       .fromTo('opacity', '1', '0')
       .fromTo('height', '35.3px', '0')
       .easing('ease-out')
