@@ -21,11 +21,7 @@ export class HomePage{
 
   constructor(public popoverController: PopoverController, private callNumber : CallNumber, 
     private storage: Storage, private exService: ShopDataExchangeService, private router: Router) {
-      this.shops = this.exService.shops
-      // for(let i=0; i<this.exService.numOfShops; i++){
-      //   this.exService.getShop(i).subscribe(shop => {this.shops[i] = shop});
-      // }
-
+      this.shops = this.exService.shops;
   }
   ngOnInit(): void {
     this.searchBar = document.getElementsByTagName('ion-searchbar')[0]
@@ -77,8 +73,6 @@ export class HomePage{
   addShop() {
     this.exService.addShop();
     let lastElIndex = this.exService.numOfShops-1
-    // this.shops.push();
-    // this.exService.getShop(lastElIndex).subscribe(shop => {this.shops[lastElIndex] = shop});
     this.router.navigate(['/tabs/home/shop-editor/' + lastElIndex]);
   }
   findShop() {

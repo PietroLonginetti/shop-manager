@@ -12,6 +12,7 @@ export class ShopEditorPage implements OnInit {
   id = null;
   shop = null;
   modified: boolean = false;
+  emptyTurn: any = null;
   modifications = null;
   weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -106,9 +107,20 @@ export class ShopEditorPage implements OnInit {
       .play()
     this.modifications.imgs.splice(imgId, 1);
   }
-  loadNewTurn(i: number) {
+  async loadNewTurn(i: number) {
+    if (this.emptyTurn) {
+      await this.removeTurn(this.emptyTurn.day, this.emptyTurn.turn);
+    }
     this.modified = true;
     this.modifications.hours[i].push({ from: '', to: '' });
+    this.emptyTurn = {day: i, turn: this.modifications.hours[i].length-1}
+  }
+  checkChangeOnEmptyTurn(i: number, t: number){
+    if(this.emptyTurn){
+      if(this.emptyTurn.day === i && this.emptyTurn.turn == t){
+        this.emptyTurn = null;
+      }
+    }
   }
   async removeTurn(i: number, t: number) {
     this.modified = true;
