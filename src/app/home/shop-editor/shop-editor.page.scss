@@ -11,15 +11,6 @@ ion-header ion-input{
 ion-content ion-input{
     height: 2.3rem;
 }
-ion-datetime{
-    margin: 0;
-    display: inline-block;
-    padding: 2px 4px;
-    border: 1px solid rgb(197, 197, 197);
-    border-radius: 5px;
-    width: 100%;
-    transition: 0.3s;
-}
 ion-slides{
     max-height: 30%;
 }
@@ -66,29 +57,6 @@ ion-slide img{
     display: flex;
     align-items: center;
 }
-.hours-grid {
-    padding: 0;
-    font-size: 15px;
-}
-.hours-grid ion-col{
-    padding: 0;
-}
-.turn-row{
-    animation-name: slide-in;
-    animation-duration: 0.2s;
-}
 #gmlink{
     margin: 0 15px;
-}
-
-// Animations
-@keyframes slide-in{
-    from{
-        opacity: 0;
-        height: 0;
-    }
-    to{
-        opacity: 1;
-        height: 35.3px;
-    }
 }

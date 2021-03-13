@@ -15,11 +15,8 @@ export class ShopEditorPage implements OnInit {
   modified: boolean = false;
   emptyTurn: any = null;
   modifications = null;
-  weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
+  weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];  //TODO: da rimuovere
   formCtrl: FormGroup;
-
-
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private exService: ShopDataExchangeService,
     private alertController: AlertController, private animationCtrl: AnimationController) {
@@ -38,9 +35,9 @@ export class ShopEditorPage implements OnInit {
 
   // Alerts 
   async confirmAlert() {
-    if (this.emptyTurn) {
-      await this.removeTurn(this.emptyTurn.day, this.emptyTurn.turn);
-    }
+    // if (this.emptyTurn) {
+    //   await this.removeTurn(this.emptyTurn.day, this.emptyTurn.turn);
+    // }
     if (this.modified) {
       const alert = await this.alertController.create({
         backdropDismiss: false,
@@ -125,62 +122,7 @@ export class ShopEditorPage implements OnInit {
       this.modifications[key] = this.formCtrl.get(key).value;
     }
   }
-  validateTurn(turn, ev) {
-    // Controllo sullo stesso turno
-    let dateTimeInput = ev.target;
-    let turnRow = dateTimeInput.parentNode.parentNode;
-    let turnsCol = turnRow.getElementsByClassName('turn-col');
-    let turnFrom = turnsCol[0].childNodes[0];
-    let turnTo = turnsCol[1].childNodes[0];
-
-    let fromH = parseInt(turn.from.slice(turn.from.indexOf('T') + 1, turn.from.indexOf(':')));
-    let toH = parseInt(turn.to.slice(turn.to.indexOf('T') + 1, turn.to.indexOf(':')));
-    let fromM = parseInt(turn.from.slice(turn.from.indexOf(':') + 1, turn.from.indexOf(':') + 3));
-    let toM = parseInt(turn.to.slice(turn.to.indexOf(':') + 1, turn.to.indexOf(':') + 3));
-
-    if (fromH < toH || (fromH == toH && fromM < toM)) {
-      turnFrom.style.borderColor = turnTo.style.borderColor = 'rgb(197, 197, 197)';
-      turnFrom.style.backgroundColor = turnTo.style.backgroundColor = 'initial';
-    } else {
-      console.error('invalid turn');
-      turnFrom.style.borderColor = turnTo.style.borderColor = 'rgb(235, 68, 90)';
-      turnFrom.style.backgroundColor = turnTo.style.backgroundColor = 'rgb(235, 68, 90, .05)';
-      return;
-    }
-
-    // Controllo sui turni successivi e precedenti
-    let preTurnRow = turnRow.previousElementSibling;
-    if (preTurnRow) {
-      let preTurnCols = preTurnRow.getElementsByClassName('turn-col');
-      let preTurnTo = preTurnCols[1].childNodes[0];
-      let preToH = parseInt(preTurnTo.value.slice(turn.to.indexOf('T') + 1, turn.to.indexOf(':')));
-      let preToM = parseInt(preTurnTo.value.slice(turn.to.indexOf(':') + 1, turn.to.indexOf(':') + 3));
-      if (fromH > preToH || (fromH == preToH && fromM > preToM)) {
-        turnFrom.style.borderColor = preTurnTo.style.borderColor = 'rgb(197, 197, 197)';
-        turnFrom.style.backgroundColor = preTurnTo.style.backgroundColor = 'initial';
-      } else {
-        console.error('invalid turn');
-        turnFrom.style.borderColor = preTurnTo.style.borderColor = 'rgb(235, 68, 90)';
-        turnFrom.style.backgroundColor = preTurnTo.style.backgroundColor = 'rgb(235, 68, 90, .05)';
-      }
-    }
-
-    let nextTurnRow = turnRow.nextElementSibling;
-    if (nextTurnRow && nextTurnRow.classList.contains('turn-row')) {
-      let nextTurnCols = nextTurnRow.getElementsByClassName('turn-col');
-      let nextTurnFrom = nextTurnCols[0].childNodes[0];
-      let nextFromH = parseInt(nextTurnFrom.value.slice(turn.to.indexOf('T') + 1, turn.to.indexOf(':')));
-      let nextFromM = parseInt(nextTurnFrom.value.slice(turn.to.indexOf(':') + 1, turn.to.indexOf(':') + 3));
-      if (toH < nextFromH || (toH == nextFromH && toM < nextFromM)){
-        turnTo.style.borderColor = nextTurnFrom.style.borderColor = 'rgb(197, 197, 197)';
-        turnTo.style.backgroundColor = nextTurnFrom.style.backgroundColor = 'initial';
-      } else {
-        console.error('invalid turn');
-        turnTo.style.borderColor = nextTurnFrom.style.borderColor = 'rgb(235, 68, 90)';
-        turnTo.style.backgroundColor =  nextTurnFrom.style.backgroundColor = 'rgb(235, 68, 90, .05)';
-      }
-    }
-  }
+  
 
   // Methods
   async deletePhoto(imgId: number) {
@@ -192,13 +134,7 @@ export class ShopEditorPage implements OnInit {
       .play()
     this.modifications.imgs.splice(imgId, 1);
   }
-  async loadNewTurn(i: number) {
-    if (this.emptyTurn) {
-      await this.removeTurn(this.emptyTurn.day, this.emptyTurn.turn);
-    }
-    this.modifications.hours[i].push({ from: '', to: '' });
-    this.emptyTurn = { day: i, turn: this.modifications.hours[i].length - 1 }
-  }
+  
   checkChangeOnEmptyTurn(i: number, t: number) {
     if (this.emptyTurn) {
       if (this.emptyTurn.day === i && this.emptyTurn.turn == t) {
@@ -206,15 +142,9 @@ export class ShopEditorPage implements OnInit {
       }
     }
   }
-  async removeTurn(i: number, t: number) {
-    this.modified = true;
-    await this.animationCtrl.create()
-      .addElement(document.getElementById('day' + i).getElementsByTagName('ion-row')[this.modifications.hours[i].length - 1])
-      .duration(100)
-      .fromTo('opacity', '1', '0')
-      .fromTo('height', '35.3px', '0')
-      .easing('ease-out')
-      .play()
-    this.modifications.hours[i].splice(t, 1);
+
+  registerError(dayIndex: number){
+    console.log('Nel giorno ' + dayIndex + 'è stato rilevato un errore')
+    // TODO: registra errore
   }
 }

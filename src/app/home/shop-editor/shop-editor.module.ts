@@ -8,6 +8,7 @@ import { ShopEditorPageRoutingModule } from './shop-editor-routing.module';
 
 import { ShopEditorPage } from './shop-editor.page';
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
+import { WeekSchedulerComponent } from 'src/app/components/week-scheduler/week-scheduler.component'
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { SharedDirectivesModule } from 'src/app/directives/shared-directives.mod
     ShopEditorPageRoutingModule,
     SharedDirectivesModule
   ],
-  declarations: [ShopEditorPage]
+  declarations: [ShopEditorPage, WeekSchedulerComponent]
 })
 export class ShopEditorPageModule {}

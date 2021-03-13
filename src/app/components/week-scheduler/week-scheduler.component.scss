@@ -1,0 +1,40 @@
+.hours-grid {
+    padding: 0;
+    font-size: 15px;
+}
+.hours-grid ion-col{
+    padding: 0;
+    display: flex;
+}
+.turn-row{
+    animation-name: slide-in;
+    animation-duration: 0.2s;
+    align-items: center;
+}
+ion-datetime{
+    margin: 0;
+    display: inline-block;
+    padding: 2px 4px;
+    border: 1px solid rgb(197, 197, 197);
+    background-color: initial;
+    border-radius: 5px;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.invalid{
+    border-color: rgb(235, 68, 90);
+    background-color: rgb(235, 68, 90, .05);
+}
+
+// Animations
+@keyframes slide-in{
+    from{
+        opacity: 0;
+        height: 0;
+    }
+    to{
+        opacity: 1;
+        height: 35.3px;
+    }
+}
