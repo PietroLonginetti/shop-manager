@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, AnimationController } from '@ionic/angular';
+import { WeekSchedulerComponent } from 'src/app/components/week-scheduler/week-scheduler.component';
 import { ShopDataExchangeService } from '../shop-data-exchange.service';
 
 @Component({
@@ -11,6 +12,7 @@ import { ShopDataExchangeService } from '../shop-data-exchange.service';
 })
 export class ShopEditorPage implements OnInit {
   id = null;
+  @ViewChild(WeekSchedulerComponent) ws: WeekSchedulerComponent;
   shop = null;
   modified: boolean = false;
   emptyTurn: any = null;
@@ -35,9 +37,9 @@ export class ShopEditorPage implements OnInit {
 
   // Alerts 
   async confirmAlert() {
-    // if (this.emptyTurn) {
-    //   await this.removeTurn(this.emptyTurn.day, this.emptyTurn.turn);
-    // }
+    if (this.ws.emptyTurn) {
+      await this.ws.removeTurn(this.ws.emptyTurn.day, this.ws.emptyTurn.turn);
+    }
     if (this.modified) {
       const alert = await this.alertController.create({
         backdropDismiss: false,
@@ -134,17 +136,8 @@ export class ShopEditorPage implements OnInit {
       .play()
     this.modifications.imgs.splice(imgId, 1);
   }
-  
-  checkChangeOnEmptyTurn(i: number, t: number) {
-    if (this.emptyTurn) {
-      if (this.emptyTurn.day === i && this.emptyTurn.turn == t) {
-        this.emptyTurn = null;
-      }
-    }
-  }
-
   registerError(dayIndex: number){
-    console.log('Nel giorno ' + dayIndex + 'è stato rilevato un errore')
+    console.log('Nel giorno ' + dayIndex + ' è stato rilevato un errore')
     // TODO: registra errore
   }
 }

@@ -7,9 +7,9 @@ import { AnimationController } from '@ionic/angular';
   styleUrls: ['./week-scheduler.component.scss'],
 })
 export class WeekSchedulerComponent implements OnInit {
-  @Input() days: any
+  @Input() days: any;
   @Output() invalidDataSpotted = new EventEmitter();
-  @Output() valuesChangingSpotted = new EventEmitter()
+  @Output() valuesChangingSpotted = new EventEmitter();
   emptyTurn: any = null;
 
   valuesChanged(i: number) {
@@ -81,6 +81,6 @@ export class WeekSchedulerComponent implements OnInit {
       .play()
     this.days[i].splice(t, 1);
     this.valuesChanged(i);
+    setTimeout(()=>{this.checkInvalidData(i);})
   }
-
 }

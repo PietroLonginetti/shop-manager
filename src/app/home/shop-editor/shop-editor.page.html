@@ -64,7 +64,8 @@
         <div style="width: 100%;">
 
           <!-- Building new component -->
-          <app-week-scheduler [days]="modifications.hours" 
+          <app-week-scheduler 
+            [days]="modifications.hours"
             (invalidDataSpotted)="registerError($event)"
             (valuesChangingSpotted)="this.modified=true">
           </app-week-scheduler>
