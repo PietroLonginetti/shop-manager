@@ -125,25 +125,60 @@ export class ShopEditorPage implements OnInit {
       this.modifications[key] = this.formCtrl.get(key).value;
     }
   }
-  validateTurn(turn, ev){
+  validateTurn(turn, ev) {
+    // Controllo sullo stesso turno
     let dateTimeInput = ev.target;
     let turnRow = dateTimeInput.parentNode.parentNode;
-    let turnsCol = turnRow.getElementsByClassName('turn')
-    let turnFrom = turnsCol[0].childNodes[0]
-    let turnTo = turnsCol[1].childNodes[0]
+    let turnsCol = turnRow.getElementsByClassName('turn-col');
+    let turnFrom = turnsCol[0].childNodes[0];
+    let turnTo = turnsCol[1].childNodes[0];
 
-    let fromH = parseInt(turn.from.slice(turn.from.indexOf('T')+1, turn.from.indexOf(':')));
-    let toH = parseInt(turn.to.slice(turn.to.indexOf('T')+1, turn.to.indexOf(':')));
-    let fromM = parseInt(turn.from.slice(turn.from.indexOf(':')+1, turn.from.indexOf(':')+3));
-    let toM = parseInt(turn.to.slice(turn.to.indexOf(':')+1, turn.to.indexOf(':')+3));
+    let fromH = parseInt(turn.from.slice(turn.from.indexOf('T') + 1, turn.from.indexOf(':')));
+    let toH = parseInt(turn.to.slice(turn.to.indexOf('T') + 1, turn.to.indexOf(':')));
+    let fromM = parseInt(turn.from.slice(turn.from.indexOf(':') + 1, turn.from.indexOf(':') + 3));
+    let toM = parseInt(turn.to.slice(turn.to.indexOf(':') + 1, turn.to.indexOf(':') + 3));
 
-    if(fromH < toH || (fromH == toH && fromM < toM)){
+    if (fromH < toH || (fromH == toH && fromM < toM)) {
       turnFrom.style.borderColor = turnTo.style.borderColor = 'rgb(197, 197, 197)';
       turnFrom.style.backgroundColor = turnTo.style.backgroundColor = 'initial';
     } else {
       console.error('invalid turn');
       turnFrom.style.borderColor = turnTo.style.borderColor = 'rgb(235, 68, 90)';
       turnFrom.style.backgroundColor = turnTo.style.backgroundColor = 'rgb(235, 68, 90, .05)';
+      return;
+    }
+
+    // Controllo sui turni successivi e precedenti
+    let preTurnRow = turnRow.previousElementSibling;
+    if (preTurnRow) {
+      let preTurnCols = preTurnRow.getElementsByClassName('turn-col');
+      let preTurnTo = preTurnCols[1].childNodes[0];
+      let preToH = parseInt(preTurnTo.value.slice(turn.to.indexOf('T') + 1, turn.to.indexOf(':')));
+      let preToM = parseInt(preTurnTo.value.slice(turn.to.indexOf(':') + 1, turn.to.indexOf(':') + 3));
+      if (fromH > preToH || (fromH == preToH && fromM > preToM)) {
+        turnFrom.style.borderColor = preTurnTo.style.borderColor = 'rgb(197, 197, 197)';
+        turnFrom.style.backgroundColor = preTurnTo.style.backgroundColor = 'initial';
+      } else {
+        console.error('invalid turn');
+        turnFrom.style.borderColor = preTurnTo.style.borderColor = 'rgb(235, 68, 90)';
+        turnFrom.style.backgroundColor = preTurnTo.style.backgroundColor = 'rgb(235, 68, 90, .05)';
+      }
+    }
+
+    let nextTurnRow = turnRow.nextElementSibling;
+    if (nextTurnRow && nextTurnRow.classList.contains('turn-row')) {
+      let nextTurnCols = nextTurnRow.getElementsByClassName('turn-col');
+      let nextTurnFrom = nextTurnCols[0].childNodes[0];
+      let nextFromH = parseInt(nextTurnFrom.value.slice(turn.to.indexOf('T') + 1, turn.to.indexOf(':')));
+      let nextFromM = parseInt(nextTurnFrom.value.slice(turn.to.indexOf(':') + 1, turn.to.indexOf(':') + 3));
+      if (toH < nextFromH || (toH == nextFromH && toM < nextFromM)){
+        turnTo.style.borderColor = nextTurnFrom.style.borderColor = 'rgb(197, 197, 197)';
+        turnTo.style.backgroundColor = nextTurnFrom.style.backgroundColor = 'initial';
+      } else {
+        console.error('invalid turn');
+        turnTo.style.borderColor = nextTurnFrom.style.borderColor = 'rgb(235, 68, 90)';
+        turnTo.style.backgroundColor =  nextTurnFrom.style.backgroundColor = 'rgb(235, 68, 90, .05)';
+      }
     }
   }
 
