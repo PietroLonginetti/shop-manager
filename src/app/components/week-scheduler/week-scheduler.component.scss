@@ -22,7 +22,11 @@ ion-datetime{
     transition: 0.3s;
 }
 
-.invalid{
+.invalid-turn{
+    border-color: rgb(235, 68, 90);
+    background-color: rgb(235, 68, 90, .05);
+}
+.invalid-cross-turn{
     border-color: rgb(235, 68, 90);
     background-color: rgb(235, 68, 90, .05);
 }

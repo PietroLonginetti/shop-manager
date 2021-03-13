@@ -35,13 +35,23 @@ export class WeekSchedulerComponent implements OnInit {
         let toM = parseInt(schedule[t].slice(schedule[t].indexOf(':') + 1, schedule[t].indexOf(':') + 3))
         console.log(fromH + ':' + fromM + ', ' + toH + ':' + toM)
         if (fromH < toH || (fromH == toH && fromM < toM)) {
-          scheduleHTML[t - 1].classList.remove('invalid');
-          scheduleHTML[t].classList.remove('invalid');
+          if (t % 2 != 0){
+            scheduleHTML[t - 1].classList.remove('invalid-turn');
+            scheduleHTML[t].classList.remove('invalid-turn');
+          } else{
+            scheduleHTML[t - 1].classList.remove('invalid-cross-turn');
+            scheduleHTML[t].classList.remove('invalid-cross-turn');
+          }
         }
         else {
+          if (t % 2 != 0) {
+            scheduleHTML[t - 1].classList.add('invalid-turn');
+            scheduleHTML[t].classList.add('invalid-turn');
+          } else {
+            scheduleHTML[t - 1].classList.add('invalid-cross-turn');
+            scheduleHTML[t].classList.add('invalid-cross-turn');
+          }
           console.error('invalid turn');
-          scheduleHTML[t - 1].classList.add('invalid');
-          scheduleHTML[t].classList.add('invalid');
           this.invalidDataSpotted.emit(i)
         }
       }
