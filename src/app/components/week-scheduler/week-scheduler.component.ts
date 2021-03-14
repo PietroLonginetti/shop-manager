@@ -8,12 +8,24 @@ import { AnimationController } from '@ionic/angular';
 })
 export class WeekSchedulerComponent implements OnInit {
   @Input() days: any;
-  @Output() invalidDataSpotted = new EventEmitter();
-  @Output() valuesChangingSpotted = new EventEmitter();
+  @Output() valuesChanging = new EventEmitter();
   emptyTurn: any = null;
+  weekDays: Array<Object> = [
+    { day: 'Sun', valid: true },
+    { day: 'Mon', valid: true },
+    { day: 'Tue', valid: true },
+    { day: 'Wed', valid: true },
+    { day: 'Thu', valid: true },
+    { day: 'Fri', valid: true },
+    { day: 'Sat', valid: true }
+  ];
+
+  constructor(private animationCtrl: AnimationController) { }
+
+  ngOnInit() { }
 
   valuesChanged(i: number) {
-    this.valuesChangingSpotted.emit();
+    this.valuesChanging.emit();
   }
   checkInvalidData(i: number) {
     let day = this.days[i];
@@ -22,28 +34,28 @@ export class WeekSchedulerComponent implements OnInit {
     let schedule = [];
     let scheduleHTML = dayHTML.getElementsByTagName('ion-datetime')
     if (scheduleHTML.length != 0) {
-      console.log(scheduleHTML)
       for (let t = 0; t < day.length; t++) {
         schedule.push(day[t].from)
         schedule.push(day[t].to)
-      } console.log(schedule)
+      }
 
+      let invalidInputFound = false;
       for (let t = 1; t < schedule.length; t++) {
         let fromH = parseInt(schedule[t - 1].slice(schedule[t - 1].indexOf('T') + 1, schedule[t - 1].indexOf(':')))
         let toH = parseInt(schedule[t].slice(schedule[t].indexOf('T') + 1, schedule[t].indexOf(':')))
         let fromM = parseInt(schedule[t - 1].slice(schedule[t - 1].indexOf(':') + 1, schedule[t - 1].indexOf(':') + 3))
         let toM = parseInt(schedule[t].slice(schedule[t].indexOf(':') + 1, schedule[t].indexOf(':') + 3))
-        console.log(fromH + ':' + fromM + ', ' + toH + ':' + toM)
         if (fromH < toH || (fromH == toH && fromM < toM)) {
-          if (t % 2 != 0){
+          if (t % 2 != 0) {
             scheduleHTML[t - 1].classList.remove('invalid-turn');
             scheduleHTML[t].classList.remove('invalid-turn');
-          } else{
+          } else {
             scheduleHTML[t - 1].classList.remove('invalid-cross-turn');
             scheduleHTML[t].classList.remove('invalid-cross-turn');
           }
         }
         else {
+          invalidInputFound = true;
           if (t % 2 != 0) {
             scheduleHTML[t - 1].classList.add('invalid-turn');
             scheduleHTML[t].classList.add('invalid-turn');
@@ -51,27 +63,39 @@ export class WeekSchedulerComponent implements OnInit {
             scheduleHTML[t - 1].classList.add('invalid-cross-turn');
             scheduleHTML[t].classList.add('invalid-cross-turn');
           }
-          console.error('invalid turn');
-          this.invalidDataSpotted.emit(i)
         }
+      }
+      if (invalidInputFound) {
+        this.weekDays[i]['valid'] = false;
+        console.log(this.weekDays)
+        console.log('Week valid?' + this.validWeek())
+      }
+      else {
+        this.weekDays[i]['valid'] = true;
+        console.log(this.weekDays)
+        console.log('Week valid?' + this.validWeek())
       }
     }
   }
-
-  weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-  constructor(private animationCtrl: AnimationController) { }
-
-  ngOnInit() { }
-
+  validWeek(): boolean {
+    let valid = true;
+    this.weekDays.forEach(d => {
+      if (!d['valid'])
+        valid = false;
+    })
+    return valid;
+  }
   async loadNewTurn(i: number) {
     if (this.emptyTurn) {
-      await this.removeTurn(this.emptyTurn.day, this.emptyTurn.turn);
+      await this.removeEmptyTurn()
     }
     this.days[i].push({ from: '', to: '' });
     this.emptyTurn = { day: i, turn: this.days[i].length - 1 }
   }
   async removeTurn(i: number, t: number) {
+    if (this.emptyTurn && i === this.emptyTurn.day && t === this.emptyTurn.turn) {
+      this.emptyTurn = null; //Case: click remove on empty turn
+    }
     await this.animationCtrl.create()
       .addElement(document.getElementById('day' + i).getElementsByTagName('ion-row')[t])
       .duration(100)
@@ -81,6 +105,24 @@ export class WeekSchedulerComponent implements OnInit {
       .play()
     this.days[i].splice(t, 1);
     this.valuesChanged(i);
-    setTimeout(()=>{this.checkInvalidData(i);})
+    setTimeout(() => { this.checkInvalidData(i); })
+  }
+  async removeEmptyTurn() {
+    if (!this.emptyTurn) {
+      //Do nothing
+    }
+    else {
+      let i = this.emptyTurn.day;
+      let t = this.emptyTurn.turn;
+      await this.animationCtrl.create()
+        .addElement(document.getElementById('day' + i).getElementsByTagName('ion-row')[t])
+        .duration(100)
+        .fromTo('opacity', '1', '0')
+        .fromTo('height', '35.3px', '0')
+        .easing('ease-out')
+        .play()
+      this.days[i].splice(t, 1);
+      this.emptyTurn = null;
+    }
   }
 }

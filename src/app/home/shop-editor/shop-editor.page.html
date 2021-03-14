@@ -62,15 +62,10 @@
       <ion-col size="3" style="align-self: flex-start;"><span>Hours:</span></ion-col>
       <ion-col size="9">
         <div style="width: 100%;">
-
-          <!-- Building new component -->
           <app-week-scheduler 
             [days]="modifications.hours"
-            (invalidDataSpotted)="registerError($event)"
-            (valuesChangingSpotted)="this.modified=true">
+            (valuesChanging)="this.modified=true">
           </app-week-scheduler>
-          <!--  -->
-
         </div>
       </ion-col>
     </ion-row>

@@ -1,3 +1,4 @@
+import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,7 +18,6 @@ export class ShopEditorPage implements OnInit {
   modified: boolean = false;
   emptyTurn: any = null;
   modifications = null;
-  weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];  //TODO: da rimuovere
   formCtrl: FormGroup;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private exService: ShopDataExchangeService,
@@ -29,7 +29,7 @@ export class ShopEditorPage implements OnInit {
   ngOnInit() {
     this.formCtrl = new FormGroup({
       name: new FormControl(`${this.modifications.name}`, [Validators.required, Validators.minLength(2)]),
-      address: new FormControl(`${this.modifications.address}`, Validators.minLength(1)),
+      address: new FormControl(`${this.modifications.address}`, Validators.minLength(3)),
       telephone: new FormControl(`${this.modifications.telephone}`, [Validators.pattern('^[+][0-9]+$'), Validators.minLength(8)]),
       MBLink: new FormControl(`${this.modifications.MBLink}`, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'))
     })
@@ -38,30 +38,46 @@ export class ShopEditorPage implements OnInit {
   // Alerts 
   async confirmAlert() {
     if (this.ws.emptyTurn) {
-      await this.ws.removeTurn(this.ws.emptyTurn.day, this.ws.emptyTurn.turn);
+      await this.ws.removeEmptyTurn()
     }
-    if (this.modified) {
+    console.log('valid inputs: ' + this.validInputs())
+    console.log('valid week: ' + this.ws.validWeek())
+    if (this.validInputs() && this.ws.validWeek()) {
+      if (this.modified) {
+        const alert = await this.alertController.create({
+          backdropDismiss: false,
+          header: 'Are you sure?',
+          message: 'Do you really want apply those changes? This process cannot be undone.',
+          buttons: [
+            {
+              text: 'Cancel'
+            },
+            {
+              text: 'Yes',
+              handler: () => {
+                this.exService.modifyShop(this.modifications, this.id);
+                this.router.navigate(['/tabs/home/shop/' + this.id]);
+              }
+            }
+          ]
+        })
+        await alert.present();
+      }
+      else {
+        this.router.navigate(['/tabs/home/shop/' + this.id]);
+      }
+    }
+    else {
       const alert = await this.alertController.create({
-        backdropDismiss: false,
-        header: 'Are you sure?',
-        message: 'Do you really want apply those changes? This process cannot be undone.',
+        header: 'Attention!',
+        message: 'Some data seem incorrect. Please, verify your input data before proceeding.',
         buttons: [
           {
-            text: 'Cancel'
-          },
-          {
-            text: 'Yes',
-            handler: () => {
-              this.exService.modifyShop(this.modifications, this.id);
-              this.router.navigate(['/tabs/home/shop/' + this.id]);
-            }
+            text: 'Ok'
           }
         ]
       })
       await alert.present();
-    }
-    else {
-      this.router.navigate(['/tabs/home/shop/' + this.id]);
     }
   }
   async discardAlert() {
@@ -113,18 +129,23 @@ export class ShopEditorPage implements OnInit {
   // Validators
   validateInput(form, key) {
     form = form.parentNode;
-    console.log(this.formCtrl.controls[key].errors)
     if (this.formCtrl.controls[key].errors) {
       form.style.borderColor = 'rgb(235, 68, 90)';
       form.style.backgroundColor = 'rgb(235, 68, 90, .05)';
-      console.error(this.formCtrl.controls[key].errors);
     } else {
       form.style.borderColor = 'rgb(197, 197, 197)';
       form.style.backgroundColor = 'initial';
-      this.modifications[key] = this.formCtrl.get(key).value;
+      this.modifications[key] = this.formCtrl.get(key).value; //Saving the correct value
     }
   }
-  
+  private validInputs(): boolean {
+    let errors = false;
+    Object.keys(this.formCtrl.controls).forEach(key => {
+      if(this.formCtrl.get(key).errors)
+        errors = true
+    });
+    return !errors;
+  }
 
   // Methods
   async deletePhoto(imgId: number) {
@@ -135,9 +156,5 @@ export class ShopEditorPage implements OnInit {
       .fromTo('opacity', '1', '0')
       .play()
     this.modifications.imgs.splice(imgId, 1);
-  }
-  registerError(dayIndex: number){
-    console.log('Nel giorno ' + dayIndex + ' è stato rilevato un errore')
-    // TODO: registra errore
   }
 }
