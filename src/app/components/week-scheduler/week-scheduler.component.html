@@ -1,4 +1,5 @@
-<div id="day{{i}}" *ngFor="let day of this.days; let i = index" (ionChange)="checkInvalidData(i); valuesChanged(i)">
+<div id="day{{i}}" *ngFor="let day of this.days; let i = index" (ionChange)="checkInvalidData(i)"
+(ionBlur)="valuesChanged(i)">
   <h6 style="margin-top: 3px; margin-bottom: 6px;">{{weekDays[i]['day']}}</h6>
   <ion-grid class="hours-grid">
     <ion-row class="turn-row" 

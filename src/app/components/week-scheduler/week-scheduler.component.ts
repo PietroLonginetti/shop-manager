@@ -8,7 +8,7 @@ import { AnimationController } from '@ionic/angular';
 })
 export class WeekSchedulerComponent implements OnInit {
   @Input() days: any;
-  @Output() valuesChanging = new EventEmitter();
+  @Output() dataChange = new EventEmitter();
   emptyTurn: any = null;
   weekDays: Array<Object> = [
     { day: 'Sun', valid: true },
@@ -25,7 +25,7 @@ export class WeekSchedulerComponent implements OnInit {
   ngOnInit() { }
 
   valuesChanged(i: number) {
-    this.valuesChanging.emit();
+    this.dataChange.emit();
   }
   checkInvalidData(i: number) {
     let day = this.days[i];
