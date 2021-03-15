@@ -67,13 +67,9 @@ export class WeekSchedulerComponent implements OnInit {
       }
       if (invalidInputFound) {
         this.weekDays[i]['valid'] = false;
-        console.log(this.weekDays)
-        console.log('Week valid?' + this.validWeek())
       }
       else {
         this.weekDays[i]['valid'] = true;
-        console.log(this.weekDays)
-        console.log('Week valid?' + this.validWeek())
       }
     }
   }
@@ -124,5 +120,16 @@ export class WeekSchedulerComponent implements OnInit {
       this.days[i].splice(t, 1);
       this.emptyTurn = null;
     }
+  }
+
+  // Stili
+  cssFocus(ev){
+    ev.target.style.backgroundColor = 'rgb(197, 197, 197, .4)'
+  }
+
+  cssBlur(ev){
+    if(ev.target.classList.contains('invalid-turn') || ev.target.classList.contains('invalid-cross-turn')){
+      ev.target.style.backgroundColor = 'rgb(235, 68, 90, .05)'
+    } else ev.target.style.backgroundColor = 'initial'
   }
 }

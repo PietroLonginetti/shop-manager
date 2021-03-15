@@ -1,5 +1,4 @@
-import { stringify } from '@angular/compiler/src/util';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, AnimationController } from '@ionic/angular';
@@ -12,9 +11,13 @@ import { ShopDataExchangeService } from '../shop-data-exchange.service';
   styleUrls: ['./shop-editor.page.scss'],
 })
 export class ShopEditorPage implements OnInit {
-  id = null;
+  @HostListener('document:ionBackButton', ['$event'])
+  async overrideHardwareBackAction($event: any) {
+    await this.discardAlert()
+  }
   @ViewChild(WeekSchedulerComponent) ws: WeekSchedulerComponent;
   shop = null;
+  id = null;
   modified: boolean = false;
   emptyTurn: any = null;
   modifications = null;
@@ -47,7 +50,7 @@ export class ShopEditorPage implements OnInit {
         const alert = await this.alertController.create({
           backdropDismiss: false,
           header: 'Are you sure?',
-          message: 'Do you really want apply those changes? This process cannot be undone.',
+          message: 'Do you really want apply those changes?',
           buttons: [
             {
               text: 'Cancel'
@@ -69,7 +72,7 @@ export class ShopEditorPage implements OnInit {
     }
     else {
       const alert = await this.alertController.create({
-        header: 'Attention!',
+        header: 'Invalid Data!',
         message: 'Some data seem incorrect. Please, verify your input data before proceeding.',
         buttons: [
           {
@@ -84,7 +87,7 @@ export class ShopEditorPage implements OnInit {
     if (this.modified) {
       const alert = await this.alertController.create({
         backdropDismiss: false,
-        header: 'Are you sure?',
+        header: 'Attention!',
         message: 'Do you really want discard those changes? All your changes will be lost.',
         buttons: [
           {
@@ -93,6 +96,7 @@ export class ShopEditorPage implements OnInit {
           {
             text: 'Yes',
             handler: () => {
+              this.alertController.getTop().then(res => { console.log(res) })
               this.router.navigate(['/tabs/home/shop/' + this.id]);
             }
           }
@@ -105,11 +109,11 @@ export class ShopEditorPage implements OnInit {
     }
   }
   async deleteAlert() {
-    await document.getElementsByTagName('ion-content')[0].scrollToTop(100);
+    await document.getElementsByTagName('app-shop-editor')[0].getElementsByTagName('ion-content')[0].scrollToTop(100);
     const alert = await this.alertController.create({
       backdropDismiss: false,
       header: 'Are you sure?',
-      message: 'Do you really want delete this shop? All your data will be lost.',
+      message: 'Do you really want to delete this shop? All your data will be lost.',
       buttons: [
         {
           text: 'Cancel'
@@ -141,7 +145,7 @@ export class ShopEditorPage implements OnInit {
   private validInputs(): boolean {
     let errors = false;
     Object.keys(this.formCtrl.controls).forEach(key => {
-      if(this.formCtrl.get(key).errors)
+      if (this.formCtrl.get(key).errors)
         errors = true
     });
     return !errors;

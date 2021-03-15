@@ -18,7 +18,7 @@
 </ion-header>
 
 
-<ion-content fullscreen="true" scrollEvents="true" [appHideFooter]="footer">
+<ion-content id="shop-editor-content" fullscreen="true" scrollEvents="true" [appHideFooter]="footer">
   <ion-slides pager="true">
     <ion-slide *ngFor="let img of modifications.imgs; let imgId = index" id="slide{{imgId}}">
       <img [src]="img">
@@ -45,7 +45,7 @@
       <ion-col size="9">
         <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'address')">
           <ion-input formControlName="address" type="text" (ionInput)="this.modified = true"
-            placeholder="Insert shop name"></ion-input>
+            placeholder="Insert shop address"></ion-input>
         </form>
       </ion-col>
     </ion-row>
@@ -54,7 +54,7 @@
       <ion-col size="9">
         <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'telephone')">
           <ion-input formControlName="telephone" type="tel" (ionInput)="this.modified = true"
-            placeholder="Insert number"></ion-input>
+            placeholder="Insert shop number"></ion-input>
         </form>
       </ion-col>
     </ion-row>
