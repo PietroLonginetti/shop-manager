@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, PopoverController } from '@ionic/angular';
-import { ShopDataExchangeService } from '../shop-data-exchange.service';
+import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 import { ShopPopoverComponent } from './shop-popover/shop-popover.component';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 

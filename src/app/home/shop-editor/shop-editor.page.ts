@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, AnimationController } from '@ionic/angular';
 import { WeekSchedulerComponent } from 'src/app/components/week-scheduler/week-scheduler.component';
-import { ShopDataExchangeService } from '../shop-data-exchange.service';
+import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 
 @Component({
   selector: 'app-shop-editor',
