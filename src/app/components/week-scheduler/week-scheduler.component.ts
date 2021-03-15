@@ -24,7 +24,10 @@ export class WeekSchedulerComponent implements OnInit {
 
   ngOnInit() { }
 
-  valuesChanged(i: number) {
+  valuesChanged(i: number, t: number) {
+    if(this.emptyTurn && this.emptyTurn.day === i && this.emptyTurn.turn === t){
+      this.emptyTurn = null;
+    }
     this.dataChange.emit();
   }
   checkInvalidData(i: number) {
@@ -46,6 +49,9 @@ export class WeekSchedulerComponent implements OnInit {
         let fromM = parseInt(schedule[t - 1].slice(schedule[t - 1].indexOf(':') + 1, schedule[t - 1].indexOf(':') + 3))
         let toM = parseInt(schedule[t].slice(schedule[t].indexOf(':') + 1, schedule[t].indexOf(':') + 3))
         if (fromH < toH || (fromH == toH && fromM < toM)) {
+          if(t == schedule.length-1){
+            scheduleHTML[t].classList.remove('invalid-cross-turn');
+          }
           if (t % 2 != 0) {
             scheduleHTML[t - 1].classList.remove('invalid-turn');
             scheduleHTML[t].classList.remove('invalid-turn');
@@ -100,7 +106,7 @@ export class WeekSchedulerComponent implements OnInit {
       .easing('ease-out')
       .play()
     this.days[i].splice(t, 1);
-    this.valuesChanged(i);
+    this.valuesChanged(i, t);
     setTimeout(() => { this.checkInvalidData(i); })
   }
   async removeEmptyTurn() {
@@ -120,16 +126,5 @@ export class WeekSchedulerComponent implements OnInit {
       this.days[i].splice(t, 1);
       this.emptyTurn = null;
     }
-  }
-
-  // Stili
-  cssFocus(ev){
-    ev.target.style.backgroundColor = 'rgb(197, 197, 197, .4)'
-  }
-
-  cssBlur(ev){
-    if(ev.target.classList.contains('invalid-turn') || ev.target.classList.contains('invalid-cross-turn')){
-      ev.target.style.backgroundColor = 'rgb(235, 68, 90, .05)'
-    } else ev.target.style.backgroundColor = 'initial'
   }
 }
