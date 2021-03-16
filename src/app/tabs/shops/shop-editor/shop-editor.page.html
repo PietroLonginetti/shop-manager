@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-grid style="padding: 5px 15px">
+    <ion-row style="align-items: center;">
+      <ion-col size="2">Name:</ion-col>
+      <ion-col size="7">
+        <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'name')">
+          <ion-input formControlName="name" type="text" (ionInput)="this.modified = true"
+            placeholder="Insert shop name">
+          </ion-input>
+        </form>
+      </ion-col>
+      <ion-col size="3">
+        <ion-buttons>
+          <ion-button id="discard-btn" (click)="discardAlert()">
+            <ion-icon name="close" color="danger" style="font-size: x-large;"></ion-icon>
+          </ion-button>
+          <ion-button (click)="confirmAlert()">
+            <ion-icon name="checkmark" color="primary" style="font-size: x-large;"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-header>
+
+
+<ion-content id="shop-editor-content">
+  <div style="margin: 0.8rem 5px 2rem;">
+    <div style="display: flex; align-items: center; margin-left: 15px;">
+      <span>Pictures:</span>
+      <ion-button class="add" fill="clear">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </div>
+    <ion-reorder-group (ionItemReorder)="reorderImgs($event)" disabled="false" lines="none">
+      <ion-item *ngFor="let img of modifications.imgs; let imgId = index" id="slide{{imgId}}"
+        style="--inner-border-width: 0;">
+        <ion-badge slot="start" color="medium">{{imgId + 1}}</ion-badge>
+        <img class="reorderable-img" [src]="img">
+        <ion-button fill="clear" color="danger" style="font-size: inherit;" (click)="deletePhoto(imgId)">
+          <ion-icon name="remove"></ion-icon>
+        </ion-button>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+    </ion-reorder-group>
+  </div>
+
+  <ion-grid class="main-grid">
+    <ion-row>
+      <ion-col size="3">Address:</ion-col>
+      <ion-col size="9">
+        <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'address')">
+          <ion-input formControlName="address" type="text" (ionInput)="this.modified = true"
+            placeholder="Insert shop address"></ion-input>
+        </form>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="3">Phone:</ion-col>
+      <ion-col size="9">
+        <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'telephone')">
+          <ion-input formControlName="telephone" type="tel" (ionInput)="this.modified = true"
+            placeholder="Insert shop number"></ion-input>
+        </form>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="3" style="align-self: flex-start;"><span style="margin-top: 0.7rem;">Hours:</span></ion-col>
+      <ion-col size="9">
+        <div style="width: 100%;">
+          <app-week-scheduler [days]="modifications.hours" (dataChange)="this.modified=true">
+          </app-week-scheduler>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-toolbar>
+    <h6 style="margin: auto 0 3px 16px">Google My Business Link:</h6>
+    <div style="margin:0 15px">
+      <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'MBLink')">
+        <ion-input formControlName="MBLink" type="url" (ionInput)="this.modified = true"
+          placeholder="http://example.com"></ion-input>
+      </form>
+    </div>
+  </ion-toolbar>
+
+  <ion-button (click)="deleteAlert()" expand="full" fill="solid" color="danger" style="margin: 1.5rem 0 0">Delete this
+    Shop</ion-button>
+
+</ion-content>

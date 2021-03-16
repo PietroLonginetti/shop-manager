@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, AnimationController } from '@ionic/angular';
+import { AlertController, AnimationController, ToastController } from '@ionic/angular';
 import { WeekSchedulerComponent } from 'src/app/components/week-scheduler/week-scheduler.component';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 
@@ -24,12 +24,13 @@ export class ShopEditorPage implements OnInit {
   formCtrl: FormGroup;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private shopService: ShopDataExchangeService,
-    private alertController: AlertController, private animationCtrl: AnimationController) {
+    private alertController: AlertController, private animationCtrl: AnimationController, private toast: ToastController) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.shopService.getShop(this.id).subscribe(shop => { this.shop = shop });
     this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
   }
   ngOnInit() {
+    console.log('i alive');
     this.formCtrl = new FormGroup({
       name: new FormControl(`${this.modifications.name}`, [Validators.required, Validators.minLength(2)]),
       address: new FormControl(`${this.modifications.address}`, Validators.minLength(3)),
@@ -126,6 +127,13 @@ export class ShopEditorPage implements OnInit {
     })
     await alert.present();
   }
+  async presentToast(){
+    const toast = await this.toast.create({
+      message: "Your images have been reordered.",
+      duration: 1000
+    });
+    toast.present()
+  }
 
   // Validators
   validateInput(form, key) {
@@ -157,5 +165,12 @@ export class ShopEditorPage implements OnInit {
       .fromTo('opacity', '1', '0')
       .play()
     this.modifications.imgs.splice(imgId, 1);
+  }
+  reorderImgs(ev){
+    this.modified = true;
+    const imgToMove = this.modifications.imgs.splice(ev.detail.from, 1)[0];
+    this.modifications.imgs.splice(ev.detail.to, 0, imgToMove);
+    ev.detail.complete();
+    this.presentToast();
   }
 }

@@ -17,25 +17,10 @@ ion-slides{
 ion-slide img{
     width: 100%;
 }
-.trash-buttons{
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-.trash-buttons ion-button{
-    background-color: rgb(255, 255, 255, .8);
-    border: 1px solid rgb(235, 68, 90, .5); 
-    border-radius: 10px;
-    height: 2rem;
-    margin: 15px;
-}
-.trash-buttons ion-icon{
-    font-size: x-large;
-}
-#add-pic-container{
-    background-color: rgb(163, 163, 163); 
-    width: 100%; 
-    height: 150px;
+.reorderable-img{
+    width: 60%;
+    margin: 0.3rem 1rem 0.3rem 0;
+    border-radius: 5px;
 }
 #add-button{
     height: 100%;

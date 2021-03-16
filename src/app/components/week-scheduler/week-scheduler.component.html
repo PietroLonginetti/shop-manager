@@ -1,7 +1,7 @@
 <div id="day{{i}}" class="day" *ngFor="let day of this.days; let i = index" (ionChange)="checkInvalidData(i)">
   <div style="display: flex; align-items: center;">
     <ion-badge>{{weekDays[i]['day']}}</ion-badge>
-    <ion-button class="add" (click)="loadNewTurn(i)" fill="clear">
+    <ion-button class="add" (click)="loadNewTurn(i)" size="small" fill="clear">
       <ion-icon name="add"></ion-icon>
     </ion-button>
   </div>

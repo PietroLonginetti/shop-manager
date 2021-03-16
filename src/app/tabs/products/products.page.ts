@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ProductDataExchangeService } from '../services/product-data-exchange/product-data-exchange.service';
+import { ProductDataExchangeService } from 'src/app/services/product-data-exchange/product-data-exchange.service';
 
 @Component({
   selector: 'app-products',
