@@ -2,15 +2,15 @@ import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, AnimationController, ToastController } from '@ionic/angular';
-import { WeekSchedulerComponent } from 'src/app/components/week-scheduler/week-scheduler.component';
+import { WeekSchedulerComponent } from 'src/app/tabs/shops/shop-editor/week-scheduler/week-scheduler.component';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 
 @Component({
   selector: 'app-shop-editor',
-  templateUrl: './shop-editor.page.html',
-  styleUrls: ['./shop-editor.page.scss'],
+  templateUrl: './shop-editor.component.html',
+  styleUrls: ['./shop-editor.component.scss'],
 })
-export class ShopEditorPage implements OnInit {
+export class ShopEditorComponent implements OnInit {
   @HostListener('document:ionBackButton', ['$event'])
   async overrideHardwareBackAction($event: any) {
     await this.discardAlert()

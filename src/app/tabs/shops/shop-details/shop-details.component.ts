@@ -6,11 +6,11 @@ import { ShopPopoverComponent } from './shop-popover/shop-popover.component';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 
 @Component({
-  selector: 'app-shop',
-  templateUrl: './shop.page.html',
-  styleUrls: ['./shop.page.scss']
+  selector: 'app-shop-details',
+  templateUrl: './shop-details.component.html',
+  styleUrls: ['./shop-details.component.scss'],
 })
-export class ShopPage implements OnInit {
+export class ShopDetailsComponent implements OnInit {
   id = null;
   shop = null;
   weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -51,5 +51,4 @@ export class ShopPage implements OnInit {
       .then(res => console.log('calling shop'))
       .catch(err => console.error('Error opening dialer'));
   }
-
 }

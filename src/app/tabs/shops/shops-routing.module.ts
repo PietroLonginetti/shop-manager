@@ -1,7 +1,8 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ShopsPage } from './shops.page';
-import { ComponentProvaComponent } from 'src/app/components/component-prova/component-prova.component'
+import { ShopEditorComponent } from './shop-editor/shop-editor.component';
+import { ShopDetailsComponent } from './shop-details/shop-details.component';
 
 const routes: Routes = [
   {
@@ -10,15 +11,11 @@ const routes: Routes = [
   },
   {
     path: 'shop/:id',
-    loadChildren: () => import('./shop/shop.module').then( m => m.ShopPageModule)
+    component: ShopDetailsComponent
   },
   {
     path: 'shop-editor/:id',
-    loadChildren: () => import('./shop-editor/shop-editor.module').then( m => m.ShopEditorPageModule)
-  },
-  {
-    path: 'prova',
-    component: ComponentProvaComponent
+    component: ShopEditorComponent
   }
 ];
 
