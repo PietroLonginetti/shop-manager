@@ -59,7 +59,7 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="3" style="align-self: flex-start;"><span>Hours:</span></ion-col>
+      <ion-col size="3" style="align-self: flex-start;"><span style="margin-top: 0.7rem;">Hours:</span></ion-col>
       <ion-col size="9">
         <div style="width: 100%;">
           <app-week-scheduler 
@@ -71,7 +71,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-toolbar style="margin-top: 2rem;">
+  <ion-toolbar>
     <h6 style="margin: auto 0 3px 16px">Google My Business Link:</h6>
     <div style="margin:0 15px">
       <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'MBLink')">
@@ -81,7 +81,7 @@
     </div>
   </ion-toolbar>
 
-  <ion-button (click)="deleteAlert()" expand="full" fill="solid" color="danger" style="margin: 2rem 0 0">Delete this Shop
+  <ion-button (click)="deleteAlert()" expand="full" fill="solid" color="danger" style="margin: 1.5rem 0 0">Delete this Shop
   </ion-button>
 
 </ion-content>

@@ -73,7 +73,7 @@ export class ShopsPage{
   addShop() {
     this.shopService.addShop();
     let lastElIndex = this.shopService.numOfShops-1;
-    this.router.navigate(['/tabs/home/shop-editor/' + lastElIndex]);
+    this.router.navigate(['/tabs/shops/shop-editor/' + lastElIndex]);
   }
   findShop() {
     let searchList: any;

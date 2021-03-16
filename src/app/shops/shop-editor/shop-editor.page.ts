@@ -132,7 +132,7 @@ export class ShopEditorPage implements OnInit {
     form = form.parentNode;
     if (this.formCtrl.controls[key].errors) {
       form.style.borderColor = 'rgb(235, 68, 90)';
-      form.style.backgroundColor = 'rgb(235, 68, 90, .05)';
+      form.style.backgroundColor = 'rgb(235 68 90 / 12%)';
     } else {
       form.style.borderColor = 'rgb(197, 197, 197)';
       form.style.backgroundColor = 'initial';

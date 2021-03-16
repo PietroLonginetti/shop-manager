@@ -1,28 +1,27 @@
-<div id="day{{i}}" *ngFor="let day of this.days; let i = index" (ionChange)="checkInvalidData(i)">
-  <h6 style="margin-top: 3px; margin-bottom: 6px;">{{weekDays[i]['day']}}</h6>
+<div id="day{{i}}" class="day" *ngFor="let day of this.days; let i = index" (ionChange)="checkInvalidData(i)">
+  <div style="display: flex; align-items: center;">
+    <ion-badge>{{weekDays[i]['day']}}</ion-badge>
+    <ion-button class="add" (click)="loadNewTurn(i)" fill="clear">
+      <ion-icon name="add"></ion-icon>
+    </ion-button>
+  </div>
+  
   <ion-grid class="hours-grid">
     <ion-row class="turn-row" *ngFor="let turn of day; let t = index" >
       <ion-col size="4" class="turn-col">
-        <ion-datetime class="valid" [(ngModel)]="turn.from" (ionFocus)="this.modified = true" display-format="H:mm"
+        <ion-datetime class="valid" [(ngModel)]="turn.from" display-format="H:mm"
           picker-format="H:mm" doneText="select" (ionBlur)="valuesChanged(i, t)">
         </ion-datetime>
       </ion-col>
       <ion-col size="1" style="justify-content: center;">&#9656;</ion-col>
       <ion-col size="4" class="turn-col">
-        <ion-datetime class="valid" [(ngModel)]="turn.to" (ionFocus)="this.modified = true" display-format="H:mm"
+        <ion-datetime class="valid" [(ngModel)]="turn.to" display-format="H:mm"
           picker-format="H:mm" doneText="select" (ionBlur)="valuesChanged(i, t)">
         </ion-datetime>
       </ion-col>
       <ion-col size="3">
         <ion-button (click)="removeTurn(i, t)" size="small" fill="clear" color="danger">
           <ion-icon name="remove"></ion-icon>
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="9" style="border-bottom: 1px solid rgb(197, 197, 197); margin-bottom: 12px;">
-        <ion-button (click)="loadNewTurn(i)" size="small" fill="clear" style="width: 100%;">
-          <ion-icon name="add"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-row>
