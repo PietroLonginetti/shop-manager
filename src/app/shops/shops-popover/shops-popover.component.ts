@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, NavParams, PopoverController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-home-popover',
-  templateUrl: './home-popover.component.html',
-  styleUrls: ['./home-popover.component.scss'],
+  selector: 'app-shops-popover',
+  templateUrl: './shops-popover.component.html',
+  styleUrls: ['./shops-popover.component.scss'],
 })
-export class HomePopoverComponent implements OnInit {
+export class ShopsPopoverComponent implements OnInit {
   listVisualization: boolean;
 
   constructor(private popoverController: PopoverController, public alertController: AlertController, 

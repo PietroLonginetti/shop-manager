@@ -43,8 +43,6 @@ export class ShopEditorPage implements OnInit {
     if (this.ws.emptyTurn) {
       await this.ws.removeEmptyTurn()
     }
-    console.log('valid inputs: ' + this.validInputs())
-    console.log('valid week: ' + this.ws.validWeek())
     if (this.validInputs() && this.ws.validWeek()) {
       if (this.modified) {
         const alert = await this.alertController.create({
@@ -59,7 +57,7 @@ export class ShopEditorPage implements OnInit {
               text: 'Yes',
               handler: () => {
                 this.exService.modifyShop(this.modifications, this.id);
-                this.router.navigate(['/tabs/home/shop/' + this.id]);
+                this.router.navigate(['/tabs/shops/shop/' + this.id]);
               }
             }
           ]
@@ -67,7 +65,7 @@ export class ShopEditorPage implements OnInit {
         await alert.present();
       }
       else {
-        this.router.navigate(['/tabs/home/shop/' + this.id]);
+        this.router.navigate(['/tabs/shops/shop/' + this.id]);
       }
     }
     else {
@@ -97,7 +95,7 @@ export class ShopEditorPage implements OnInit {
             text: 'Yes',
             handler: () => {
               this.alertController.getTop().then(res => { console.log(res) })
-              this.router.navigate(['/tabs/home/shop/' + this.id]);
+              this.router.navigate(['/tabs/shops/shop/' + this.id]);
             }
           }
         ]
@@ -105,11 +103,10 @@ export class ShopEditorPage implements OnInit {
       await alert.present();
     }
     else {
-      this.router.navigate(['/tabs/home/shop/' + this.id]);
+      this.router.navigate(['/tabs/shops/shop/' + this.id]);
     }
   }
   async deleteAlert() {
-    await document.getElementsByTagName('app-shop-editor')[0].getElementsByTagName('ion-content')[0].scrollToTop(100);
     const alert = await this.alertController.create({
       backdropDismiss: false,
       header: 'Are you sure?',
@@ -122,7 +119,7 @@ export class ShopEditorPage implements OnInit {
           text: 'Yes',
           handler: () => {
             this.exService.deleteShop(this.id);
-            this.router.navigate(['/tabs/home']);
+            this.router.navigate(['/tabs/shops']);
           }
         }
       ]

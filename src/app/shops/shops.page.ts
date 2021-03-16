@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
-import { HomePopoverComponent } from './home-popover/home-popover.component';
+import { ShopsPopoverComponent } from './shops-popover/shops-popover.component';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { Storage } from '@ionic/storage';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
@@ -8,11 +8,11 @@ import { Router } from '@angular/router';
 
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss']
+  selector: 'app-shops',
+  templateUrl: 'shops.page.html',
+  styleUrls: ['shops.page.scss']
 })
-export class HomePage{
+export class ShopsPage{
   listVisualization: boolean;
   searchBar : any;
   shops = [];
@@ -53,7 +53,7 @@ export class HomePage{
   }
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
-      component: HomePopoverComponent,
+      component: ShopsPopoverComponent,
       componentProps: { vis: this.listVisualization },
       event: ev,
       translucent: true,
@@ -73,7 +73,7 @@ export class HomePage{
   addShop() {
     this.exService.addShop();
     let lastElIndex = this.exService.numOfShops-1
-    this.router.navigate(['/tabs/home/shop-editor/' + lastElIndex]);
+    this.router.navigate(['/tabs/shops/shop-editor/' + lastElIndex]);
   }
   findShop() {
     let searchList: any;
