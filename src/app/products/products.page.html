@@ -3,9 +3,21 @@
     <ion-title>
       Products
     </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
+  <ion-list lines="none">
+    <ion-item *ngFor="let prod of products; let i = index">
+      <ion-avatar slot="start"><img [src]="prod.value.imgs[0]"></ion-avatar>
+      <ion-label>{{prod.value.name}}</ion-label>
+      <ion-badge color="secondary"></ion-badge>
+    </ion-item>
+  </ion-list>
 </ion-content>

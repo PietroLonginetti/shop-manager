@@ -16,12 +16,12 @@ export class ShopPage implements OnInit {
   weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   constructor(private activatedRoute: ActivatedRoute, private navCtrl: NavController,
-    private exService: ShopDataExchangeService, private popoverController: PopoverController,
+    private shopService: ShopDataExchangeService, private popoverController: PopoverController,
     private callNumber: CallNumber) {
   }
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.exService.getShop(this.id).subscribe(shop => {this.shop = shop})
+    this.shopService.getShop(this.id).subscribe(shop => {this.shop = shop})
   }
 
   goBack(): void {

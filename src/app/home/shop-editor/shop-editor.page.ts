@@ -23,10 +23,10 @@ export class ShopEditorPage implements OnInit {
   modifications = null;
   formCtrl: FormGroup;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private exService: ShopDataExchangeService,
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private shopService: ShopDataExchangeService,
     private alertController: AlertController, private animationCtrl: AnimationController) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.exService.getShop(this.id).subscribe(shop => { this.shop = shop });
+    this.shopService.getShop(this.id).subscribe(shop => { this.shop = shop });
     this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
   }
   ngOnInit() {
@@ -58,7 +58,7 @@ export class ShopEditorPage implements OnInit {
             {
               text: 'Yes',
               handler: () => {
-                this.exService.modifyShop(this.modifications, this.id);
+                this.shopService.modifyShop(this.modifications, this.id);
                 this.router.navigate(['/tabs/home/shop/' + this.id]);
               }
             }
@@ -121,7 +121,7 @@ export class ShopEditorPage implements OnInit {
         {
           text: 'Yes',
           handler: () => {
-            this.exService.deleteShop(this.id);
+            this.shopService.deleteShop(this.id);
             this.router.navigate(['/tabs/home']);
           }
         }

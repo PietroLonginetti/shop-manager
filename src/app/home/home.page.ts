@@ -13,15 +13,15 @@ import { Router } from '@angular/router';
   styleUrls: ['home.page.scss']
 })
 export class HomePage{
+  shops = [];
   listVisualization: boolean;
   searchBar : any;
-  shops = [];
   cards: any;
   list: any;
 
   constructor(public popoverController: PopoverController, private callNumber : CallNumber, 
-    private storage: Storage, private exService: ShopDataExchangeService, private router: Router) {
-      this.shops = this.exService.shops;
+    private storage: Storage, private shopService: ShopDataExchangeService, private router: Router) {
+      this.shops = this.shopService.shops;
   }
   ngOnInit(): void {
     this.searchBar = document.getElementsByTagName('ion-searchbar')[0]
@@ -71,8 +71,8 @@ export class HomePage{
     return await popover.present();
   }
   addShop() {
-    this.exService.addShop();
-    let lastElIndex = this.exService.numOfShops-1
+    this.shopService.addShop();
+    let lastElIndex = this.shopService.numOfShops-1;
     this.router.navigate(['/tabs/home/shop-editor/' + lastElIndex]);
   }
   findShop() {
@@ -117,6 +117,7 @@ export class HomePage{
     return open;
   }
   callShop(ev: MouseEvent, i: number){
+    ev.preventDefault();
     ev.stopPropagation();
     this.callNumber.callNumber(this.shops[i].value.telephone, true)
       .then(res => console.log('calling shop ' + i))
