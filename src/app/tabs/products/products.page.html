@@ -1,23 +1,48 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
+    <ion-title *ngIf="!isSearchBarOpened">
       Products
     </ion-title>
 
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="!isSearchBarOpened">
+      <ion-button (click)="this.isSearchBarOpened = true; setFocus()">
+        <ion-icon name="search"></ion-icon>
+      </ion-button>
       <ion-button>
-        <ion-icon name="add"></ion-icon>
+        <ion-icon name="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
+
+    <div id="search-container" *ngIf="isSearchBarOpened">
+      <ion-searchbar id="prod-searchbar" (ionInput)="findProductByKeyWord()" animated="true" 
+        showCancelButton="true" (ionCancel)="this.isSearchBarOpened = false" placeholder="Find your product!">
+      </ion-searchbar>
+      <ion-button color="success" style="margin: 0 8px; height: 42px;">
+        <ion-icon name="qr-code-sharp"></ion-icon>
+      </ion-button>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-list lines="none">
-    <ion-item *ngFor="let prod of products; let i = index">
+<ion-content [fullscreen]="true" scrollEvents="true" [appHideFooter]="add" [hideSpeed]="1">
+  <ion-item color="primary">
+    <ion-label>Filter by shop:</ion-label>
+    <ion-select multiple="true" (ionChange)="filterProducts($event)">
+      <ion-select-option *ngFor="let shopOb of this.shops" [value]="shopOb.value.id">{{shopOb.value.name}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-list id="prod-list" lines="none">
+    <ion-item id="prod-{{i}}" *ngFor="let prod of products; let i = index" class="active">
       <ion-avatar slot="start"><img [src]="prod.value.imgs[0]"></ion-avatar>
       <ion-label>{{prod.value.name}}</ion-label>
-      <ion-badge color="secondary"></ion-badge>
+      <ion-badge color="medium">{{calculateTotalPieces(prod.value)}}</ion-badge>
     </ion-item>
   </ion-list>
+
+  <ion-fab #add vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button mini>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

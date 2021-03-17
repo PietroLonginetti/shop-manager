@@ -13,7 +13,7 @@ import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/sho
 export class ShopEditorComponent implements OnInit {
   @HostListener('document:ionBackButton', ['$event'])
   async overrideHardwareBackAction($event: any) {
-    await this.discardAlert()
+    await this.discardAlert();
   }
   @ViewChild(WeekSchedulerComponent) ws: WeekSchedulerComponent;
   shop = null;

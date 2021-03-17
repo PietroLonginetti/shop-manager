@@ -1,0 +1,33 @@
+
+#search-container{
+    display: flex; 
+    flex-wrap: nowrap; 
+    align-items: center;
+}
+#search-container{
+    animation: fade-in 0.2s ease-in;
+}
+@keyframes fade-in{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+.active{
+    height: 100%;
+    opacity: 1;
+    transition: height 0.2s linear, opacity 0.2s ease-in;
+}
+.inactive{
+    height: 0px;
+    opacity: 0;
+    transition: height 0.2s linear, opacity 0.2s ease-out;
+}
+ion-fab-button[mini] {
+    width: 40px;
+    height: 40px;
+    margin: 8px;
+    line-height: 8px;
+}

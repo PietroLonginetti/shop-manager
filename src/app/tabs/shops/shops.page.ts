@@ -79,12 +79,12 @@ export class ShopsPage{
   }
   setFocus(){
     setTimeout(()=>{
-      this.searchBar = document.getElementById('searchbar');
+      this.searchBar = document.getElementById('shop-searchbar');
       this.searchBar.setFocus();
     })
   }
   findShop() {
-    this.searchBar = document.getElementById('searchbar');
+    this.searchBar = document.getElementById('shop-searchbar');
     let searchList: any;
     if (this.visualization === 'cards')
       searchList = [...this.cards.children];

@@ -4,16 +4,16 @@
       Shops
     </ion-title>
 
-    <ion-buttons slot="end">
-      <ion-button *ngIf="!isSearchBarOpened" (click)="this.isSearchBarOpened = true; setFocus()">
+    <ion-buttons slot="end" *ngIf="!isSearchBarOpened">
+      <ion-button (click)="this.isSearchBarOpened = true; setFocus()">
         <ion-icon name="search"></ion-icon>
       </ion-button>
-      <ion-button *ngIf="!isSearchBarOpened" (click)="presentPopover($event)">
+      <ion-button (click)="presentPopover($event)">
         <ion-icon name="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
 
-    <ion-searchbar id="searchbar" *ngIf="isSearchBarOpened" animated="true" (ionInput)="findShop()" showCancelButton="true" 
+    <ion-searchbar id="shop-searchbar" *ngIf="isSearchBarOpened" animated="true" (ionInput)="findShop()" showCancelButton="true" 
     (ionCancel)="this.isSearchBarOpened = false" placeholder="Find your shop!">
     </ion-searchbar>
 
@@ -31,7 +31,7 @@
   </ion-segment>
 
   <ion-fab #add vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button (click)="addShop()">
+    <ion-fab-button mini (click)="addShop()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

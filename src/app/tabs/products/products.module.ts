@@ -6,12 +6,15 @@ import { FormsModule } from '@angular/forms';
 import { ProductsPage } from './products.page';
 import { ProductsPageRoutingModule } from './products-routing.module';
 
+import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module'
+
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    ProductsPageRoutingModule
+    ProductsPageRoutingModule,
+    SharedDirectivesModule
   ],
   declarations: [ProductsPage]
 })

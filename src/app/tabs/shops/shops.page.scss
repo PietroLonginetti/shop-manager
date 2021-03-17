@@ -3,10 +3,9 @@ ion-card-content{
     align-items: center;
     justify-content: space-between;
 }
-#searchbar{
+#shop-searchbar{
     position: absolute;
     top: 4px;
-    z-index: 10;
     animation: fade-in 0.2s ease-in;
 }
 @keyframes fade-in{
@@ -43,4 +42,11 @@ ion-card-content{
     height: 0px;
     opacity: 0;
     transition: height 0.2s linear, opacity 0.2s ease-out;
+}
+
+ion-fab-button[mini] {
+    width: 40px;
+    height: 40px;
+    margin: 8px;
+    line-height: 8px;
 }

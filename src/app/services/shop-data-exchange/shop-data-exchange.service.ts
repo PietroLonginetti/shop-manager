@@ -7,6 +7,7 @@ import { BehaviorSubject, of } from 'rxjs';
 export class ShopDataExchangeService {
   private _shops = [
     new BehaviorSubject<Object>({
+      id: 0,
       MBLink: '',
       name: 'Good shop',
       imgs: ['https://placeimg.com/360/150', 'https://placeimg.com/360/150/any'],
@@ -43,6 +44,7 @@ export class ShopDataExchangeService {
       automations: { music: false, heating: false }
     }),
     new BehaviorSubject<Object>({
+      id: 1,
       MBLink: '',
       name: 'The best shop',
       imgs: ['https://placeimg.com/360/150/any/any/any', 'https://placeimg.com/360/150/any/any'],
@@ -82,6 +84,7 @@ export class ShopDataExchangeService {
 
   public addShop(){
     this._shops.push(new BehaviorSubject<Object>({
+      id: this.shops.length,
       MBLink: '',
       name: '',
       imgs: [],
