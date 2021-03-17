@@ -14,7 +14,9 @@ const routes: Routes = [
     component: ShopDetailsComponent
   },
   {
-    path: 'shop-editor/:id',
+    path: 'shop-editor/:id/:mode',
+    // id: shop identifier, 
+    // mode: mode of shop data editing. Accepted values: ['create', 'edit']
     component: ShopEditorComponent
   }
 ];
@@ -23,4 +25,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ShopsPageRoutingModule {}
+export class ShopsPageRoutingModule { }

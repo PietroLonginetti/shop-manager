@@ -29,11 +29,16 @@ export class ShopsPage{
 
     this.storage.get('visualization')
     .then(res => {
-      if(!res){
-        this.storage.set('visualization' , 'cards');
+      if(res == null){
+        this.storage.set('visualization' , 'cards')
+          .then((res) => {
+            console.log('Visualizzazione a ' + res);
+            this.visualization = res;
+          });
+      } else {
+        console.log('Visualizzazione a ' + res);
+        this.visualization = res;
       }
-      console.log('Visualizzazione a ' + res);
-      this.visualization = res;
     })
     .catch(() => {
       console.error('No visualization variable found in storage')
@@ -54,7 +59,6 @@ export class ShopsPage{
     
   }
   toggleVis(ev){
-    console.log(ev.target.value)
     this.storage.set('visualization', ev.target.value);
     this.visualization = ev.target.value;
     this.updateVis();
@@ -71,7 +75,7 @@ export class ShopsPage{
   addShop() {
     this.shopService.addShop();
     let lastElIndex = this.shopService.numOfShops-1;
-    this.router.navigate(['/tabs/shops/shop-editor/' + lastElIndex]);
+    this.router.navigate(['/tabs/shops/shop-editor/' + lastElIndex + '/create']);
   }
   setFocus(){
     setTimeout(()=>{
@@ -111,8 +115,10 @@ export class ShopsPage{
     let open: boolean = false;
     this.shops[i].value.hours[day].forEach(turn => {
       let fromHour:number, toHour:number, fromMinutes:number, toMinutes:number;
-      [fromHour, fromMinutes] = turn.from.split(':').map(x => parseInt(x));
-      [toHour, toMinutes] = turn.to.split(':').map(x => parseInt(x));
+      fromHour = parseInt(turn.from.slice(turn.from.indexOf('T') + 1, turn.from.indexOf(':')));
+      toHour = parseInt(turn.to.slice(turn.from.indexOf('T') + 1, turn.to.indexOf(':')));
+      fromMinutes = parseInt(turn.from.slice(turn.from.indexOf(':') + 1, turn.from.indexOf(':') + 3));
+      toMinutes = parseInt(turn.to.slice(turn.from.indexOf(':') + 1, turn.to.indexOf(':') + 3));
       if(hour > fromHour && hour < toHour){
         open = true;
       } else if((hour === fromHour && minutes >= fromMinutes) || (hour === toHour && minutes <= toMinutes)){

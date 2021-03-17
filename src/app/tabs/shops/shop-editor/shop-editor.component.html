@@ -83,7 +83,7 @@
     </div>
   </ion-toolbar>
 
-  <ion-button (click)="deleteAlert()" expand="full" fill="solid" color="danger" style="margin: 1.5rem 0 0">Delete this
-    Shop</ion-button>
+  <ion-button *ngIf="mode === 'edit'" (click)="deleteAlert()" expand="full" fill="solid" color="danger" style="margin: 1.5rem 0 0">
+    Delete this shop</ion-button>
 
 </ion-content>

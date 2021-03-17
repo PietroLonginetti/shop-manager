@@ -18,6 +18,7 @@ export class ShopEditorComponent implements OnInit {
   @ViewChild(WeekSchedulerComponent) ws: WeekSchedulerComponent;
   shop = null;
   id = null;
+  mode = null;
   modified: boolean = false;
   emptyTurn: any = null;
   modifications = null;
@@ -26,6 +27,7 @@ export class ShopEditorComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private shopService: ShopDataExchangeService,
     private alertController: AlertController, private animationCtrl: AnimationController, private toast: ToastController) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
     this.shopService.getShop(this.id).subscribe(shop => { this.shop = shop });
     this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
   }
@@ -75,7 +77,13 @@ export class ShopEditorComponent implements OnInit {
         message: 'Some data seem incorrect. Please, verify your input data before proceeding.',
         buttons: [
           {
-            text: 'Ok'
+            text: 'Ok',
+            handler: () => {
+              let forms = document.getElementsByTagName('form')
+              for(let i = 0; i < forms.length; i++){
+                this.validateInput(forms[i].childNodes[0].childNodes[0], Object.keys(this.formCtrl.value)[i])
+              }
+            }
           }
         ]
       })
@@ -83,28 +91,37 @@ export class ShopEditorComponent implements OnInit {
     }
   }
   async discardAlert() {
-    if (this.modified) {
-      const alert = await this.alertController.create({
-        backdropDismiss: false,
-        header: 'Attention!',
-        message: 'Do you really want discard those changes? All your changes will be lost.',
-        buttons: [
-          {
-            text: 'Cancel'
-          },
-          {
-            text: 'Yes',
-            handler: () => {
-              this.alertController.getTop().then(res => { console.log(res) })
-              this.router.navigate(['/tabs/shops/shop/' + this.id]);
-            }
-          }
-        ]
-      })
-      await alert.present();
-    }
-    else {
-      this.router.navigate(['/tabs/shops/shop/' + this.id]);
+    switch (this.mode) {
+      case 'create':
+        this.shopService.deleteShop(this.id);
+        this.router.navigate(['/tabs/shops']);
+        break;
+
+      case 'edit':
+        if (this.modified) {
+          const alert = await this.alertController.create({
+            backdropDismiss: false,
+            header: 'Attention!',
+            message: 'Do you really want discard those changes? All your changes will be lost.',
+            buttons: [
+              {
+                text: 'Cancel'
+              },
+              {
+                text: 'Yes',
+                handler: () => {
+                  this.alertController.getTop().then(res => { console.log(res) })
+                  this.router.navigate(['/tabs/shops/shop/' + this.id]);
+                }
+              }
+            ]
+          })
+          await alert.present();
+        }
+        else {
+          this.router.navigate(['/tabs/shops/shop/' + this.id]);
+        }
+        break;
     }
   }
   async deleteAlert() {
@@ -127,10 +144,10 @@ export class ShopEditorComponent implements OnInit {
     })
     await alert.present();
   }
-  async presentToast(){
+  async presentToast() {
     const toast = await this.toast.create({
       message: "Your images have been reordered.",
-      duration: 1000
+      duration: 1500
     });
     toast.present()
   }
@@ -166,7 +183,7 @@ export class ShopEditorComponent implements OnInit {
       .play()
     this.modifications.imgs.splice(imgId, 1);
   }
-  reorderImgs(ev){
+  reorderImgs(ev) {
     this.modified = true;
     const imgToMove = this.modifications.imgs.splice(ev.detail.from, 1)[0];
     this.modifications.imgs.splice(ev.detail.to, 0, imgToMove);
