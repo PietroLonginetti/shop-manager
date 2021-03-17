@@ -6,6 +6,7 @@ import { DomController } from '@ionic/angular';
 })
 export class HideFooterDirective {
   @Input('appHideFooter') footer: any;
+  @Input('hideSpeed') scale: number = 1;
 
   constructor(private render: Renderer2, private domCtrl: DomController) { }
 
@@ -15,11 +16,11 @@ export class HideFooterDirective {
 
   @HostListener('ionScroll', ['$event']) onContentScroll($event){
     const scrollTop = $event.detail.scrollTop;
-    let newPosition = -(scrollTop / 2);
-    let newOpacity = 1-(scrollTop / 150);
+    let newPosition = (scrollTop * this.scale);
+    let newOpacity = 1-(scrollTop / 100);
 
     this.domCtrl.write(()=>{
-      this.render.setStyle(this.footer, 'bottom', `${newPosition}px`);
+      this.render.setStyle(this.footer, 'transform', `translateY(${newPosition}px)`);
       this.render.setStyle(this.footer, 'opacity', newOpacity);
     })
   }

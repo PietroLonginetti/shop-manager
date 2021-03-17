@@ -3,6 +3,20 @@ ion-card-content{
     align-items: center;
     justify-content: space-between;
 }
+#searchbar{
+    position: absolute;
+    top: 4px;
+    z-index: 10;
+    animation: fade-in 0.2s ease-in;
+}
+@keyframes fade-in{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
 .card-open{
     color: rgba(124, 124, 124, 0.863); 
     font-size: 12px; 
@@ -23,10 +37,10 @@ ion-card-content{
 .active{
     height: 100%;
     opacity: 1;
-    transition: height 0.2s linear, opacity 0.2s linear;
+    transition: height 0.2s linear, opacity 0.2s ease-in;
 }
 .inactive{
     height: 0px;
     opacity: 0;
-    transition: height 0.2s linear, opacity 0.2s linear;
+    transition: height 0.2s linear, opacity 0.2s ease-out;
 }

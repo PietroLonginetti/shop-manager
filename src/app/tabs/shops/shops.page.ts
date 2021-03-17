@@ -6,14 +6,14 @@ import { Storage } from '@ionic/storage';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-shops',
   templateUrl: 'shops.page.html',
   styleUrls: ['shops.page.scss']
 })
 export class ShopsPage{
-  listVisualization: boolean;
+  visualization: string;
+  isSearchBarOpened: boolean = false;
   searchBar : any;
   shops = []
   cards: any;
@@ -24,50 +24,46 @@ export class ShopsPage{
       this.shops = this.shopService.shops;
   }
   ngOnInit(): void {
-    this.searchBar = document.getElementsByTagName('ion-searchbar')[0]
+    
     this.cards = document.getElementById('shop-cards');
     this.list = document.getElementById('shop-list');
 
-    this.storage.get('listVis')
+    this.storage.get('visualization')
     .then(res => {
-      console.log('Visualizzazione a ' + (res?'lista':'carte'));
-      this.listVisualization = res;
+      console.log('Visualizzazione a ' + res);
+      this.visualization = res;
     })
     .catch(() => {
-      console.error('No listVis variable found in storage')
-      this.storage.set('listVis' , false);
-      this.listVisualization = false;
+      console.error('No visualization variable found in storage')
+      this.storage.set('visualization' , 'cards');
+      this.visualization = 'cards';
     })
     .finally(() => this.updateVis());
   }
 
-  private updateVis(): void {
-    if (!this.listVisualization) {
+  private updateVis() {
+    if (this.visualization === 'cards') {
       this.cards.classList.replace('inactive','active')
       this.list.classList.replace('active','inactive')
-    } else if (this.listVisualization) {
+    } else if (this.visualization === 'list') {
       this.cards.classList.replace('active','inactive')
       this.list.classList.replace('inactive','active')
     }
     
   }
+  toggleVis(ev){
+    console.log(ev.target.value)
+    this.storage.set('visualization', ev.target.value);
+    this.visualization = ev.target.value;
+    this.updateVis();
+  }
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: ShopsPopoverComponent,
-      componentProps: { vis: this.listVisualization },
+      componentProps: { vis: this.visualization },
       event: ev,
       translucent: true,
     });
-    popover.onDidDismiss().then(res => {
-      if (res.data === undefined || res.data === null) { }
-      else if (this.listVisualization!= res.data) {
-        this.storage.set('listVis', res.data);
-        this.listVisualization = res.data;
-        this.searchBar.value = '';
-        this.findShop();
-        this.updateVis();
-      }
-    })
     return await popover.present();
   }
   addShop() {
@@ -75,18 +71,25 @@ export class ShopsPage{
     let lastElIndex = this.shopService.numOfShops-1;
     this.router.navigate(['/tabs/shops/shop-editor/' + lastElIndex]);
   }
+  setFocus(){
+    setTimeout(()=>{
+      this.searchBar = document.getElementById('searchbar');
+      this.searchBar.setFocus();
+    })
+  }
   findShop() {
+    this.searchBar = document.getElementById('searchbar');
     let searchList: any;
-    if (!this.listVisualization)
+    if (this.visualization === 'cards')
       searchList = [...this.cards.children];
-    else if (this.listVisualization)
+    else if (this.visualization === 'list')
       searchList = [...this.list.children];
     const text = this.searchBar.value.toLowerCase();
 
     requestAnimationFrame(() => {
       searchList.forEach(item => {
         let shouldShow = item.children[1];
-        if(!this.listVisualization){
+        if(this.visualization === 'cards'){
           shouldShow = shouldShow.children[0];
         } shouldShow = shouldShow.textContent.toLowerCase().indexOf(text) > -1;
         if(shouldShow){

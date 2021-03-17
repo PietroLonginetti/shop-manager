@@ -1,24 +1,22 @@
 <ion-header>
   <ion-grid style="padding: 5px 15px">
-    <ion-row style="align-items: center;">
-      <ion-col size="2">Name:</ion-col>
-      <ion-col size="7">
+    <ion-row style="align-items: center; flex-wrap: nowrap; justify-content: space-between;">
+      <div style="display: flex; align-items: center; max-width: 65%;">
+        <span style="margin: 0 1rem 0 5px;">Name:</span>
         <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'name')">
           <ion-input formControlName="name" type="text" (ionInput)="this.modified = true"
             placeholder="Insert shop name">
           </ion-input>
         </form>
-      </ion-col>
-      <ion-col size="3">
-        <ion-buttons>
-          <ion-button id="discard-btn" (click)="discardAlert()">
-            <ion-icon name="close" color="danger" style="font-size: x-large;"></ion-icon>
-          </ion-button>
-          <ion-button (click)="confirmAlert()">
-            <ion-icon name="checkmark" color="primary" style="font-size: x-large;"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-col>
+      </div>
+      <ion-buttons>
+        <ion-button id="discard-btn" (click)="discardAlert()">
+          <ion-icon name="close" color="danger" style="font-size: x-large;"></ion-icon>
+        </ion-button>
+        <ion-button (click)="confirmAlert()">
+          <ion-icon name="checkmark" color="primary" style="font-size: x-large;"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-row>
   </ion-grid>
 </ion-header>

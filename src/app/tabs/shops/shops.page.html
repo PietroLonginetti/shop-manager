@@ -1,28 +1,43 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
+    <ion-title *ngIf="!isSearchBarOpened">
       Shops
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-button (click)="addShop()">
-        <ion-icon name="add"></ion-icon>
+      <ion-button *ngIf="!isSearchBarOpened" (click)="this.isSearchBarOpened = true; setFocus()">
+        <ion-icon name="search"></ion-icon>
       </ion-button>
-      <ion-button (click)="presentPopover($event)">
+      <ion-button *ngIf="!isSearchBarOpened" (click)="presentPopover($event)">
         <ion-icon name="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
 
+    <ion-searchbar id="searchbar" *ngIf="isSearchBarOpened" animated="true" (ionInput)="findShop()" showCancelButton="true" 
+    (ionCancel)="this.isSearchBarOpened = false" placeholder="Find your shop!">
+    </ion-searchbar>
+
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <div id="container">
-    <ion-toolbar>
-      <ion-searchbar (ionChange)="findShop()" placeholder="Find your shop!" style="padding-bottom: 0;">
-      </ion-searchbar>
-    </ion-toolbar>
+<ion-content [fullscreen]="true" scrollEvents="true" [appHideFooter]="add" [hideSpeed]="1">
+  <ion-segment (ionChange)="toggleVis($event)" [value]="this.visualization">
+    <ion-segment-button value="cards">
+      <ion-icon name="albums-sharp"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button value="list">
+      <ion-icon name="list-sharp"></ion-icon>
+    </ion-segment-button>
+  </ion-segment>
 
+  <ion-fab #add vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="addShop()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
+  <div id="container">
     <div class="inactive" id="shop-cards">
       <ion-card class="active" *ngFor="let shop of shops; let i = index;" routerLink="shop/{{i}}" routerDirection="forward">
         <img [src]="shop.value.imgs[0]">

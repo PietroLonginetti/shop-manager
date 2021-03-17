@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShopsPage } from './shops.page';
 
 import { ShopsPageRoutingModule } from './shops-routing.module';
+import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module'
 
 import { ShopsPopoverComponent } from './shops-popover/shops-popover.component';
 import { ShopDetailsComponent } from './shop-details/shop-details.component'
@@ -17,7 +18,8 @@ import { WeekSchedulerComponent } from 'src/app/tabs/shops/shop-editor/week-sche
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ShopsPageRoutingModule
+    ShopsPageRoutingModule,
+    SharedDirectivesModule
   ],
   entryComponents: [ShopsPopoverComponent],
   declarations: [
