@@ -24,12 +24,14 @@ export class ShopsPage{
       this.shops = this.shopService.shops;
   }
   ngOnInit(): void {
-    
     this.cards = document.getElementById('shop-cards');
     this.list = document.getElementById('shop-list');
 
     this.storage.get('visualization')
     .then(res => {
+      if(!res){
+        this.storage.set('visualization' , 'cards');
+      }
       console.log('Visualizzazione a ' + res);
       this.visualization = res;
     })
