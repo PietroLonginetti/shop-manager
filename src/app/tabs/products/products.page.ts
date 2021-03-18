@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import { PopoverController } from '@ionic/angular';
 import { ProductDataExchangeService } from 'src/app/services/product-data-exchange/product-data-exchange.service';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
@@ -18,7 +19,7 @@ export class ProductsPage {
   shopIds: number[] = []
 
   constructor(private productService: ProductDataExchangeService, private shopService: ShopDataExchangeService,
-    private popoverController: PopoverController) {
+    private popoverController: PopoverController, private qrScanner: QRScanner) {
     this.shops = this.shopService.shops;
     this.products = this.productService.products;
     this.fProducts = this.filterProducts()
@@ -83,5 +84,10 @@ export class ProductsPage {
       translucent: true,
     });
     return popover.present();
+  }
+
+  //QrScanner
+  launchQRScanner(){
+    this.qrScanner.prepare()
   }
 }

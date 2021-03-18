@@ -17,7 +17,7 @@
       <ion-searchbar id="prod-searchbar" (ionInput)="findProductByKeyWord()" animated="true" 
         showCancelButton="true" (ionCancel)="this.isSearchBarOpened = false" placeholder="Find your product!">
       </ion-searchbar>
-      <ion-button color="success" style="margin: 0 8px; height: 42px;">
+      <ion-button (click)="launchQRScanner()" color="success" style="margin: 0 8px; height: 42px;">
         <ion-icon name="qr-code-sharp"></ion-icon>
       </ion-button>
     </div>
