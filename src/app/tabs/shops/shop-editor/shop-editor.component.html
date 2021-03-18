@@ -1,24 +1,26 @@
 <ion-header>
-  <ion-grid style="padding: 5px 15px">
-    <ion-row style="align-items: center; flex-wrap: nowrap; justify-content: space-between;">
-      <div style="display: flex; align-items: center; max-width: 65%;">
-        <span style="margin: 0 1rem 0 5px;">Name:</span>
-        <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'name')">
-          <ion-input formControlName="name" type="text" (ionInput)="this.modified = true"
-            placeholder="Insert shop name">
-          </ion-input>
-        </form>
-      </div>
-      <ion-buttons>
-        <ion-button id="discard-btn" (click)="discardAlert()">
-          <ion-icon name="close" color="danger" style="font-size: x-large;"></ion-icon>
-        </ion-button>
-        <ion-button (click)="confirmAlert()">
-          <ion-icon name="checkmark" color="primary" style="font-size: x-large;"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-row>
-  </ion-grid>
+  <ion-toolbar>
+    <ion-grid style="padding: 5px 15px">
+      <ion-row style="align-items: center; flex-wrap: nowrap; justify-content: space-between;">
+        <div style="display: flex; align-items: center; max-width: 65%;">
+          <span style="margin: 0 1rem 0 5px;">Name:</span>
+          <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'name')">
+            <ion-input formControlName="name" type="text" (ionInput)="this.modified = true"
+              placeholder="Insert shop name">
+            </ion-input>
+          </form>
+        </div>
+        <ion-buttons>
+          <ion-button id="discard-btn" (click)="discardAlert()">
+            <ion-icon name="close" color="danger" style="font-size: x-large;"></ion-icon>
+          </ion-button>
+          <ion-button (click)="confirmAlert()">
+            <ion-icon name="checkmark" color="primary" style="font-size: x-large;"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
 </ion-header>
 
 
@@ -83,7 +85,8 @@
     </div>
   </ion-toolbar>
 
-  <ion-button *ngIf="mode === 'edit'" (click)="deleteAlert()" expand="full" fill="solid" color="danger" style="margin: 1.5rem 0 0">
+  <ion-button *ngIf="mode === 'edit'" (click)="deleteAlert()" expand="full" fill="solid" color="danger"
+    style="margin: 1.5rem 0 0">
     Delete this shop</ion-button>
 
 </ion-content>

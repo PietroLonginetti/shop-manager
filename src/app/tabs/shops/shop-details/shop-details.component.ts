@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavController, PopoverController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 import { ShopPopoverComponent } from './shop-popover/shop-popover.component';
 import { CallNumber } from '@ionic-native/call-number/ngx';
@@ -11,22 +11,18 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
   styleUrls: ['./shop-details.component.scss'],
 })
 export class ShopDetailsComponent implements OnInit {
-  id = null;
+  id: number = null;
   shop = null;
   weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  constructor(private activatedRoute: ActivatedRoute, private navCtrl: NavController,
-    private shopService: ShopDataExchangeService, private popoverController: PopoverController,
-    private callNumber: CallNumber) {
+  constructor(private activatedRoute: ActivatedRoute ,private shopService: ShopDataExchangeService, 
+    private popoverController: PopoverController, private callNumber: CallNumber) {
   }
   ngOnInit() {
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
     this.shopService.getShop(this.id).subscribe(shop => {this.shop = shop})
   }
 
-  goBack(): void {
-    this.navCtrl.back();
-  }
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: ShopPopoverComponent,

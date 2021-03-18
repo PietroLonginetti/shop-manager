@@ -9,6 +9,7 @@ import { ProductsPageRoutingModule } from './products-routing.module';
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module'
 
 import { ProductsPopoverComponent } from './products-popover/products-popover.component'
+import { ProductDetailsComponent } from './product-details/product-details.component'
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { ProductsPopoverComponent } from './products-popover/products-popover.co
   ],
   declarations: [
     ProductsPage,
-    ProductsPopoverComponent
+    ProductsPopoverComponent,
+    ProductDetailsComponent
   ]
 })
 export class ProductsPageModule {}

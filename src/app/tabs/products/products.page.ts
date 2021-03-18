@@ -56,7 +56,6 @@ export class ProductsPage {
   }
   changeFilter(ev) {
     this.shopIds = ev.target.value;
-    console.log(this.shopIds)
     this.fProducts = this.filterProducts();
   }
   filterProducts(): any[] {

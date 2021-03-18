@@ -40,6 +40,9 @@ export class ProductDataExchangeService {
     })
   ]
 
+  public getProduct(i: number) {
+    return this._products[i].asObservable();
+  }
   get products(){
     return this._products;
   }
