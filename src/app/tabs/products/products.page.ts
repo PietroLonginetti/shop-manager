@@ -10,13 +10,18 @@ import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/sho
 export class ProductsPage {
   isSearchBarOpened: boolean = false;
   products = [];
+  fProducts = []
   shops = [];
-  filterByShop: number[];
   list: any;
+  shopIds: number[] = []
 
   constructor(private productService: ProductDataExchangeService, private shopService: ShopDataExchangeService) {
-    this.products = this.productService.products;
     this.shops = this.shopService.shops;
+    this.shops.forEach(sh => {
+      this.shopIds.push(sh.value.id)
+    })
+    this.products = this.productService.products;
+    this.fProducts = this.filterProducts()
   }
   ngOnInit() {
     this.list = document.getElementById('prod-list');
@@ -49,22 +54,22 @@ export class ProductsPage {
       }
     })
   }
-  filterProducts(ev) {
-    let shopIds = ev.target.value;
-    shopIds.forEach(shopId => {
-      console.log(shopId);
-      this.products.forEach(prod => {
-        prod = prod.value;
-        let isInShop = false;
-        prod.available.forEach(link => {
-          if(link.shop === shopId)
-            isInShop = true;
-        });
+  changeFilter(ev) {
+    this.shopIds = ev.target.value;
+    this.fProducts = this.filterProducts();
+  }
+  filterProducts(): any[] {
+    let fProducts = this.products.filter((prod)=>{
+      let isInshops = false;
+      this.shopIds.forEach(shopId => {
+        for(let i = 0; i < prod.value.available.length; i++){
+          if(prod.value.available[i].shop === shopId)
+          isInshops = true
+        }
       })
-    });
-
-    let prodHTML = this.list.children;
-
+      return isInshops
+    })
+    return fProducts;
   }
 
 }
