@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { QRScanner } from '@ionic-native/qr-scanner/ngx';
-import { PopoverController } from '@ionic/angular';
+import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
+import { Platform, PopoverController } from '@ionic/angular';
 import { ProductDataExchangeService } from 'src/app/services/product-data-exchange/product-data-exchange.service';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 import { ProductsPopoverComponent } from './products-popover/products-popover.component';
@@ -11,19 +12,36 @@ import { ProductsPopoverComponent } from './products-popover/products-popover.co
   styleUrls: ['products.page.scss']
 })
 export class ProductsPage {
+  @HostListener('document:ionBackButton', ['$event'])
+  async overrideHardwareBackAction($event: any) {
+    let body = document.getElementsByTagName('body')[0];
+    body.removeChild(this.wa);
+    body.style.display = 'block';
+    body.style.justifyContent = 'initial';
+    body.style.alignItems = 'initial';
+    document.getElementsByTagName('ion-app')[0].style.opacity = '1';
+    this.scanSub.unsubscribe();
+  }
   isSearchBarOpened: boolean = false;
   products = [];
   fProducts = []
   shops = [];
   list: any;
   shopIds: number[] = []
+  scanSub: any;
+  wa: any;
 
   constructor(private productService: ProductDataExchangeService, private shopService: ShopDataExchangeService,
-    private popoverController: PopoverController, private qrScanner: QRScanner) {
+    private popoverController: PopoverController, private qrScanner: QRScanner, public router: Router) {
     this.shops = this.shopService.shops;
     this.products = this.productService.products;
-    this.fProducts = this.filterProducts()
+    this.fProducts = this.filterProducts();
+
+    this.wa = document.createElement('IMG');
+    this.wa.setAttribute('src', '../assets/img/qr-watermark.png');
+    this.wa.style.width = '50%';
   }
+
   ngOnInit() {
     this.list = document.getElementById('prod-list');
   }
@@ -36,10 +54,17 @@ export class ProductsPage {
     return tot;
   }
   setFocus() {
+    this.isSearchBarOpened = true;
     setTimeout(() => {
       let searchBar: any = document.getElementById('prod-searchbar');
       searchBar.setFocus();
     })
+  }
+  closeSearchBar(){
+    this.isSearchBarOpened = false;
+    let searchBar: any = document.getElementById('prod-searchbar');
+    searchBar.value = '';
+    this.findProductByKeyWord();
   }
   findProductByKeyWord() {
     let searchBar: any = document.getElementById('prod-searchbar');
@@ -89,5 +114,34 @@ export class ProductsPage {
   //QrScanner
   launchQRScanner(){
     this.qrScanner.prepare()
+      .then((status: QRScannerStatus) =>  {
+        if(status.authorized){
+          this.qrScanner.show();
+          
+          let body = document.getElementsByTagName('body')[0];
+          body.appendChild(this.wa);
+          body.style.display = 'flex';
+          body.style.justifyContent = 'center';
+          body.style.alignItems = 'center';
+          document.getElementsByTagName('ion-app')[0].style.opacity = '0';
+          
+          this.scanSub = this.qrScanner.scan().subscribe((id: string) => {
+            this.qrScanner.pausePreview();
+            this.router.navigate(['/tabs/products/product-details', id]);
+
+            body.removeChild(this.wa);
+            body.style.display = 'block';
+            body.style.justifyContent = 'initial';
+            body.style.alignItems = 'initial';
+            document.getElementsByTagName('ion-app')[0].style.opacity = '1';
+            this.qrScanner.hide();
+            this.scanSub.unsubscribe();
+          })
+        } else if(status.denied){
+          // Camera permission was permanently denied.
+        } else {
+          // permission was denied, but not permanently.
+        }
+      })
   }
 }

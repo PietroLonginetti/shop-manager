@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { ProductDataExchangeService } from 'src/app/services/product-data-exchange/product-data-exchange.service';
 
@@ -13,11 +13,16 @@ export class ProductDetailsComponent implements OnInit {
   product: any;
 
   constructor(private activatedRoute: ActivatedRoute, private productService: ProductDataExchangeService, 
-    private popoverController: PopoverController) { }
+    private popoverController: PopoverController, private router: Router) { 
+      this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
+      try {
+        this.productService.getProduct(this.id).subscribe(prod => {this.product = prod});
+      } catch (error) {
+        alert('This product does not exist.');
+        this.router.navigate(['/tabs/products'])
+      }
+    }
 
-  ngOnInit() {
-    this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.productService.getProduct(this.id).subscribe(prod => {this.product = prod});
-  }
+  ngOnInit() {}
 
 }

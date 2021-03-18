@@ -14,7 +14,7 @@
     </ion-buttons>
 
     <ion-searchbar id="shop-searchbar" *ngIf="isSearchBarOpened" animated="true" (ionInput)="findShop()" showCancelButton="true" 
-    (ionCancel)="this.isSearchBarOpened = false" placeholder="Find your shop!">
+    (ionCancel)="closeSearchBar()" placeholder="Find your shop!">
     </ion-searchbar>
 
   </ion-toolbar>

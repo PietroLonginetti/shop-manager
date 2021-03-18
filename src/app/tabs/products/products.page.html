@@ -5,7 +5,7 @@
     </ion-title>
 
     <ion-buttons slot="end" *ngIf="!isSearchBarOpened">
-      <ion-button (click)="this.isSearchBarOpened = true; setFocus()">
+      <ion-button (click)="setFocus()">
         <ion-icon name="search"></ion-icon>
       </ion-button>
       <ion-button (click)="presentPopover($event)">
@@ -14,8 +14,8 @@
     </ion-buttons>
 
     <div id="search-container" *ngIf="isSearchBarOpened">
-      <ion-searchbar id="prod-searchbar" (ionInput)="findProductByKeyWord()" animated="true" 
-        showCancelButton="true" (ionCancel)="this.isSearchBarOpened = false" placeholder="Find your product!">
+      <ion-searchbar id="prod-searchbar" (ionInput)="findProductByKeyWord()" animated="true" showCancelButton="true"
+       (ionCancel)="closeSearchBar()" placeholder="Find your product!">
       </ion-searchbar>
       <ion-button (click)="launchQRScanner()" color="success" style="margin: 0 8px; height: 42px;">
         <ion-icon name="qr-code-sharp"></ion-icon>
@@ -33,7 +33,7 @@
   </ion-item>
 
   <ion-list id="prod-list" lines="none">
-    <ion-item id="prod-{{i}}" class="active" *ngFor="let prod of fProducts; let i = index" routerLink="product/{{i}}">
+    <ion-item id="prod-{{i}}" class="active" *ngFor="let prod of fProducts; let i = index" routerLink="product-details/{{i}}">
       <ion-avatar slot="start"><img [src]="prod.value.imgs[0]"></ion-avatar>
       <ion-label>{{prod.value.name}}</ion-label>
       <ion-badge color="medium">{{calculateTotalPieces(prod.value)}}</ion-badge>

@@ -74,13 +74,19 @@ export class ShopsPage{
   addShop() {
     this.shopService.addShop();
     let lastElIndex = this.shopService.numOfShops-1;
-    this.router.navigate(['/tabs/shops/shop-editor/' + lastElIndex + '/create']);
+    this.router.navigate(['/tabs/shops/shop-editor', lastElIndex, 'create']);
   }
   setFocus(){
+    this.isSearchBarOpened = true;
     setTimeout(()=>{
       this.searchBar = document.getElementById('shop-searchbar');
       this.searchBar.setFocus();
     })
+  }
+  closeSearchBar(){
+    this.isSearchBarOpened = false;
+    this.searchBar.value = '';
+    this.findShop();
   }
   findShop() {
     this.searchBar = document.getElementById('shop-searchbar');
