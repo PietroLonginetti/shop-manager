@@ -26,14 +26,14 @@
 
 <ion-content [fullscreen]="true" scrollEvents="true" [appHideFooter]="add" [hideSpeed]="1">
   <ion-item color="primary">
-    <ion-label>Filter by shop:</ion-label>
+    <ion-label style="margin-left: 7px">FILTER:</ion-label>
     <ion-select multiple="true" (ionChange)="changeFilter($event)">
       <ion-select-option *ngFor="let shopOb of this.shops" [value]="shopOb.value.id">{{shopOb.value.name}}</ion-select-option>
     </ion-select>
   </ion-item>
 
   <ion-list id="prod-list" lines="none">
-    <ion-item id="prod-{{i}}" *ngFor="let prod of fProducts; let i = index" class="active">
+    <ion-item id="prod-{{i}}" class="active" *ngFor="let prod of fProducts; let i = index">
       <ion-avatar slot="start"><img [src]="prod.value.imgs[0]"></ion-avatar>
       <ion-label>{{prod.value.name}}</ion-label>
       <ion-badge color="medium">{{calculateTotalPieces(prod.value)}}</ion-badge>
