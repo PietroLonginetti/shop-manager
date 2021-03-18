@@ -19,7 +19,7 @@ export class ShopsPage{
   cards: any;
   list: any;
 
-  constructor(public popoverController: PopoverController, private callNumber : CallNumber, 
+  constructor(private popoverController: PopoverController, private callNumber : CallNumber, 
     private storage: Storage, private shopService: ShopDataExchangeService, private router: Router) {
       this.shops = this.shopService.shops;
   }
@@ -66,11 +66,10 @@ export class ShopsPage{
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: ShopsPopoverComponent,
-      componentProps: { vis: this.visualization },
       event: ev,
       translucent: true,
     });
-    return await popover.present();
+    return popover.present();
   }
   addShop() {
     this.shopService.addShop();

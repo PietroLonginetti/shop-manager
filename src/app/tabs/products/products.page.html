@@ -8,7 +8,7 @@
       <ion-button (click)="this.isSearchBarOpened = true; setFocus()">
         <ion-icon name="search"></ion-icon>
       </ion-button>
-      <ion-button>
+      <ion-button (click)="presentPopover($event)">
         <ion-icon name="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>

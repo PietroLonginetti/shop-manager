@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
 import { ProductDataExchangeService } from 'src/app/services/product-data-exchange/product-data-exchange.service';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
+import { ProductsPopoverComponent } from './products-popover/products-popover.component';
 
 @Component({
   selector: 'app-products',
@@ -15,11 +17,9 @@ export class ProductsPage {
   list: any;
   shopIds: number[] = []
 
-  constructor(private productService: ProductDataExchangeService, private shopService: ShopDataExchangeService) {
+  constructor(private productService: ProductDataExchangeService, private shopService: ShopDataExchangeService,
+    private popoverController: PopoverController) {
     this.shops = this.shopService.shops;
-    this.shops.forEach(sh => {
-      this.shopIds.push(sh.value.id)
-    })
     this.products = this.productService.products;
     this.fProducts = this.filterProducts()
   }
@@ -56,9 +56,13 @@ export class ProductsPage {
   }
   changeFilter(ev) {
     this.shopIds = ev.target.value;
+    console.log(this.shopIds)
     this.fProducts = this.filterProducts();
   }
   filterProducts(): any[] {
+    if(this.shopIds.length == 0){
+      return this.products;
+    }
     let fProducts = this.products.filter((prod)=>{
       let isInshops = false;
       this.shopIds.forEach(shopId => {
@@ -72,4 +76,13 @@ export class ProductsPage {
     return fProducts;
   }
 
+  // Popovers
+  async presentPopover(ev: any){
+    const popover = await this.popoverController.create({
+      component: ProductsPopoverComponent,
+      event: ev,
+      translucent: true,
+    });
+    return popover.present();
+  }
 }

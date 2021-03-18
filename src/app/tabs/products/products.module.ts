@@ -8,6 +8,8 @@ import { ProductsPageRoutingModule } from './products-routing.module';
 
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module'
 
+import { ProductsPopoverComponent } from './products-popover/products-popover.component'
+
 @NgModule({
   imports: [
     IonicModule,
@@ -16,6 +18,9 @@ import { SharedDirectivesModule } from 'src/app/directives/shared-directives.mod
     ProductsPageRoutingModule,
     SharedDirectivesModule
   ],
-  declarations: [ProductsPage]
+  declarations: [
+    ProductsPage,
+    ProductsPopoverComponent
+  ]
 })
 export class ProductsPageModule {}

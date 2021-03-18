@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavParams, PopoverController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-shops-popover',
@@ -9,9 +9,7 @@ import { AlertController, NavParams, PopoverController } from '@ionic/angular';
 export class ShopsPopoverComponent implements OnInit {
   visualization: string;
 
-  constructor(private popoverController: PopoverController, public alertController: AlertController, 
-    public navParams: NavParams) { 
-      this.visualization = this.navParams.get('vis');
+  constructor(private popoverController: PopoverController, public alertController: AlertController) { 
     }
 
   ngOnInit() {}
@@ -20,7 +18,7 @@ export class ShopsPopoverComponent implements OnInit {
     const alert = await this.alertController.create({
       backdropDismiss: false,
       header: 'What am I watching?',
-      message: 'In this section a list of all the shops managed by you is presented. You can interact with them by clicking on the tabs or search for them in the search bar. You can also add a new store by clicking a "plus" form in the top right.',
+      message: 'In this section a list of all the shops managed by you is presented. You can interact with them by clicking on the tabs or search for them in the search bar. You can also add a new store by clicking a "plus" form.',
       buttons: [{
         text: 'Ok',
         handler: () => this.popoverController.dismiss()
