@@ -1,0 +1,25 @@
+<ion-list lines="none">
+  <ion-radio-group [value]="current" (ionChange)="changeCurrency()">
+    <ion-list-header>
+      <ion-label>Select a currency:</ion-label>
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label>Euro</ion-label>
+      <ion-radio slot="start" value="EUR"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Dollar</ion-label>
+      <ion-radio slot="start" value="USD"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Japanese Yen</ion-label>
+      <ion-radio slot="start" value="JPY"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Sterling</ion-label>
+      <ion-radio slot="start" value="GBP"></ion-radio>
+    </ion-item>
+
+  </ion-radio-group>
+</ion-list>

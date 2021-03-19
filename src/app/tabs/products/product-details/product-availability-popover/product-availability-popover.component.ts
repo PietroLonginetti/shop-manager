@@ -3,11 +3,11 @@ import { NavParams, PopoverController } from '@ionic/angular';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 
 @Component({
-  selector: 'app-products-table-popover',
-  templateUrl: './products-table-popover.component.html',
-  styleUrls: ['./products-table-popover.component.scss'],
+  selector: 'app-product-availability-popover',
+  templateUrl: './product-availability-popover.component.html',
+  styleUrls: ['./product-availability-popover.component.scss'],
 })
-export class ProductsTablePopoverComponent implements OnInit {
+export class ProductAvailabilityPopoverComponent implements OnInit {
   shops: any;
   product: any;
 

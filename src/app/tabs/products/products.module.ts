@@ -10,7 +10,8 @@ import { SharedDirectivesModule } from 'src/app/directives/shared-directives.mod
 
 import { ProductsPopoverComponent } from './products-popover/products-popover.component'
 import { ProductDetailsPopoverComponent } from './product-details/product-details-popover/product-details-popover.component'
-import { ProductsTablePopoverComponent} from './product-details/products-table-popover/products-table-popover.component'
+import { ProductAvailabilityPopoverComponent} from './product-details/product-availability-popover/product-availability-popover.component'
+import { ProductCurrenciesPopoverComponent } from './product-details/product-currencies-popover/product-currencies-popover.component'
 import { ProductDetailsComponent } from './product-details/product-details.component'
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
     ProductsPage,
     ProductsPopoverComponent,
     ProductDetailsPopoverComponent,
-    ProductsTablePopoverComponent,
+    ProductAvailabilityPopoverComponent,
+    ProductCurrenciesPopoverComponent,
     ProductDetailsComponent
   ]
 })
