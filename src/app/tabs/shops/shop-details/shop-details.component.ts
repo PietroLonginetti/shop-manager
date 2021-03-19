@@ -20,7 +20,7 @@ export class ShopDetailsComponent implements OnInit {
   }
   ngOnInit() {
     this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.shopService.getShop(this.id).subscribe(shop => {this.shop = shop})
+    this.shopService.getShopById(this.id).subscribe(shop => {this.shop = shop})
   }
 
   async presentPopover(ev: any) {

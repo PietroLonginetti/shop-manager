@@ -28,13 +28,13 @@ export class ShopEditorComponent implements OnInit {
     private alertController: AlertController, private animationCtrl: AnimationController, private toast: ToastController) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
-    this.shopService.getShop(this.id).subscribe(shop => { this.shop = shop });
+    this.shopService.getShopById(this.id).subscribe(shop => { this.shop = shop });
     this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
   }
   ngOnInit() {
-    console.log('i alive');
     this.formCtrl = new FormGroup({
       name: new FormControl(`${this.modifications.name}`, [Validators.required, Validators.minLength(2)]),
+      id: new FormControl({value: `${this.modifications.id}`, disabled: true}),
       address: new FormControl(`${this.modifications.address}`, Validators.minLength(3)),
       telephone: new FormControl(`${this.modifications.telephone}`, [Validators.pattern('^[+][0-9]+$'), Validators.minLength(8)]),
       MBLink: new FormControl(`${this.modifications.MBLink}`, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'))
@@ -60,7 +60,7 @@ export class ShopEditorComponent implements OnInit {
               text: 'Yes',
               handler: () => {
                 this.shopService.modifyShop(this.modifications, this.id);
-                this.router.navigate(['/tabs/shops/shop/' + this.id]);
+                this.router.navigate(['/tabs/shops/shop-details/' + this.id]);
               }
             }
           ]
@@ -68,7 +68,7 @@ export class ShopEditorComponent implements OnInit {
         await alert.present();
       }
       else {
-        this.router.navigate(['/tabs/shops/shop/' + this.id]);
+        this.router.navigate(['/tabs/shops/shop-details/' + this.id]);
       }
     }
     else {
@@ -110,8 +110,7 @@ export class ShopEditorComponent implements OnInit {
               {
                 text: 'Yes',
                 handler: () => {
-                  this.alertController.getTop().then(res => { console.log(res) })
-                  this.router.navigate(['/tabs/shops/shop/' + this.id]);
+                  this.router.navigate(['/tabs/shops/shop-details/' + this.id]);
                 }
               }
             ]
@@ -119,7 +118,7 @@ export class ShopEditorComponent implements OnInit {
           await alert.present();
         }
         else {
-          this.router.navigate(['/tabs/shops/shop/' + this.id]);
+          this.router.navigate(['/tabs/shops/shop-details/' + this.id]);
         }
         break;
     }

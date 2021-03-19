@@ -32,11 +32,9 @@ export class ShopsPage{
       if(res == null){
         this.storage.set('visualization' , 'cards')
           .then((res) => {
-            console.log('Visualizzazione a ' + res);
             this.visualization = res;
           });
       } else {
-        console.log('Visualizzazione a ' + res);
         this.visualization = res;
       }
     })
@@ -74,7 +72,8 @@ export class ShopsPage{
   addShop() {
     this.shopService.addShop();
     let lastElIndex = this.shopService.numOfShops-1;
-    this.router.navigate(['/tabs/shops/shop-editor', lastElIndex, 'create']);
+    let newShopId = this.shops[lastElIndex].value.id;
+    this.router.navigate(['/tabs/shops/shop-editor', newShopId, 'create']);
   }
   setFocus(){
     this.isSearchBarOpened = true;

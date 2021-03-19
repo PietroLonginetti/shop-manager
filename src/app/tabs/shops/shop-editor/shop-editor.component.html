@@ -47,6 +47,15 @@
 
   <ion-grid class="main-grid">
     <ion-row>
+      <ion-col size="3">ID:</ion-col>
+      <ion-col size="9">
+        <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'id')">
+          <ion-input formControlName="id" type="text" (ionInput)="this.modified = true"
+            placeholder="Insert identificator"></ion-input>
+        </form>
+      </ion-col>
+    </ion-row>
+    <ion-row>
       <ion-col size="3">Address:</ion-col>
       <ion-col size="9">
         <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'address')">
@@ -65,7 +74,7 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="3" style="align-self: flex-start;"><span style="margin-top: 0.7rem;">Hours:</span></ion-col>
+      <ion-col size="3" style="align-self: flex-start;"><span style="margin-top: 0.5rem;">Hours:</span></ion-col>
       <ion-col size="9">
         <div style="width: 100%;">
           <app-week-scheduler [days]="modifications.hours" (dataChange)="this.modified=true">

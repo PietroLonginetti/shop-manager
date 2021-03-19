@@ -7,7 +7,7 @@ import { BehaviorSubject, of } from 'rxjs';
 export class ShopDataExchangeService {
   private _shops = [
     new BehaviorSubject<Object>({
-      id: 0,
+      id: 1,
       MBLink: '',
       name: 'Good shop',
       imgs: ['https://placeimg.com/360/150', 'https://placeimg.com/360/150/any'],
@@ -44,7 +44,7 @@ export class ShopDataExchangeService {
       automations: { music: false, heating: false }
     }),
     new BehaviorSubject<Object>({
-      id: 1,
+      id: 2,
       MBLink: '',
       name: 'The best shop',
       imgs: ['https://placeimg.com/360/150/any/any/any', 'https://placeimg.com/360/150/any/any'],
@@ -84,7 +84,7 @@ export class ShopDataExchangeService {
 
   public addShop(){
     this._shops.push(new BehaviorSubject<Object>({
-      id: this.shops.length,
+      id: this.shops.length * 2, //Si vuole simulare una generazione pseudocasuale degli id non basata su valori posizionali
       MBLink: '',
       name: '',
       imgs: [],
@@ -103,8 +103,12 @@ export class ShopDataExchangeService {
       automations: { music: false, heating: false }
     }))
   }
-  public modifyShop(modifications: Object, id: number) {
-    this._shops[id].next(modifications);
+  public modifyShop(modifications: Object, id: string) { 
+    for(let i = 0; i < this._shops.length; i ++){
+      if (this._shops[i].value['id'] === parseInt(id)){
+        this._shops[i].next(modifications);
+      }
+    }
   }
   public deleteShop(i: number){
     this._shops.splice(i,1);
@@ -112,8 +116,18 @@ export class ShopDataExchangeService {
   get numOfShops() {
     return this._shops.length;
   }
-  public getShop(i: number) {
+  public getShopByPosition(i: number) {
     return this._shops[i].asObservable();
+  }
+  public getShopById(id){
+    id = parseInt(id);
+    let target = null
+    this._shops.forEach((shop) => {
+      if (shop.value['id'] === id){
+        target = shop;
+      }
+    })
+    return target.asObservable();
   }
   get shops(){
     return this._shops
