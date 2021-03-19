@@ -35,17 +35,17 @@
 
   <ion-grid class="main-grid">
     <ion-row>
-      <ion-col size="3">Address:</ion-col>
+      <ion-col left size="3">Address:</ion-col>
       <ion-col size="9">{{shop.address}}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="3">Phone:</ion-col>
+      <ion-col left size="3">Phone:</ion-col>
       <ion-col size="9">
         <ion-chip *ngIf="this.shop.telephone != ''" color="primary" outline (click)="callShop($event)">{{shop.telephone}}</ion-chip>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="3" style="align-self: flex-start;">Hours:</ion-col>
+      <ion-col left size="3" style="align-self: flex-start;">Hours:</ion-col>
       <ion-col size="9" style="padding-left: 0; padding-top: 0;">
         <ion-grid class="hours-grid">
           <ion-row *ngFor="let day of shop.hours; let i = index">

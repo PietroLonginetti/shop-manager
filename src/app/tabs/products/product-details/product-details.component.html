@@ -12,7 +12,7 @@
       <ion-button>
         <ion-icon name="pencil" slot="start"></ion-icon>
       </ion-button>
-      <ion-button>
+      <ion-button (click)="presentEllipsisPopover($event)">
         <ion-icon name="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -20,5 +20,32 @@
 </ion-header>
 
 <ion-content>
+  <ion-slides pager="true">
+    <ion-slide *ngFor="let img of product.imgs">
+      <img [src]="img" style="width: 100%;">
+    </ion-slide>
+  </ion-slides>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col left size="6">Price:</ion-col>
+        <ion-col size="6">
+          <ion-chip outline color="danger">{{product.price | currency: 'EUR'}}</ion-chip>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col left size="6">Available:</ion-col>
+        <ion-col size="6">
+          <ion-chip outline color="success" (click)="presentSellingTable($event)">
+            {{calculateTotalPieces()}} pieces</ion-chip>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div id="desc-container">
+      <ion-title style="padding: 0;">Description:</ion-title>
+      <p>{{product.description}}</p>
+    </div>
+
 
 </ion-content>

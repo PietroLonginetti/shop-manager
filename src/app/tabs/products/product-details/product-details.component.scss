@@ -1,0 +1,27 @@
+ion-slides{
+    border-bottom: 4px solid #b6c2ca;
+}
+#desc-container{
+    padding: 0 15px;
+}
+ion-grid{
+    padding: 0.4rem 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 4px solid #b6c2ca;
+}
+ion-grid ion-col{
+    display: flex;
+    align-items: center;
+}
+ion-grid ion-row{
+    margin: 5px 0;
+}
+ion-col[left]{
+    justify-content: flex-end;
+    padding-right: 12px;
+}
+ion-chip{
+    font-size: 15px;
+}
+
+

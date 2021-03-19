@@ -13,7 +13,11 @@ ion-slides{
 }
 .main-grid ion-col{
     display: flex;
-    align-items: baseline;
+    align-items: center;
+}
+ion-col[left]{
+    justify-content: flex-end;
+    padding-right: 12px;
 }
 .hours-grid {
     padding: 0;

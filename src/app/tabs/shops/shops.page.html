@@ -39,7 +39,7 @@
 
   <div id="container">
     <div class="inactive" id="shop-cards">
-      <ion-card class="active" *ngFor="let shop of shops; let i = index;" routerLink="shop/{{i}}">
+      <ion-card class="active" *ngFor="let shop of shops; let i = index;" routerLink="shop-details/{{i}}">
         <img [src]="shop.value.imgs[0]">
         <ion-card-header>
           <ion-card-title class="card-title">{{shop.value.name}}</ion-card-title>
@@ -59,7 +59,7 @@
     </div>
 
     <ion-list class="inactive" id="shop-list" lines="none">
-      <ion-item class="active" *ngFor="let shop of shops; let i = index;" routerLink="shop/{{i}}">
+      <ion-item class="active" *ngFor="let shop of shops; let i = index;" routerLink="shop-details/{{i}}">
         <ion-avatar slot="start"><img [src]="getListAvatar(i)"></ion-avatar>
         <ion-label>{{shop.value.name}}</ion-label>
         <ion-icon *ngFor="let star of shop.value.valutation" name="star" class="stars" style="font-size: 16px;">
