@@ -79,7 +79,7 @@ export class ShopEditorComponent implements OnInit {
           {
             text: 'Ok',
             handler: () => {
-              let forms = document.getElementsByTagName('form')
+              let forms = document.getElementsByClassName('active-form')
               for(let i = 0; i < forms.length; i++){
                 this.validateInput(forms[i].childNodes[0].childNodes[0], Object.keys(this.formCtrl.value)[i])
               }

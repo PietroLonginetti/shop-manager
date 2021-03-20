@@ -84,7 +84,7 @@ export class ShopDataExchangeService {
 
   public addShop(){
     this._shops.push(new BehaviorSubject<Object>({
-      id: this.shops.length * 2, //Si vuole simulare una generazione pseudocasuale degli id non basata su valori posizionali
+      id: this.shops.length * 2, //Si vuole simulare una generazione pseudocasuale degli id NON basata su valori posizionali
       MBLink: '',
       name: '',
       imgs: [],
@@ -107,11 +107,17 @@ export class ShopDataExchangeService {
     for(let i = 0; i < this._shops.length; i ++){
       if (this._shops[i].value['id'] === parseInt(id)){
         this._shops[i].next(modifications);
+        return;
       }
     }
   }
-  public deleteShop(i: number){
-    this._shops.splice(i,1);
+  public deleteShop(id: string){
+    for(let i = 0; i < this._shops.length; i ++){
+      if (this._shops[i].value['id'] === parseInt(id)){
+        this._shops.splice(i,1);
+        return;
+      }
+    }
   }
   get numOfShops() {
     return this._shops.length;

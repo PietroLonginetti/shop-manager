@@ -4,7 +4,7 @@
       <ion-row style="align-items: center; flex-wrap: nowrap; justify-content: space-between;">
         <div style="display: flex; align-items: center; max-width: 65%;">
           <span style="margin: 0 1rem 0 5px;">Name:</span>
-          <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'name')">
+          <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'name')">
             <ion-input formControlName="name" type="text" (ionInput)="this.modified = true"
               placeholder="Insert shop name">
             </ion-input>
@@ -58,7 +58,7 @@
     <ion-row>
       <ion-col size="3">Address:</ion-col>
       <ion-col size="9">
-        <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'address')">
+        <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'address')">
           <ion-input formControlName="address" type="text" (ionInput)="this.modified = true"
             placeholder="Insert shop address"></ion-input>
         </form>
@@ -67,7 +67,7 @@
     <ion-row>
       <ion-col size="3">Phone:</ion-col>
       <ion-col size="9">
-        <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'telephone')">
+        <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'telephone')">
           <ion-input formControlName="telephone" type="tel" (ionInput)="this.modified = true"
             placeholder="Insert shop number"></ion-input>
         </form>
@@ -87,7 +87,7 @@
   <ion-toolbar>
     <h6 style="margin: auto 0 3px 16px">Google My Business Link:</h6>
     <div style="margin:0 15px">
-      <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'MBLink')">
+      <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'MBLink')">
         <ion-input formControlName="MBLink" type="url" (ionInput)="this.modified = true"
           placeholder="http://example.com"></ion-input>
       </form>
