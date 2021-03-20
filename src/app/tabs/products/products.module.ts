@@ -1,10 +1,10 @@
 import { IonicModule } from '@ionic/angular';
-import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductsPage } from './products.page';
 import { ProductsPageRoutingModule } from './products-routing.module';
+import { HttpClientModule } from '@angular/common/http'
 
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module'
 
@@ -14,13 +14,15 @@ import { ProductAvailabilityPopoverComponent} from './product-details/product-av
 import { ProductCurrenciesPopoverComponent } from './product-details/product-currencies-popover/product-currencies-popover.component'
 import { ProductDetailsComponent } from './product-details/product-details.component'
 
+
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
     ProductsPageRoutingModule,
-    SharedDirectivesModule
+    SharedDirectivesModule,
+    HttpClientModule
   ],
   declarations: [
     ProductsPage,

@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Storage } from '@ionic/storage';
+
 import { PopoverController } from '@ionic/angular';
 import { ProductDataExchangeService } from 'src/app/services/product-data-exchange/product-data-exchange.service';
-import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 import { ProductDetailsPopoverComponent } from './product-details-popover/product-details-popover.component';
 import { ProductAvailabilityPopoverComponent } from './product-availability-popover/product-availability-popover.component';
 import { ProductCurrenciesPopoverComponent } from './product-currencies-popover/product-currencies-popover.component';
+
 
 @Component({
   selector: 'app-product-details',
@@ -15,22 +18,51 @@ import { ProductCurrenciesPopoverComponent } from './product-currencies-popover/
 export class ProductDetailsComponent implements OnInit {
   id: number;
   product: any;
-  price: number;
-  currency = 'USD';
+  priceInEuro: number;
+  priceToDisplay: number;
+  currency: string = 'USD';
+  exchangeRates: Object;
 
-  constructor(private activatedRoute: ActivatedRoute, private productService: ProductDataExchangeService, 
-    private popoverController: PopoverController, private router: Router, private shopService: ShopDataExchangeService) { 
-      this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
-      try {
-        this.productService.getProduct(this.id).subscribe(prod => {this.product = prod});
-      } catch (error) {
-        alert('This product does not exist.');
-        this.router.navigate(['/tabs/products'])
-      }
-      this.price = this.product.price;
+  constructor(private activatedRoute: ActivatedRoute, private productService: ProductDataExchangeService,
+    private popoverController: PopoverController, private router: Router, private http: HttpClient,
+    private storage: Storage) {
+    this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
+    try {
+      this.productService.getProduct(this.id).subscribe(prod => { this.product = prod });
+    } catch (error) {
+      alert('This product does not exist.');
+      this.router.navigate(['/tabs/products'])
     }
+    this.priceInEuro = this.product.price;
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.storage.get('currency')
+      .then(res => {
+        if (res == null) {
+          this.storage.set('currency', 'EUR')
+            .then((res) => {
+              this.currency = res;
+            });
+        } else {
+          this.currency = res;
+        }
+      })
+      .catch(() => {
+        console.error('No currency variable found in storage')
+        this.storage.set('currency', 'EUR');
+        this.currency = 'EUR';
+      })
+      .finally(() => {
+        //Fetch exchange Rates
+        var response = this.http.get('http://data.fixer.io/api/latest?access_key=74f9a495e020b6d70e4fc3898fc49da7');
+        response.subscribe((data) => {
+          console.log(data)
+          this.exchangeRates = data['rates'];
+          this.priceToDisplay = this.priceInEuro * (this.exchangeRates[this.currency]);
+        })
+      });
+  }
 
   calculateTotalPieces(): number {
     let tot = 0;
@@ -41,36 +73,34 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   //Popovers
-  async presentEllipsisPopover(ev){
+  async presentEllipsisPopover(ev) {
     const ellPopover = await this.popoverController.create({
       component: ProductDetailsPopoverComponent,
       event: ev
     })
     return await ellPopover.present();
   }
-  async presentCurrenciesPopover(ev){
+  async presentCurrenciesPopover() {
     const currenciesPopover = await this.popoverController.create({
       component: ProductCurrenciesPopoverComponent,
-      backdropDismiss: false,
-      componentProps: {currency: this.currency},
-      event: ev
+      componentProps: { currency: this.currency }
     })
     currenciesPopover.onDidDismiss().then((res) => {
-      let oldCurrency = this.currency;
-      let oldValue = this.price;
-      let newCurrency = res.data;
-      let newValue = this.price / 8; // TODO: Fake value conversion
-
-      this.price = newValue;
-      this.currency = newCurrency;
+      if (res.data) {
+        let newCurrency = res.data;
+        let newPriceToDisplay = this.priceInEuro * (this.exchangeRates[newCurrency]);
+        this.priceToDisplay = newPriceToDisplay;
+        this.currency = newCurrency;
+        this.storage.set('currency', this.currency);
+      }
     })
     return await currenciesPopover.present();
 
   }
-  async presentSellingTable(ev){
+  async presentSellingTable(ev) {
     const tablePopover = await this.popoverController.create({
       component: ProductAvailabilityPopoverComponent,
-      componentProps: {prod: this.product},
+      componentProps: { prod: this.product },
       event: ev
     })
     return await tablePopover.present();
