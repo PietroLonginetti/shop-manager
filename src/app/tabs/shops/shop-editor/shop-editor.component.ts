@@ -30,8 +30,7 @@ export class ShopEditorComponent implements OnInit {
     this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
     this.shopService.getShopById(this.id).subscribe(shop => { this.shop = shop });
     this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
-  }
-  ngOnInit() {
+
     this.formCtrl = new FormGroup({
       name: new FormControl(`${this.modifications.name}`, [Validators.required, Validators.minLength(2)]),
       id: new FormControl({value: `${this.modifications.id}`, disabled: true}),
@@ -40,13 +39,15 @@ export class ShopEditorComponent implements OnInit {
       MBLink: new FormControl(`${this.modifications.MBLink}`, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'))
     })
   }
+  ngOnInit() {
+  }
 
   // Alerts 
   async confirmAlert() {
     if (this.ws.emptyTurn) {
       await this.ws.removeEmptyTurn()
     }
-    if (this.validInputs() && this.ws.validWeek()) {
+    if (this.formCtrl.valid && this.ws.validWeek()) {
       if (this.modified) {
         const alert = await this.alertController.create({
           backdropDismiss: false,
@@ -162,14 +163,6 @@ export class ShopEditorComponent implements OnInit {
       form.style.backgroundColor = 'initial';
       this.modifications[key] = this.formCtrl.get(key).value; //Saving the correct value
     }
-  }
-  private validInputs(): boolean {
-    let errors = false;
-    Object.keys(this.formCtrl.controls).forEach(key => {
-      if (this.formCtrl.get(key).errors)
-        errors = true
-    });
-    return !errors;
   }
 
   // Methods

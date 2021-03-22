@@ -1,0 +1,18 @@
+<ion-content>
+  <div class="container">
+    <h1 style="color: rgb(107, 107, 107);"><em>SHOP MANAGER</em></h1>
+
+    <div id="form-container">
+      <ion-icon name="person-sharp"></ion-icon>
+      <form [formGroup]="this.credentialsForm">
+        <ion-input formControlName="username" type="text" placeholder="Username" (ionInput)="updateForm($event, 'username')">
+        </ion-input>
+        <ion-input formControlName="password" type="password" placeholder="Password" (ionInput)="updateForm($event, 'password')">
+        </ion-input>
+        <ion-button (click)="submitCredentials()">Login with Sintra</ion-button>
+      </form>
+    </div>
+
+    <p id="helper">Don't you have credentials? <a href="#">Go to Sintra Portal</a></p>
+  </div>
+</ion-content>

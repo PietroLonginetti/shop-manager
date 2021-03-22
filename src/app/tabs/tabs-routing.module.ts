@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../guards/auth/auth.guard';
+import { LoginComponent } from './login/login.component';
 import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
     path: 'tabs',
     component: TabsPage,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'shops',
@@ -30,6 +33,10 @@ const routes: Routes = [
     path: '',
     redirectTo: '/tabs/shops',
     pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   }
 ];
 
