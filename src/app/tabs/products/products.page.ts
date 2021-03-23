@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
-import { Platform, PopoverController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 import { ProductDataExchangeService } from 'src/app/services/product-data-exchange/product-data-exchange.service';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 import { ProductsPopoverComponent } from './products-popover/products-popover.component';

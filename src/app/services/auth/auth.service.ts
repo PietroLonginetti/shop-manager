@@ -1,21 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  isLoggedIn: boolean = false;
   redirectUrl: string = '';
 
-  constructor() { }
-
-  login(){
-    // Sending credentials to Sintra backend and waiting for response
-    this.isLoggedIn = true;
+  getLoggedIn(): Promise<boolean>{
+    return this.storage.get('logged')
+      .then((value) => { return value })
+      .catch(() => { 
+        console.error('No logged variable found in storage.')
+        this.storage.set('logged', false);
+      })
   }
 
-  logout(){
-    this.isLoggedIn = false;
+  constructor(private storage: Storage) {}
+
+  login() {
+    // Sending credentials to Sintra backend and waiting for response
+    this.storage.set('logged', true)
+  }
+
+  logout() {
+    this.storage.set('logged', false)
   }
 }

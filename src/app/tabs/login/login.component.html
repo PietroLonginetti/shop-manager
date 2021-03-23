@@ -4,7 +4,7 @@
 
     <div id="form-container">
       <ion-icon name="person-sharp"></ion-icon>
-      <form [formGroup]="this.credentialsForm">
+      <form [formGroup]="credentialsForm">
         <ion-input formControlName="username" type="text" placeholder="Username" (ionInput)="updateForm($event, 'username')">
         </ion-input>
         <ion-input formControlName="password" type="password" placeholder="Password" (ionInput)="updateForm($event, 'password')">

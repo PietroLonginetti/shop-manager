@@ -22,12 +22,12 @@ export class ProductAvailabilityPopoverComponent implements OnInit {
     await this.popoverController.dismiss();
   }
 
-  getShopData(id: number){
-    for(let i = 0; i <this.shops.length; i++){
-      if(this.shops[i].value.id === id){
-        return this.shops[i].value;
-      }
-    }
+  getShopName(id: number): any{
+    let shopName;
+    this.shopService.getShopById(id).subscribe((shop) => {
+      shopName = shop.name;
+    })
+    return shopName
   }
 
 }

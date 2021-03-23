@@ -6,7 +6,7 @@ import { SettingsPage } from './settings.page';
 import { SettingsPageRoutingModule } from './settings-routing.module';
 
 import { LoginComponent } from '../login/login.component'
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -14,7 +14,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     RouterModule.forChild([{ path: '', component: SettingsPage }]),
     SettingsPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   declarations: [
     SettingsPage,

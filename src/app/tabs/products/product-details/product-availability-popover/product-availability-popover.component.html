@@ -4,7 +4,7 @@
     <th>Quantity</th>
   </tr>
   <tr *ngFor="let place of product.available">
-    <td><a (click)="dismissPopover()" routerLink="/tabs/shops/shop-details/{{place.shop}}">{{getShopData(place.shop).name}}</a></td>
+    <td><a (click)="dismissPopover()" routerLink="/tabs/shops/shop-details/{{place.shop}}">{{getShopName(place.shop)}}</a></td>
     <td>{{place.quantity}}</td>
   </tr>
 </table>
