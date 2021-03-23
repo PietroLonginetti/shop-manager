@@ -7,4 +7,33 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <ion-list lines="none">
+    <ion-item routerLink="#">
+      <ion-icon slot="start" name="notifications-outline"></ion-icon>
+      <ion-label>Notifications</ion-label>
+    </ion-item>
+    <ion-item routerLink="#">
+      <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+      <ion-label>Privacy</ion-label>
+    </ion-item>
+    <ion-item routerLink="#">
+      <ion-icon slot="start" name="information-circle-outline"></ion-icon>
+      <ion-label>Informations</ion-label>
+    </ion-item>
+    <ion-item routerLink="#">
+      <ion-icon slot="start" name="settings-outline"></ion-icon>
+      <ion-label>Other Settings</ion-label>
+    </ion-item>
+  </ion-list>
+  <!-- ---------------------------------------------------------------------- -->
+  <div id="buttons-container">
+    <ion-button expand="block" color="light" routerLink="/tabs/settings/user">
+      <ion-icon style="margin-right: 6px;" name="person-outline"></ion-icon>
+      <ion-label>User</ion-label>
+    </ion-button>
+  
+    <ion-button (click)="logoutAndRedirect()" expand="block" style="--background: #ee743c">logout</ion-button>
+  </div>
+
 </ion-content>
