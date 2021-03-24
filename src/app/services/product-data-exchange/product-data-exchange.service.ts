@@ -40,8 +40,18 @@ export class ProductDataExchangeService {
     })
   ]
 
-  public getProduct(i: number) {
+  public getProductByPosition(i: number) {
     return this._products[i].asObservable();
+  }
+  public getProductById(id){
+    id = parseInt(id);
+    let target = null
+    this._products.forEach((prod) => {
+      if (prod.value['id'] === id){
+        target = prod;
+      }
+    })
+    return target.asObservable();
   }
   get products(){
     return this._products;

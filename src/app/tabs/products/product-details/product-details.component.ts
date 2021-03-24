@@ -28,7 +28,7 @@ export class ProductDetailsComponent implements OnInit {
     private storage: Storage) {
     this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
     try {
-      this.productService.getProduct(this.id).subscribe(prod => { this.product = prod });
+      this.productService.getProductById(this.id).subscribe(prod => { this.product = prod });
     } catch (error) {
       alert('This product does not exist.');
       this.router.navigate(['/tabs/products'])
