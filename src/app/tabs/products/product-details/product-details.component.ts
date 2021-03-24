@@ -18,10 +18,8 @@ import { ProductCurrenciesPopoverComponent } from './product-currencies-popover/
 export class ProductDetailsComponent implements OnInit {
   id: number;
   product: any;
-  priceInEuro: number;
   priceToDisplay: number = 0;
   currency: string = 'USD';
-  exchangeRates: Object;
 
   constructor(private activatedRoute: ActivatedRoute, private productService: ProductDataExchangeService,
     private popoverController: PopoverController, private router: Router, private http: HttpClient,
@@ -33,7 +31,6 @@ export class ProductDetailsComponent implements OnInit {
       alert('This product does not exist.');
       this.router.navigate(['/tabs/products'])
     }
-    this.priceInEuro = this.product.price;
   }
 
   ngOnInit() {
@@ -54,15 +51,27 @@ export class ProductDetailsComponent implements OnInit {
         this.currency = 'EUR';
       })
       .finally(() => {
-        //Fetch exchange Rates
-        //Il seguente codice su android non sembra venir eseguito
-        var response = this.http.get('http://data.fixer.io/api/latest?access_key=74f9a495e020b6d70e4fc3898fc49da7');
-        response.subscribe((data) => {
-          console.log(data)
-          this.exchangeRates = data['rates'];
-          this.priceToDisplay = this.priceInEuro * (this.exchangeRates[this.currency]);
-          alert('bruh2')
-        })
+        
+        this.storage.get('exchangeRates')
+          .then((res) => {
+            if (!res) {
+              //Fetch exchange Rates
+              var response = this.http.get('http://data.fixer.io/api/latest?access_key=74f9a495e020b6d70e4fc3898fc49da7');
+              response.subscribe((data) => {
+                console.log(data)
+                this.storage.set('exchangeRates', data['rates'])
+                  .then(() => {
+                    this.productService.getProductById(this.id).subscribe(prod => {
+                      this.priceToDisplay = prod.price * data['rates'][this.currency];
+                    });
+                  })
+              })
+            } else {
+              this.productService.getProductById(this.id).subscribe(prod => {
+                this.priceToDisplay = prod.price * res[this.currency];
+              });
+            }
+          })
       });
   }
 
@@ -91,8 +100,10 @@ export class ProductDetailsComponent implements OnInit {
       if (res.data) {
         let newCurrency = res.data;
         this.currency = newCurrency;
-        let newPriceToDisplay = this.priceInEuro * (this.exchangeRates[newCurrency]);
-        this.priceToDisplay = newPriceToDisplay;
+        this.storage.get('exchangeRates')
+          .then((res) => {
+            this.priceToDisplay = this.product.price * res[newCurrency];
+          })
         this.storage.set('currency', this.currency);
       }
     })

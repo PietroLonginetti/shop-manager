@@ -4,26 +4,10 @@ ion-input{
     height: 2.5rem;
     transition: 0.3s;
 }
-ion-content ion-input{
-    height: 2.3rem;
-}
-ion-slides{
-    max-height: 30%;
-}
-ion-slide img{
-    width: 100%;
-}
 .reorderable-img{
     width: 60%;
     margin: 0.3rem 1rem 0.3rem 0;
     border-radius: 5px;
-}
-#add-button{
-    height: 100%;
-    width: 100%;
-}
-#add-button ion-icon{
-    font-size: 4rem;
 }
 .main-grid{
     padding: 5px 15px;

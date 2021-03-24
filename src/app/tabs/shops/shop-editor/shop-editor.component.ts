@@ -25,7 +25,7 @@ export class ShopEditorComponent implements OnInit {
   formCtrl: FormGroup;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private shopService: ShopDataExchangeService,
-    private alertController: AlertController, private animationCtrl: AnimationController, private toast: ToastController) {
+    private alertController: AlertController, private toast: ToastController) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
     this.shopService.getShopById(this.id).subscribe(shop => { this.shop = shop });
@@ -168,11 +168,6 @@ export class ShopEditorComponent implements OnInit {
   // Methods
   async deletePhoto(imgId: number) {
     this.modified = true;
-    await this.animationCtrl.create()
-      .addElement(document.getElementById('slide' + imgId))
-      .duration(400)
-      .fromTo('opacity', '1', '0')
-      .play()
     this.modifications.imgs.splice(imgId, 1);
   }
   reorderImgs(ev) {
