@@ -101,7 +101,7 @@ export class ProductEditorComponent implements OnInit {
     switch (this.mode) {
       case 'create':
         this.prodService.deleteProduct(this.id);
-        this.router.navigate(['/tabs/shops']);
+        this.router.navigate(['/tabs/products']);
         break;
 
       case 'edit':

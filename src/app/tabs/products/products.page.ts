@@ -46,6 +46,7 @@ export class ProductsPage {
     this.list = document.getElementById('prod-list');
   }
 
+  //Methods
   calculateTotalPieces(prod): number {
     let tot = 0;
     for (let i = 0; i < prod.available.length; i++) {
@@ -99,6 +100,12 @@ export class ProductsPage {
       return isInshops
     })
     return fProducts;
+  }
+  addProduct() {
+    this.productService.addProduct();
+    let lastElIndex = this.productService.numOfProducts -1;
+    let newProductId = this.products[lastElIndex].value.id;
+    this.router.navigate(['/tabs/products/product-editor', newProductId, 'create']);
   }
 
   // Popovers

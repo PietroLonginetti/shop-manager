@@ -40,6 +40,19 @@ export class ProductDataExchangeService {
     })
   ]
 
+  get numOfProducts(){
+    return this._products.length;
+  }
+  public addProduct(){
+    this._products.push(new BehaviorSubject<Object>({
+      id: this._products.length *2, //Simulazione di una generazione pseudocasuale degli id dei prodotti
+      name: '',
+      description: '',
+      price: 0,
+      available: [],
+      imgs: []
+    }))
+  }
   public deleteProduct(id: string){
     for(let i = 0; i < this._products.length; i ++){
       if (this._products[i].value['id'] === parseInt(id)){
