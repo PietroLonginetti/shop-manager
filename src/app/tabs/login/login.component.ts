@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit {
   }
 
   async submitCredentials() {
-    console.log(this.credentialsForm.value);
     if (!this.credentialsForm.valid) {
       const alert = await this.alertCtrl.create({
         message: 'Some data seem incomplete.',

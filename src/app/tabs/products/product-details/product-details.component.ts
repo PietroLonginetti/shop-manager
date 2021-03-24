@@ -19,7 +19,7 @@ export class ProductDetailsComponent implements OnInit {
   id: number;
   product: any;
   priceInEuro: number;
-  priceToDisplay: number;
+  priceToDisplay: number = 0;
   currency: string = 'USD';
   exchangeRates: Object;
 
@@ -55,11 +55,13 @@ export class ProductDetailsComponent implements OnInit {
       })
       .finally(() => {
         //Fetch exchange Rates
+        //Il seguente codice su android non sembra venir eseguito
         var response = this.http.get('http://data.fixer.io/api/latest?access_key=74f9a495e020b6d70e4fc3898fc49da7');
         response.subscribe((data) => {
           console.log(data)
           this.exchangeRates = data['rates'];
           this.priceToDisplay = this.priceInEuro * (this.exchangeRates[this.currency]);
+          alert('bruh2')
         })
       });
   }
@@ -88,9 +90,9 @@ export class ProductDetailsComponent implements OnInit {
     currenciesPopover.onDidDismiss().then((res) => {
       if (res.data) {
         let newCurrency = res.data;
+        this.currency = newCurrency;
         let newPriceToDisplay = this.priceInEuro * (this.exchangeRates[newCurrency]);
         this.priceToDisplay = newPriceToDisplay;
-        this.currency = newCurrency;
         this.storage.set('currency', this.currency);
       }
     })
