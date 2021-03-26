@@ -26,7 +26,6 @@ export class ProductEditorComponent implements OnInit {
     this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
     this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
     this.prodService.getProductById(this.id).subscribe((prod) => this.product = prod);
-    console.log(this.product)
     this.modifications = JSON.parse(JSON.stringify(this.product)); //Deep copy
   }
 
@@ -37,7 +36,6 @@ export class ProductEditorComponent implements OnInit {
         this.storage.get('exchangeRates')
           .then((res) => {
             this.priceToDisplay = this.modifications.price * res[this.currency];
-            console.log(this.priceToDisplay)
           })
       })
 
@@ -51,8 +49,6 @@ export class ProductEditorComponent implements OnInit {
 
   // Alerts
   async confirmAlert() {
-    console.log(this.modifications)
-    console.log(this.formCtrl.value)
     if (this.formCtrl.valid) {
       if (this.modified) {
         const alert = await this.alertController.create({

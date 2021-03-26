@@ -33,7 +33,7 @@
   </ion-item>
 
   <ion-list id="prod-list" lines="none">
-    <ion-item id="prod-{{i}}" class="active" *ngFor="let prod of fProducts; let i = index" routerLink="product-details/{{i}}">
+    <ion-item id="prod-{{i}}" class="active" *ngFor="let prod of fProducts; let i = index" routerLink="product-details/{{prod.value.id}}">
       <ion-avatar slot="start"><img [src]="prod.value.imgs[0]"></ion-avatar>
       <ion-label>{{prod.value.name}}</ion-label>
       <ion-badge color="medium">{{calculateTotalPieces(prod.value)}}</ion-badge>

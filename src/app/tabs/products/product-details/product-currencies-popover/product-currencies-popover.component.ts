@@ -17,7 +17,6 @@ export class ProductCurrenciesPopoverComponent implements OnInit {
 
   changeCurrency(){
     this.current = document.getElementsByTagName('ion-radio-group')[0].value;
-    console.log('changing currency to: ' + this.current)
     this.popController.dismiss(this.current);
   }
 }

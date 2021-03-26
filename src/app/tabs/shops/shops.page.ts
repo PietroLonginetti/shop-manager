@@ -138,9 +138,6 @@ export class ShopsPage{
       .then(res => console.log('calling shop ' + i))
       .catch(err => console.error('Error opening dialer'));
   }
-  openCard(ev: MouseEvent, i: number){
-    console.log('opening card ' + i);
-  }
   getListAvatar(i: number): string{
     if (this.shops[i].value.imgs[0] == null){
       return '../assets/img/store.jpg'

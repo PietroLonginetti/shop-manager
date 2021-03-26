@@ -58,7 +58,6 @@ export class ProductDetailsComponent implements OnInit {
               //Fetch exchange Rates
               var response = this.http.get('http://data.fixer.io/api/latest?access_key=74f9a495e020b6d70e4fc3898fc49da7');
               response.subscribe((data) => {
-                console.log(data)
                 this.storage.set('exchangeRates', data['rates'])
                   .then(() => {
                     this.productService.getProductById(this.id).subscribe(prod => {
