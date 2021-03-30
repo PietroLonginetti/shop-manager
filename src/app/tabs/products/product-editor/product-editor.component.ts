@@ -126,6 +126,26 @@ export class ProductEditorComponent implements OnInit {
         break;
     }
   }
+  async deleteAlert() {
+    const alert = await this.alertController.create({
+      backdropDismiss: false,
+      header: 'Are you sure?',
+      message: 'Do you really want to delete this product? All data will be lost.',
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.prodService.deleteProduct(this.id);
+            this.router.navigate(['/tabs/products']);
+          }
+        }
+      ]
+    })
+    await alert.present();
+  }
   async presentToast() {
     const toast = await this.toast.create({
       message: "Your images have been reordered.",

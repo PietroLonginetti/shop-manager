@@ -76,5 +76,9 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <ion-button *ngIf="mode === 'edit'" (click)="deleteAlert()" expand="full" fill="solid" color="sintra"
+  style="margin: 1.5rem 0 0">
+  Delete this product</ion-button>
  
 </ion-content>
