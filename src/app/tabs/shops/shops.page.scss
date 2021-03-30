@@ -4,9 +4,8 @@ ion-card-content{
     justify-content: space-between;
 }
 #shop-searchbar{
-    position: absolute;
-    top: 4px;
     animation: fade-in 0.2s ease-in;
+    --box-shadow: 0;
 }
 @keyframes fade-in{
     0%{

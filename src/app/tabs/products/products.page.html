@@ -1,5 +1,5 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header>
+  <ion-toolbar sintra-background>
     <ion-title *ngIf="!isSearchBarOpened">
       Products
     </ion-title>
@@ -14,10 +14,10 @@
     </ion-buttons>
 
     <div id="search-container" *ngIf="isSearchBarOpened">
-      <ion-searchbar id="prod-searchbar" (ionInput)="findProductByKeyWord()" animated="true" showCancelButton="true"
+      <ion-searchbar id="prod-searchbar" color="sintra" (ionInput)="findProductByKeyWord()" animated="true" showCancelButton="true"
        (ionCancel)="closeSearchBar()" placeholder="Find your product!">
       </ion-searchbar>
-      <ion-button (click)="launchQRScanner()" color="success" style="margin: 0 8px; height: 42px;">
+      <ion-button (click)="launchQRScanner()" color="light" fill="clear" style="margin: 0 8px; height: 42px;">
         <ion-icon name="qr-code-sharp"></ion-icon>
       </ion-button>
     </div>
@@ -25,7 +25,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" scrollEvents="true" [appHideFooter]="add" [hideSpeed]="1">
-  <ion-item color="primary">
+  <ion-item color="sintra-secondary">
     <ion-label style="margin-left: 7px">FILTER:</ion-label>
     <ion-select multiple="true" (ionChange)="changeFilter($event)">
       <ion-select-option *ngFor="let shopOb of this.shops" [value]="shopOb.value.id">{{shopOb.value.name}}</ion-select-option>
@@ -36,12 +36,12 @@
     <ion-item id="prod-{{i}}" class="active" *ngFor="let prod of fProducts; let i = index" routerLink="product-details/{{prod.value.id}}">
       <ion-avatar slot="start"><img [src]="prod.value.imgs[0]"></ion-avatar>
       <ion-label>{{prod.value.name}}</ion-label>
-      <ion-badge color="medium">{{calculateTotalPieces(prod.value)}}</ion-badge>
+      <ion-badge color="sintra-secondary">{{calculateTotalPieces(prod.value)}}</ion-badge>
     </ion-item>
   </ion-list>
 
   <ion-fab #add vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="addProduct()">
+    <ion-fab-button (click)="addProduct()" color="sintra">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

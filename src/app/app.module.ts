@@ -8,13 +8,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { QRScanner } from '@ionic-native/qr-scanner/ngx'
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, IonicStorageModule.forRoot()],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, CallNumber, QRScanner],
+  providers: [StatusBar, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, CallNumber, QRScanner],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

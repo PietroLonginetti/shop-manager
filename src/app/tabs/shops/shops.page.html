@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar sintra-background>
     <ion-title *ngIf="!isSearchBarOpened">
       Shops
     </ion-title>
@@ -14,14 +14,14 @@
     </ion-buttons>
 
     <ion-searchbar id="shop-searchbar" *ngIf="isSearchBarOpened" animated="true" (ionInput)="findShop()" showCancelButton="true" 
-    (ionCancel)="closeSearchBar()" placeholder="Find your shop!">
+    (ionCancel)="closeSearchBar()" placeholder="Find your shop!" color="sintra">
     </ion-searchbar>
 
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" scrollEvents="true" [appHideFooter]="add" [hideSpeed]="1">
-  <ion-segment (ionChange)="toggleVis($event)" [value]="this.visualization">
+  <ion-segment (ionChange)="toggleVis($event)" [value]="this.visualization" color="sintra">
     <ion-segment-button value="cards">
       <ion-icon name="albums-sharp"></ion-icon>
     </ion-segment-button>
@@ -31,7 +31,7 @@
   </ion-segment>
 
   <ion-fab #add vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="addShop()">
+    <ion-fab-button (click)="addShop()" color="sintra">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
@@ -67,4 +67,5 @@
       </ion-item>
     </ion-list>
   </div>
+
 </ion-content>

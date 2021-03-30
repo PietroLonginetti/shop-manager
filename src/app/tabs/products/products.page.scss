@@ -6,6 +6,9 @@
 #search-container{
     animation: fade-in 0.2s ease-in;
 }
+#prod-searchbar{
+    --box-shadow: 0;
+}
 
 .active{
     height: 100%;
