@@ -7,7 +7,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CallNumber } from '@ionic-native/call-number/ngx';
-import { QRScanner } from '@ionic-native/qr-scanner/ngx'
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 

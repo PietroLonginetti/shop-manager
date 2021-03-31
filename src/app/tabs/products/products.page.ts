@@ -144,6 +144,7 @@ export class ProductsPage {
     prodPage.getElementsByTagName('ion-content')[0].style.display = 'initial';
     document.getElementsByTagName('ion-tab-bar')[0].style.height = '56px';
     this.qrScanner.hide();
+    this.qrScanner.destroy();
     this.scanSub.unsubscribe();
   }
 }
