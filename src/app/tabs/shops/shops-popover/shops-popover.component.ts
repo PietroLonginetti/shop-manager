@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, PopoverController } from '@ionic/angular';
+import { AlertController, Platform, PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-shops-popover',
@@ -9,8 +9,13 @@ import { AlertController, PopoverController } from '@ionic/angular';
 export class ShopsPopoverComponent implements OnInit {
   visualization: string;
 
-  constructor(private popoverController: PopoverController, public alertController: AlertController) { 
-    }
+  constructor(private popoverController: PopoverController, public alertController: AlertController, private platform: Platform) { 
+    this.platform.backButton.subscribeWithPriority(10, (processNextHandler) => {
+        this.alertController.dismiss()
+        this.popoverController.dismiss()
+      processNextHandler();
+    })
+  }
 
   ngOnInit() {}
 

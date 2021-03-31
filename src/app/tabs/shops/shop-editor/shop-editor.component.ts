@@ -51,7 +51,7 @@ export class ShopEditorComponent implements OnInit {
       if (this.modified) {
         const alert = await this.alertController.create({
           backdropDismiss: false,
-          header: 'Are you sure?',
+          header: 'Confirm',
           message: 'Do you really want apply those changes?',
           buttons: [
             {

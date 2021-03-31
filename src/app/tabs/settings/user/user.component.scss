@@ -1,9 +1,13 @@
+#content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
 #sintra-link{
     font-size: small;
-    margin: 1.5rem 10%; 
+    margin: 0.5rem 10%; 
     text-align: center;
-    position: absolute;
-    bottom: 0;
 }
 #av-container{
     display: flex;

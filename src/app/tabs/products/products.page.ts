@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener} from '@angular/core';
 import { Router } from '@angular/router';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { PopoverController } from '@ionic/angular';
@@ -14,13 +14,8 @@ import { ProductsPopoverComponent } from './products-popover/products-popover.co
 export class ProductsPage {
   @HostListener('document:ionBackButton', ['$event'])
   async overrideHardwareBackAction($event: any) {
-    let body = document.getElementsByTagName('body')[0];
-    body.removeChild(this.wa);
-    body.style.display = 'block';
-    body.style.justifyContent = 'initial';
-    body.style.alignItems = 'initial';
-    document.getElementsByTagName('ion-app')[0].style.opacity = '1';
-    this.scanSub.unsubscribe();
+    if(this.scanSub)
+      this.closeQRScanner()
   }
   isSearchBarOpened: boolean = false;
   products = [];
@@ -29,21 +24,18 @@ export class ProductsPage {
   list: any;
   shopIds: number[] = []
   scanSub: any;
-  wa: any;
+  qrTemplate: any;
 
   constructor(private productService: ProductDataExchangeService, private shopService: ShopDataExchangeService,
     private popoverController: PopoverController, private qrScanner: QRScanner, public router: Router) {
     this.shops = this.shopService.shops;
     this.products = this.productService.products;
     this.fProducts = this.filterProducts();
-
-    this.wa = document.createElement('IMG');
-    this.wa.setAttribute('src', '../assets/img/qr-watermark.png');
-    this.wa.style.width = '50%';
   }
 
   ngOnInit() {
     this.list = document.getElementById('prod-list');
+    this.qrTemplate = document.getElementById('qr-template');
   }
 
   //Methods
@@ -61,7 +53,7 @@ export class ProductsPage {
       searchBar.setFocus();
     })
   }
-  closeSearchBar(){
+  closeSearchBar() {
     this.isSearchBarOpened = false;
     let searchBar: any = document.getElementById('prod-searchbar');
     searchBar.value = '';
@@ -86,15 +78,15 @@ export class ProductsPage {
     this.fProducts = this.filterProducts();
   }
   filterProducts(): any[] {
-    if(this.shopIds.length == 0){
+    if (this.shopIds.length == 0) {
       return this.products;
     }
-    let fProducts = this.products.filter((prod)=>{
+    let fProducts = this.products.filter((prod) => {
       let isInshops = false;
       this.shopIds.forEach(shopId => {
-        for(let i = 0; i < prod.value.available.length; i++){
-          if(prod.value.available[i].shop === shopId)
-          isInshops = true
+        for (let i = 0; i < prod.value.available.length; i++) {
+          if (prod.value.available[i].shop === shopId)
+            isInshops = true
         }
       })
       return isInshops
@@ -103,13 +95,13 @@ export class ProductsPage {
   }
   addProduct() {
     this.productService.addProduct();
-    let lastElIndex = this.productService.numOfProducts -1;
+    let lastElIndex = this.productService.numOfProducts - 1;
     let newProductId = this.products[lastElIndex].value.id;
     this.router.navigate(['/tabs/products/product-editor', newProductId, 'create']);
   }
 
   // Popovers
-  async presentPopover(ev: any){
+  async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: ProductsPopoverComponent,
       event: ev,
@@ -119,36 +111,39 @@ export class ProductsPage {
   }
 
   //QrScanner
-  launchQRScanner(){
+  launchQRScanner() {
     this.qrScanner.prepare()
-      .then((status: QRScannerStatus) =>  {
-        if(status.authorized){
-          this.qrScanner.show();
-          
-          let body = document.getElementsByTagName('body')[0];
-          body.appendChild(this.wa);
-          body.style.display = 'flex';
-          body.style.justifyContent = 'center';
-          body.style.alignItems = 'center';
-          document.getElementsByTagName('ion-app')[0].style.opacity = '0';
-          
+      .then((status: QRScannerStatus) => {
+        if (status.authorized) {
+          this.openQRScanner();
+
           this.scanSub = this.qrScanner.scan().subscribe((id: string) => {
             this.qrScanner.pausePreview();
+            this.closeQRScanner()
             this.router.navigate(['/tabs/products/product-details', id]);
-
-            body.removeChild(this.wa);
-            body.style.display = 'block';
-            body.style.justifyContent = 'initial';
-            body.style.alignItems = 'initial';
-            document.getElementsByTagName('ion-app')[0].style.opacity = '1';
-            this.qrScanner.hide();
-            this.scanSub.unsubscribe();
           })
-        } else if(status.denied){
+        } else if (status.denied) {
           // Camera permission was permanently denied.
         } else {
           // permission was denied, but not permanently.
         }
       })
+  }
+  openQRScanner(){
+    this.qrScanner.show();
+    let prodPage = document.getElementsByTagName('app-products')[0];
+    this.qrTemplate.style.display = 'block';
+    prodPage.getElementsByTagName('ion-header')[0].style.display = 'none';
+    prodPage.getElementsByTagName('ion-content')[0].style.display = 'none';
+    document.getElementsByTagName('ion-tab-bar')[0].style.height = '0';
+  }
+  closeQRScanner(){
+    let prodPage = document.getElementsByTagName('app-products')[0];
+    this.qrTemplate.style.display = 'none';
+    prodPage.getElementsByTagName('ion-header')[0].style.display = 'initial';
+    prodPage.getElementsByTagName('ion-content')[0].style.display = 'initial';
+    document.getElementsByTagName('ion-tab-bar')[0].style.height = '56px';
+    this.qrScanner.hide();
+    this.scanSub.unsubscribe();
   }
 }

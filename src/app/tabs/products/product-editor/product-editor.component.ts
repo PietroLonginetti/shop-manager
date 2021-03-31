@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, Platform, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { ProductDataExchangeService } from 'src/app/services/product-data-exchange/product-data-exchange.service';
 
@@ -52,8 +52,7 @@ export class ProductEditorComponent implements OnInit {
     if (this.formCtrl.valid) {
       if (this.modified) {
         const alert = await this.alertController.create({
-          backdropDismiss: false,
-          header: 'Are you sure?',
+          header: 'Confirm',
           message: 'Do you really want apply those changes?',
           buttons: [
             {
@@ -96,8 +95,28 @@ export class ProductEditorComponent implements OnInit {
   async discardAlert() {
     switch (this.mode) {
       case 'create':
-        this.prodService.deleteProduct(this.id);
-        this.router.navigate(['/tabs/products']);
+        if (this.modified) {
+          const alert = await this.alertController.create({
+            header: 'Attention!',
+            message: "If you proceed your data won't be saved.",
+            buttons: [
+              {
+                text: 'Cancel'
+              },
+              {
+                text: 'Ok',
+                handler: () => {
+                  this.prodService.deleteProduct(this.id);
+                  this.router.navigate(['/tabs/products']);
+                }
+              }
+            ]
+          })
+          await alert.present();
+        } else {
+          this.prodService.deleteProduct(this.id);
+          this.router.navigate(['/tabs/products']);
+        }
         break;
 
       case 'edit':
@@ -128,7 +147,6 @@ export class ProductEditorComponent implements OnInit {
   }
   async deleteAlert() {
     const alert = await this.alertController.create({
-      backdropDismiss: false,
       header: 'Are you sure?',
       message: 'Do you really want to delete this product? All data will be lost.',
       buttons: [

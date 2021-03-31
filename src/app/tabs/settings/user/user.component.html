@@ -11,22 +11,29 @@
 </ion-header>
 
 <ion-content>
-  <div id="av-container">
-    <img [src]="userService.getUserData('avatar')">
+  <div id="content">
+    <div>
+      <div id="av-container">
+        <img [src]="userService.getUserData('avatar')">
+      </div>
+      <div class="data-container">
+        <ion-label>Username:</ion-label>
+        <ion-input readonly type="text" [value]="userService.getUserData('username')"></ion-input>
+      </div>
+      <div class="data-container">
+        <ion-label>Password:</ion-label>
+        <ion-input readonly [type]="pswVisible? 'text' : 'password'" [value]="userService.getUserData('password')">
+        </ion-input>
+        <ion-button fill="clear" color="dark" style="margin: 0; font-size: large;"
+          (click)="pswVisible? pswVisible = false : pswVisible = true">
+          <ion-icon [name]="pswVisible? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+    <div id="sintra-link">
+      <p>Want to edit your profile? <a href="">Go to Sintra Portal</a></p>
+    </div>
   </div>
-  <div class="data-container">
-    <ion-label>Username:</ion-label>
-    <ion-input readonly type="text" [value]="userService.getUserData('username')"></ion-input>
-  </div>
-  <div class="data-container">
-    <ion-label>Password:</ion-label>
-    <ion-input readonly [type]="pswVisible? 'text' : 'password'" [value]="userService.getUserData('password')">
-    </ion-input>
-    <ion-button fill="clear" color="dark" style="margin: 0; font-size: large;"
-      (click)="pswVisible? pswVisible = false : pswVisible = true">
-      <ion-icon [name]="pswVisible? 'eye-off-outline' : 'eye-outline'"></ion-icon>
-    </ion-button>
-  </div>
-  <p id="sintra-link">Want to edit your profile? <a href="">Go to Sintra Portal</a></p>
+
 
 </ion-content>

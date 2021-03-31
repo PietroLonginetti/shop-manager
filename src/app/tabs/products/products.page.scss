@@ -30,3 +30,18 @@
         opacity: 1;
     }
 }
+@keyframes pulse{
+    0%{
+        width: 50%;
+        opacity: 0;
+    }
+    50%{
+        width: 53%;
+        opacity: 1;
+    }
+    100%{
+        width: 50%;
+        opacity: 0;
+    }
+
+}
