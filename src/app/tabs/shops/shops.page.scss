@@ -34,11 +34,7 @@ ion-card-content{
 
 .active{
     height: 100%;
-    opacity: 1;
-    transition: height 0.2s linear, opacity 0.2s ease-in;
 }
 .inactive{
     height: 0px;
-    opacity: 0;
-    transition: height 0.2s linear, opacity 0.2s ease-out;
 }

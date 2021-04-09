@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductsPage } from './products.page';
 import { ProductsPageRoutingModule } from './products-routing.module';
-import { HttpClientModule } from '@angular/common/http'
 
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module'
 
@@ -23,8 +22,7 @@ import { ProductEditorComponent } from './product-editor/product-editor.componen
     FormsModule,
     ReactiveFormsModule,
     ProductsPageRoutingModule,
-    SharedDirectivesModule,
-    HttpClientModule
+    SharedDirectivesModule
   ],
   declarations: [
     ProductsPage,

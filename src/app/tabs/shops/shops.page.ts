@@ -5,7 +5,6 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { Storage } from '@ionic/storage';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular'
 
 @Component({
   selector: 'app-shops',
