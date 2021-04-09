@@ -141,7 +141,7 @@ export class ShopsPage{
   }
   getListAvatar(i: number): string{
     if (this.shops[i].value.imgs[0] == null){
-      return '../assets/img/store.jpg'
+      return '../assets/img/shops/generic-shop.jpg'
     } else return this.shops[i].value.imgs[0]
   }
 }

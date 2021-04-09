@@ -84,7 +84,7 @@ export class ShopDataExchangeService {
 
   public addShop(){
     this._shops.push(new BehaviorSubject<Object>({
-      id: this.shops.length * 2, //Si vuole simulare una generazione pseudocasuale degli id NON basata su valori posizionali
+      id: this.shops.length * 2, //Generazione pseudocasuale degli id NON basata su valori posizionali
       MBLink: '',
       name: '',
       imgs: [],
@@ -136,6 +136,7 @@ export class ShopDataExchangeService {
     return target.asObservable();
   }
   get shops(){
+    // HTTP REQUEST
     return this._shops
   }
 }
