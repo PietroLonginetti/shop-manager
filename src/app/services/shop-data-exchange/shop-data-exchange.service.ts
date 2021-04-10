@@ -6,7 +6,9 @@ import { Apollo, gql } from 'apollo-angular'
   providedIn: 'root'
 })
 export class ShopDataExchangeService {
+  private baseUrl = 'https://pimcore-tesista.sintrasviluppo.it';
   private _shops = [
+    // VECCHIO MODELLO
     // new BehaviorSubject<Object>({
     //   id: 1,
     //   MBLink: '',
@@ -89,7 +91,7 @@ export class ShopDataExchangeService {
             id: shData.id,
             MBLink: '',
             name: shData.name,
-            imgs: [],
+            imgs: [this.baseUrl + shData.image.fullpath],
             valutation: Array(0),
             // ---- address ----
             street: shData.street,
@@ -122,7 +124,13 @@ export class ShopDataExchangeService {
       name: '',
       imgs: [],
       valutation: Array(0),
-      address: '',
+      // ---- address ----
+      street: '',
+      zip: '',
+      city: '',
+      province: '',
+      countryCode: '',
+      // -----------------
       telephone: '',
       hours: [
         [],
@@ -137,14 +145,16 @@ export class ShopDataExchangeService {
     }))
   }
   public modifyShop(modifications: Object, id: string) {
+    //TODO: send http request to update db
     for (let i = 0; i < this._shops.length; i++) {
-      if (this._shops[i].value['id'] === parseInt(id)) {
+      if (this._shops[i].value['id'] == id) {
         this._shops[i].next(modifications);
         return;
       }
     }
   }
   public deleteShop(id: string) {
+    //TODO: send http request to update db
     for (let i = 0; i < this._shops.length; i++) {
       if (this._shops[i].value['id'] === parseInt(id)) {
         this._shops.splice(i, 1);
