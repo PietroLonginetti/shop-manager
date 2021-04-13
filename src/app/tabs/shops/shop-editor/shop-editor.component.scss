@@ -1,16 +1,25 @@
 ion-input{
-    border: 1px solid rgb(197, 197, 197);
+    background-color: rgba(197, 197, 197, 0.384);
+    border: 1px solid rgb(0,0,0,0);
     border-radius: 5px;
     height: 2.5rem;
     transition: 0.3s;
+    margin: 0.2rem 0;
 }
-.reorderable-img{
-    width: 60%;
+#gallery-container{
+    padding: 0.6rem 5px;
+    border-bottom: 4px solid #b6c2ca;
+}
+#main-img{
+    width: 80%;
+}
+.gallery-img{
+    width: 50%;
     margin: 0.3rem 1rem 0.3rem 0;
     border-radius: 5px;
 }
 .main-grid{
-    padding: 5px 15px;
+    padding: 5px 0;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -19,8 +28,11 @@ ion-input{
     margin: 0;
 }
 .main-grid ion-row{
+    padding: 0.6rem 15px;
     align-items: center;
+    border-bottom: 4px solid #b6c2ca;
 }
-#gmlink{
-    margin: 0 15px;
+#gmlink-container{
+    padding: 0.6rem 16px;
+    border-bottom: 4px solid #b6c2ca;
 }

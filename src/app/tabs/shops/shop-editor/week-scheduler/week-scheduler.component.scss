@@ -20,8 +20,8 @@ ion-datetime{
     margin: 0;
     display: inline-block;
     padding: 2px 4px;
-    border: 1px solid rgb(197, 197, 197);
-    background-color: initial;
+    background-color: rgba(197, 197, 197, 0.384);
+    border: 1px solid rgb(0,0,0,0);
     border-radius: 5px;
     width: 100%;
     transition: 0.5s;
@@ -29,11 +29,9 @@ ion-datetime{
 
 .invalid-turn{
     border-color: rgb(235, 68, 90);
-    background-color: rgb(235 68 90 / 12%);
 }
 .invalid-cross-turn{
     border-color: rgb(235, 68, 90);
-    background-color: rgb(235 68 90 / 12%);
 }
 
 // Animations

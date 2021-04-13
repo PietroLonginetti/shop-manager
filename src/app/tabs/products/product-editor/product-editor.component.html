@@ -3,7 +3,7 @@
     <ion-grid style="padding: 5px 15px">
       <ion-row style="align-items: center; flex-wrap: nowrap; justify-content: space-between;">
         <div style="display: flex; align-items: center; max-width: 65%;">
-          <span style="margin: 0 1rem 0 5px;">Name:</span>
+          <span style="margin: 0 1rem 0 5px;"><strong>Name:</strong></span>
           <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'name')">
             <ion-input formControlName="name" type="text" (ionInput)="this.modified = true"
               placeholder="Insert product name">
@@ -15,7 +15,7 @@
             <ion-icon name="close" color="sintra-danger" style="font-size: x-large;"></ion-icon>
           </ion-button>
           <ion-button (click)="confirmAlert()">
-            <ion-icon name="checkmark" color="primary" style="font-size: x-large;"></ion-icon>
+            <ion-icon name="checkmark" color="success" style="font-size: x-large;"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-row>
@@ -25,21 +25,22 @@
 </ion-header>
 
 <ion-content>
-  <div style="margin: 0.8rem 5px 2rem;">
-    <div style="display: flex; align-items: center; margin-left: 15px;">
-      <span>Pictures:</span>
-      <ion-button class="add" fill="clear">
-        <ion-icon name="add"></ion-icon>
-      </ion-button>
+  <div id="gallery-container">
+    <div style="display: flex; align-items: center; margin:0 15px 1rem">
+      <span><strong>Pictures:</strong></span>
     </div>
     <ion-reorder-group (ionItemReorder)="reorderImgs($event)" disabled="false" lines="none">
       <ion-item *ngFor="let img of modifications.imgs; let imgId = index" id="slide{{imgId}}"
         style="--inner-border-width: 0;">
-        <ion-badge slot="start" color="medium">{{imgId + 1}}</ion-badge>
-        <img class="reorderable-img" [src]="img">
-        <ion-button fill="clear" color="sintra-danger" style="font-size: inherit;" (click)="deletePhoto(imgId)">
-          <ion-icon name="remove"></ion-icon>
-        </ion-button>
+        <div *ngIf="imgId == 0; then mainImg else gallery"></div>
+        <ng-template #mainImg>
+          <ion-badge slot="start" color="success">{{imgId + 1}}</ion-badge>
+          <img id="main-img" class="gallery-img" [src]="img">
+        </ng-template>
+        <ng-template #gallery>
+          <ion-badge slot="start" color="light">{{imgId + 1}}</ion-badge>
+          <img class="gallery-img" [src]="img">
+        </ng-template>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
     </ion-reorder-group>
@@ -47,7 +48,7 @@
 
   <ion-grid class="main-grid">
     <ion-row>
-      <ion-col size="3">ID:</ion-col>
+      <ion-col size="3"><strong>ID:</strong></ion-col>
       <ion-col size="9">
         <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'id')">
           <ion-input formControlName="id" type="text" (ionInput)="this.modified = true"
@@ -56,7 +57,7 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="3">Price:</ion-col>
+      <ion-col size="3"><strong>Price:</strong></ion-col>
       <ion-col size="9">
         <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'price')"
           style="display: flex; align-items: center;">
@@ -67,7 +68,7 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <h6 style="margin: 1.6rem 5px 0">Description:</h6>
+      <h6 style="margin: 1.6rem 5px 0"><strong>Description:</strong></h6>
       <ion-col size="12">
         <form class="active-form" [formGroup]="formCtrl" style="width: 100%;">
           <ion-textarea formControlName="description" autoGrow (ionInput)="this.modified = true" 
@@ -78,7 +79,7 @@
   </ion-grid>
 
   <ion-button *ngIf="mode === 'edit'" (click)="deleteAlert()" expand="full" fill="clear" color="sintra-danger"
-  style="margin: 1.5rem 0 0">
+  style="margin: 0.6rem 0">
   Delete this product</ion-button>
  
 </ion-content>

@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, AnimationController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { WeekSchedulerComponent } from 'src/app/tabs/shops/shop-editor/week-scheduler/week-scheduler.component';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 
@@ -40,7 +40,7 @@ export class ShopEditorComponent implements OnInit {
       province: new FormControl(`${this.modifications.province}`, Validators.maxLength(2)),
       countryCode: new FormControl(`${this.modifications.countryCode}`, Validators.maxLength(2)),
       telephone: new FormControl(`${this.modifications.telephone}`, [Validators.pattern('^[+]?[0-9]+$'), Validators.minLength(8)]),
-      MBLink: new FormControl(`${this.modifications.MBLink}`, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'))
+      MBLink: new FormControl(`${this.modifications.MBLink}`)
     })
   }
   ngOnInit() {
@@ -161,19 +161,13 @@ export class ShopEditorComponent implements OnInit {
     form = form.parentNode;
     if (this.formCtrl.controls[key].errors) {
       form.style.borderColor = 'rgb(235, 68, 90)';
-      form.style.backgroundColor = 'rgb(235 68 90 / 12%)';
     } else {
-      form.style.borderColor = 'rgb(197, 197, 197)';
-      form.style.backgroundColor = 'initial';
+      form.style.borderColor = 'rgb(0,0,0,0)';
       this.modifications[key] = this.formCtrl.get(key).value; //Saving the correct value
     }
   }
 
   // Methods
-  async deletePhoto(imgId: number) {
-    this.modified = true;
-    this.modifications.imgs.splice(imgId, 1);
-  }
   reorderImgs(ev) {
     this.modified = true;
     const imgToMove = this.modifications.imgs.splice(ev.detail.from, 1)[0];

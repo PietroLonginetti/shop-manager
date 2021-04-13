@@ -65,6 +65,12 @@ export class ShopDataExchangeService {
               image {
                 id
                 fullpath(thumbnail: "content")
+              }
+              gallery { 
+                image {
+                    id
+                    fullpath(thumbnail: "content")
+                } 
               }       
               street
               zip
@@ -88,12 +94,60 @@ export class ShopDataExchangeService {
       .valueChanges.subscribe((result: any) => {
         let numOfShops = result.data.getNegozioListing.totalCount;
         for (let i = 0; i < numOfShops; i++) {
+
           let shData = result.data.getNegozioListing.edges[i].node;
+          
+          let imgs = [];
+          imgs.push(this.baseUrl + shData.image.fullpath);
+          shData.gallery.forEach(el => {
+            imgs.push(this.baseUrl + el.image.fullpath)
+          });
+
+          let hours = [[], [], [], [], [], [], []];
+          shData.openings.forEach(op => {
+            switch (op.dayofweek) {
+              case 'Sun':
+                if (!op.closed)
+                  hours[0].push({ from: op.opening, to: op.closing })
+                break;
+              case 'Mon':
+                if (!op.closed)
+                  hours[1].push({ from: op.opening, to: op.closing })
+                break;
+              case 'Tue':
+                if (!op.closed)
+                  hours[2].push({ from: op.opening, to: op.closing })
+                break;
+              case 'Wed':
+                if (!op.closed)
+                  hours[3].push({ from: op.opening, to: op.closing })
+                break;
+              case 'Thu':
+                if (!op.closed)
+                  hours[4].push({ from: op.opening, to: op.closing })
+                break;
+              case 'Fri':
+                if (!op.closed)
+                  hours[5].push({ from: op.opening, to: op.closing })
+                break;
+              case 'Sat':
+                if (!op.closed)
+                  hours[6].push({ from: op.opening, to: op.closing })
+                break;
+            }
+
+          });
+          let mblink;
+
+          if(shData.googlemybusiness == null)
+            mblink = '';
+          else mblink = shData.googlemybusiness;
+
           this._shops[i] = new BehaviorSubject({
             id: shData.id,
-            MBLink: shData.googlemybusiness,
+            MBLink: mblink,
             name: shData.name,
-            imgs: [this.baseUrl + shData.image.fullpath],
+            imgs: imgs,
             valutation: shData.voto,
             // ---- address ----
             street: shData.street,
@@ -103,15 +157,7 @@ export class ShopDataExchangeService {
             countryCode: shData.country_code,
             // -----------------
             telephone: shData.phone,
-            hours: [
-              [],
-              [],
-              [],
-              [],
-              [],
-              [],
-              []
-            ],
+            hours: hours,
             automations: { music: false, heating: false }
           })
         }
