@@ -19,6 +19,13 @@ export class ShopsPage{
   cards: any;
   list: any;
 
+  intValutation(i: number){
+    return Array(parseInt(this.shops[i].value.valutation));
+  }
+  decValutation(i: number){
+    return this.shops[i].value.valutation % 1 != 0;
+  }
+
   constructor(private popoverController: PopoverController, private callNumber : CallNumber,
     private storage: Storage, private shopService: ShopDataExchangeService, private router: Router) {
       this.shops = this.shopService.shops;

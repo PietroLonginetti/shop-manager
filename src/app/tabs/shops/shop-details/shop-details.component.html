@@ -30,7 +30,8 @@
   </ion-slides>
 
   <div class="stars-container">
-    <ion-icon *ngFor="let star of shop.valutation" name="star" class="stars"></ion-icon>
+    <ion-icon *ngFor="let star of intValutation" name="star" class="stars"></ion-icon>
+    <ion-icon *ngIf="decValutation" name="star-half" class="stars"></ion-icon>
   </div>
 
   <ion-grid class="main-grid">
@@ -66,7 +67,7 @@
 
     <ion-toolbar style="margin-top: 2%;">
       <ion-buttons style="justify-content: center;">
-        <ion-button color="success" fill="solid" [disabled]="this.shop.MBLink == ''? true: false"
+        <ion-button color="success" fill="solid" [disabled]="this.shop.MBLink == null? true: false"
         [href]="this.shop.MBLink">
           Go to My Business
         </ion-button>

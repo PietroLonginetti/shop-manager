@@ -15,6 +15,13 @@ export class ShopDetailsComponent implements OnInit {
   shop = null;
   weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+  get intValutation(){
+    return Array(parseInt(this.shop.valutation));
+  }
+  get decValutation(){
+    return this.shop.valutation % 1 != 0;
+  }
+
   constructor(private activatedRoute: ActivatedRoute ,private shopService: ShopDataExchangeService, 
     private popoverController: PopoverController, private callNumber: CallNumber) {
   }

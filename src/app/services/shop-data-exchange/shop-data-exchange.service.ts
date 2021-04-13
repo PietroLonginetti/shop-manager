@@ -77,6 +77,8 @@ export class ShopDataExchangeService {
                   closing
                 }
               }
+              voto
+              googlemybusiness
             }
           }
         }
@@ -89,10 +91,10 @@ export class ShopDataExchangeService {
           let shData = result.data.getNegozioListing.edges[i].node;
           this._shops[i] = new BehaviorSubject({
             id: shData.id,
-            MBLink: '',
+            MBLink: shData.googlemybusiness,
             name: shData.name,
             imgs: [this.baseUrl + shData.image.fullpath],
-            valutation: Array(0),
+            valutation: shData.voto,
             // ---- address ----
             street: shData.street,
             zip: shData.zip,
