@@ -13,6 +13,8 @@ import { ShopPopoverComponent } from './shop-details/shop-popover/shop-popover.c
 import { ShopDetailsComponent } from './shop-details/shop-details.component'
 import { ShopEditorComponent } from './shop-editor/shop-editor.component';
 import { WeekSchedulerComponent } from 'src/app/tabs/shops/shop-editor/week-scheduler/week-scheduler.component';
+import { ShopCardsComponent } from './shop-cards/shop-cards.component'
+import { ShopListComponent } from './shop-list/shop-list.component'
 
 @NgModule({
   imports: [
@@ -30,7 +32,9 @@ import { WeekSchedulerComponent } from 'src/app/tabs/shops/shop-editor/week-sche
     ShopPopoverComponent,
     ShopDetailsComponent,
     ShopEditorComponent,
-    WeekSchedulerComponent
+    WeekSchedulerComponent,
+    ShopCardsComponent,
+    ShopListComponent
   ]
 })
 export class ShopsPageModule {}

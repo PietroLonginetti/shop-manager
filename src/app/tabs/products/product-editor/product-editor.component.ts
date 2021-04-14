@@ -177,8 +177,10 @@ export class ProductEditorComponent implements OnInit {
     form = form.parentNode;
     if (this.formCtrl.controls[key].errors) {
       form.style.borderColor = 'rgb(235, 68, 90)';
+      form.style.backgroundColor = 'rgba(216, 154, 154, 0.29)';
     } else {
-      form.style.borderColor = 'rgba(197, 197, 197, 0.384)';
+      form.style.borderColor = 'rgb(0,0,0,0)';
+      form.style.backgroundColor = 'rgba(197, 197, 197, 0.384)';
       this.modifications[key] = this.formCtrl.get(key).value; //Saving the correct value
     }
   }

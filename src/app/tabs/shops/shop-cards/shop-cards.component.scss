@@ -1,0 +1,27 @@
+.active{
+    display: block;
+}
+.inactive{
+    display: none;
+}
+.stars{
+    color:#f6d12d;
+}
+
+.card-open{
+    color: rgba(124, 124, 124, 0.863); 
+    font-size: 12px; 
+    padding-right: 16px;
+    margin: 0;
+    padding: 0; 
+}
+.card-title{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+ion-card-content{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

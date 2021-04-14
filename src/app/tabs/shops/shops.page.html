@@ -13,8 +13,8 @@
       </ion-button>
     </ion-buttons>
 
-    <ion-searchbar id="shop-searchbar" *ngIf="isSearchBarOpened" animated="true" (ionInput)="findShop()" showCancelButton="true" 
-    (ionCancel)="closeSearchBar()" placeholder="Find your shop!" color="sintra">
+    <ion-searchbar id="shop-searchbar" *ngIf="isSearchBarOpened" animated="true" (ionInput)="findShop()"
+      showCancelButton="true" (ionCancel)="closeSearchBar()" placeholder="Find your shop!" color="sintra">
     </ion-searchbar>
 
   </ion-toolbar>
@@ -37,40 +37,8 @@
   </ion-fab>
 
 
-  <div id="container">
-    <div class="inactive" id="shop-cards">
-      <ion-card class="active" *ngFor="let shop of shops; let i = index;" routerLink="shop-details/{{shop.value.id}}">
-        <img [src]="shop.value.imgs[0]">
-        <ion-card-header>
-          <ion-card-title class="card-title">{{shop.value.name}}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <div style="width: 80px">
-            <ion-icon *ngFor="let star of intValutation(i)" name="star" class="stars"></ion-icon>
-            <ion-icon *ngIf="decValutation(i)" name="star-half" class="stars"></ion-icon>
-          </div>
-          <ion-chip color="primary" outline="true" [disabled]="shop.value.telephone != ''? false : true">
-            <ion-icon name="call" style="margin: 0" (click)="callShop($event, i);"></ion-icon>
-          </ion-chip>
-          <div style="width: 80px; text-align: end;">
-            <p class="card-open">{{isOpen(i)?'Now Open':'Now Closed'}}</p>
-          </div>
-        </ion-card-content>
-      </ion-card>
-    </div>
-
-    <ion-list class="inactive" id="shop-list" lines="none">
-      <ion-item class="active" *ngFor="let shop of shops; let i = index;" routerLink="shop-details/{{shop.value.id}}">
-        <ion-avatar slot="start"><img [src]="getListAvatar(i)"></ion-avatar>
-        <ion-label>{{shop.value.name}}</ion-label>
-        <div>
-          <ion-icon *ngFor="let star of intValutation(i)" name="star" class="stars" style="font-size: 16px;">
-          </ion-icon>
-          <ion-icon *ngIf="decValutation(i)" name="star-half" class="stars" style="font-size: 16px;">
-          </ion-icon>
-        </div>
-      </ion-item>
-    </ion-list>
+  <div #container id="container">
+    <!-- cards or list dinamically allocated -->
   </div>
 
 </ion-content>

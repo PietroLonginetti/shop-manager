@@ -1,0 +1,12 @@
+<ion-list id="shop-list" lines="none">
+  <ion-item class="active" *ngFor="let shop of shops; let i = index;" routerLink="shop-details/{{shop.value.id}}">
+    <ion-avatar slot="start"><img [src]="getListAvatar(i)"></ion-avatar>
+    <ion-label>{{shop.value.name}}</ion-label>
+    <div>
+      <ion-icon *ngFor="let star of intValutation(i)" name="star" class="stars" style="font-size: 16px;">
+      </ion-icon>
+      <ion-icon *ngIf="decValutation(i)" name="star-half" class="stars" style="font-size: 16px;">
+      </ion-icon>
+    </div>
+  </ion-item>
+</ion-list>
