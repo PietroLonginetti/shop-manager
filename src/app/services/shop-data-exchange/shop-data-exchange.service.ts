@@ -108,37 +108,37 @@ export class ShopDataExchangeService {
             switch (op.dayofweek) {
               case 'Sun':
                 if (!op.closed)
-                  hours[0].push({ from: op.opening, to: op.closing })
+                  hours[0].push({ from: op.opening, to: op.closing, dayOfWeek: 'Sun'})
                 break;
               case 'Mon':
                 if (!op.closed)
-                  hours[1].push({ from: op.opening, to: op.closing })
+                  hours[1].push({ from: op.opening, to: op.closing, dayOfWeek: 'Mon'})
                 break;
               case 'Tue':
                 if (!op.closed)
-                  hours[2].push({ from: op.opening, to: op.closing })
+                  hours[2].push({ from: op.opening, to: op.closing, dayOfWeek: 'Tue'})
                 break;
               case 'Wed':
                 if (!op.closed)
-                  hours[3].push({ from: op.opening, to: op.closing })
+                  hours[3].push({ from: op.opening, to: op.closing, dayOfWeek: 'Wed'})
                 break;
               case 'Thu':
                 if (!op.closed)
-                  hours[4].push({ from: op.opening, to: op.closing })
+                  hours[4].push({ from: op.opening, to: op.closing, dayOfWeek: 'Thu'})
                 break;
               case 'Fri':
                 if (!op.closed)
-                  hours[5].push({ from: op.opening, to: op.closing })
+                  hours[5].push({ from: op.opening, to: op.closing, dayOfWeek: 'Fri'})
                 break;
               case 'Sat':
                 if (!op.closed)
-                  hours[6].push({ from: op.opening, to: op.closing })
+                  hours[6].push({ from: op.opening, to: op.closing, dayOfWeek: 'Sat'})
                 break;
             }
 
           });
-          let mblink;
 
+          let mblink;
           if(shData.googlemybusiness == null)
             mblink = '';
           else mblink = shData.googlemybusiness;
@@ -192,14 +192,59 @@ export class ShopDataExchangeService {
       automations: { music: false, heating: false }
     }))
   }
-  public modifyShop(modifications: Object, id: string) {
-    //TODO: send http request to update db
-    for (let i = 0; i < this._shops.length; i++) {
-      if (this._shops[i].value['id'] == id) {
-        this._shops[i].next(modifications);
-        return;
+
+  updateNegozioMutation = gql`
+    mutation UpdateNegozio($id: Int!, $input: UpdateNegozioInput!) {
+      updateNegozio(id: $id, input: $input){
+        success
+        message
       }
     }
+  `; 
+  public modifyShop(modifications: Object, id: string) {
+    let turns = []
+    for(let i = 0; i < 7; i++){
+      modifications['hours'][i].forEach(turn => {
+        turns.push({
+          closed: false,
+          dayofweek: turn.dayOfWeek,
+          opening: turn.from,
+          closing: turn.to
+        })
+      });
+    }
+    console.log(turns)
+    this.apollo.mutate({
+      mutation: this.updateNegozioMutation,
+      variables: {
+        id: modifications['id'],
+        input: {
+          phone: modifications['telephone'],
+          street: modifications['street'],
+          zip: modifications['zip'],
+          city: modifications['city'],
+          province: modifications['province'],
+          country_code: modifications['countryCode'],
+          googlemybusiness: modifications['MBLink'],
+          openings: {
+            replace: true,
+            items: {
+              Giorni: turns
+            }
+          }
+        }
+      }
+    }).subscribe(
+      ({data}) => {console.log('got data', data)},
+      (error) => {console.log('error:', error)}
+    )
+    //TODO: send http request to update db
+    // for (let i = 0; i < this._shops.length; i++) {
+    //   if (this._shops[i].value['id'] == id) {
+    //     this._shops[i].next(modifications);
+    //     return;
+    //   }
+    // }
   }
   public deleteShop(id: string) {
     //TODO: send http request to update db

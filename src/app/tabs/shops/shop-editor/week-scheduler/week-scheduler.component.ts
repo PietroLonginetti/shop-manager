@@ -44,10 +44,10 @@ export class WeekSchedulerComponent implements OnInit {
 
       let invalidInputFound = false;
       for (let t = 1; t < schedule.length; t++) {
-        let fromH = parseInt(schedule[t - 1].slice(schedule[t - 1].indexOf('T') + 1, schedule[t - 1].indexOf(':')))
-        let toH = parseInt(schedule[t].slice(schedule[t].indexOf('T') + 1, schedule[t].indexOf(':')))
-        let fromM = parseInt(schedule[t - 1].slice(schedule[t - 1].indexOf(':') + 1, schedule[t - 1].indexOf(':') + 3))
-        let toM = parseInt(schedule[t].slice(schedule[t].indexOf(':') + 1, schedule[t].indexOf(':') + 3))
+        let fromH = parseInt(schedule[t - 1].slice(0, 2))
+        let toH = parseInt(schedule[t].slice(0,2))
+        let fromM = parseInt(schedule[t - 1].slice(3,5))
+        let toM = parseInt(schedule[t].slice(3,5))
         if (fromH < toH || (fromH == toH && fromM < toM)) {
           if(t == schedule.length-1){
             scheduleHTML[t].classList.remove('invalid-cross-turn');
@@ -91,7 +91,7 @@ export class WeekSchedulerComponent implements OnInit {
     if (this.emptyTurn) {
       await this.removeEmptyTurn()
     }
-    this.days[i].push({ from: '', to: '' });
+    this.days[i].push({ from: '00:00', to: '00:00', dayOfWeek: this.weekDays[i]['day'] });
     this.emptyTurn = { day: i, turn: this.days[i].length - 1 }
   }
   async removeTurn(i: number, t: number) {

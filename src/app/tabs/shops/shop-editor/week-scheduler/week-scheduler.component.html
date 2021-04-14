@@ -10,13 +10,13 @@
     <ion-row class="turn-row" *ngFor="let turn of day; let t = index" >
       <ion-col size="4" class="turn-col">
         <ion-datetime class="valid" [(ngModel)]="turn.from" display-format="H:mm"
-          picker-format="H:mm" doneText="select" (ionBlur)="valuesChanged(i, t)">
+          picker-format="H:mm" minuteValues="0,15,30,45" doneText="select" (ionBlur)="valuesChanged(i, t)">
         </ion-datetime>
       </ion-col>
       <ion-col size="2" style="justify-content: center;">&#9656;</ion-col>
       <ion-col size="4" class="turn-col">
         <ion-datetime class="valid" [(ngModel)]="turn.to" display-format="H:mm"
-          picker-format="H:mm" doneText="select" (ionBlur)="valuesChanged(i, t)">
+          picker-format="H:mm" minuteValues="0,15,30,45" doneText="select" (ionBlur)="valuesChanged(i, t)">
         </ion-datetime>
       </ion-col>
       <ion-col size="2">
