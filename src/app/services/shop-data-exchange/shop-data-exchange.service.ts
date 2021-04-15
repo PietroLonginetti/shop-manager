@@ -6,6 +6,7 @@ import { Apollo, gql } from 'apollo-angular'
   providedIn: 'root'
 })
 export class ShopDataExchangeService {
+  public numOfShops;
   private shopsDataQuery = gql`
   {
     getNegozioListing(first: 10, after: 0, sortBy: "name") {
@@ -55,56 +56,22 @@ export class ShopDataExchangeService {
   }
 `;
   private baseUrl = 'https://pimcore-tesista.sintrasviluppo.it';
-  private _shops = [
-    // VECCHIO MODELLO
-    // new BehaviorSubject<Object>({
-    //   id: 1,
-    //   MBLink: '',
-    //   name: 'Good shop',
-    //   imgs: ['https://placeimg.com/360/150', 'https://placeimg.com/360/150/any'],
-    //   valutation: Array(2),
-    //   address: 'Via Roma 2, 50125',
-    //   telephone: '+390555047041',
-    //   hours: [
-    //     [], //sun
-    //     [ //mon
-    //       { from: '2021-03-10T08:00', to: '2021-03-10T12:00' },
-    //       { from: '2021-03-10T14:00', to: '2021-03-10T17:00' },
-    //       { from: '2021-03-10T14:00', to: '2021-03-10T17:00' }
-    //     ],
-    //     [ //tue
-    //       { from: '2021-03-10T08:00', to: '2021-03-10T12:00' },
-    //       { from: '2021-03-10T14:00', to: '2021-03-10T17:00' }
-    //     ],
-    //     [ //wed
-    //       { from: '2021-03-10T08:00', to: '2021-03-10T12:00' },
-    //       { from: '2021-03-10T14:00', to: '2021-03-10T17:00' }
-    //     ],
-    //     [ //thu
-    //       { from: '2021-03-10T08:00', to: '2021-03-10T12:00' },
-    //       { from: '2021-03-10T14:00', to: '2021-03-10T17:00' }
-    //     ],
-    //     [ //fri
-    //       { from: '2021-03-10T08:00', to: '2021-03-10T12:00' },
-    //       { from: '2021-03-10T14:00', to: '2021-03-10T17:00' }
-    //     ],
-    //     [ //sat
-    //       { from: '2021-03-10T08:00', to: '2021-03-10T12:00' }
-    //     ]
-    //   ],
-    //   automations: { music: false, heating: false }
-    // })
-  ]
+  private _shops;
 
   constructor(private apollo: Apollo) {
     this.apollo.watchQuery({
       query: this.shopsDataQuery
     })
       .valueChanges.subscribe((result: any) => {
-        console.log('query fetched')
-        let numOfShops = result.data.getNegozioListing.totalCount;
-        for (let i = 0; i < numOfShops; i++) {
-
+        this.numOfShops = result.data.getNegozioListing.totalCount;
+        if(!this._shops){
+          this._shops = [];
+          for(let n = 0; n < this.numOfShops; n++){
+            this._shops.push(new BehaviorSubject<Object>({}))
+          }
+        }
+        
+        for (let i = 0; i < this.numOfShops; i++) {
           let shData = result.data.getNegozioListing.edges[i].node;
 
           let imgs = [];
@@ -153,7 +120,7 @@ export class ShopDataExchangeService {
             mblink = '';
           else mblink = shData.googlemybusiness;
 
-          this._shops[i] = new BehaviorSubject({
+          this._shops[i].next({
             id: shData.id,
             MBLink: mblink,
             name: shData.name,
@@ -253,14 +220,6 @@ export class ShopDataExchangeService {
         }
       )
     })
-
-    //TODO: send http request to update db
-    // for (let i = 0; i < this._shops.length; i++) {
-    //   if (this._shops[i].value['id'] == id) {
-    //     this._shops[i].next(modifications);
-    //     return;
-    //   }
-    // }
   }
   public deleteShop(id: string) {
     //TODO: send http request to update db
@@ -271,16 +230,13 @@ export class ShopDataExchangeService {
       }
     }
   }
-  get numOfShops() {
-    return this._shops.length;
-  }
   public getShopByPosition(i: number) {
     return this._shops[i].asObservable();
   }
   public getShopById(id) {
     let target = null
     this._shops.forEach((shop) => {
-      if (shop.value.id == id) {
+      if (shop.value['id'] == id) {
         target = shop;
       }
     })

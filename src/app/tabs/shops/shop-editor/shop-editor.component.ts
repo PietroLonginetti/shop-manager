@@ -57,9 +57,6 @@ export class ShopEditorComponent implements OnInit {
   }
 
   async confirmAlert() {
-    if (this.ws.emptyTurn) {
-      await this.ws.removeEmptyTurn()
-    }
     if (this.formCtrl.valid && this.ws.validWeek()) {
       if (this.modified) {
         const alert = await this.alertController.create({

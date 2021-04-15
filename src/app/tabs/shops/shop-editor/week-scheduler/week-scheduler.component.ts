@@ -24,10 +24,7 @@ export class WeekSchedulerComponent implements OnInit {
 
   ngOnInit() { }
 
-  valuesChanged(i: number, t: number) {
-    if(this.emptyTurn && this.emptyTurn.day === i && this.emptyTurn.turn === t){
-      this.emptyTurn = null;
-    }
+  valuesChanged() {
     this.dataChange.emit();
   }
   checkInvalidData(i: number) {
@@ -88,16 +85,30 @@ export class WeekSchedulerComponent implements OnInit {
     return valid;
   }
   async loadNewTurn(i: number) {
-    if (this.emptyTurn) {
-      await this.removeEmptyTurn()
+    console.log(this.days[i])
+    console.log(this.days[i].length)
+    console.log(this.days[i][this.days[i].length - 1])
+    let closingTurn = this.days[i][this.days[i].length - 1];
+    let newTurn = {from: '', to: '', dayOfWeek: this.weekDays[i]['day']}
+    if(closingTurn){
+      let closingHour = parseInt(closingTurn.to.slice(0, 2));
+      newTurn.from = `${(closingHour + 1) %24}:00`;
+      newTurn.to = `${(closingHour + 3) %24}:00`;
+      if(newTurn.from.length < 5){
+        newTurn.from = '0' + newTurn.from;
+      }
+      if(newTurn.to.length < 5){
+        newTurn.to = '0' + newTurn.to;
+      }
+    } else {
+      newTurn.from = '08:00';
+      newTurn.to = '12:00';
     }
-    this.days[i].push({ from: '00:00', to: '00:00', dayOfWeek: this.weekDays[i]['day'] });
-    this.emptyTurn = { day: i, turn: this.days[i].length - 1 }
+    console.log(newTurn)
+    this.days[i].push(newTurn);
+    this.valuesChanged();
   }
   async removeTurn(i: number, t: number) {
-    if (this.emptyTurn && i === this.emptyTurn.day && t === this.emptyTurn.turn) {
-      this.emptyTurn = null; //Case: click remove on empty turn
-    }
     await this.animationCtrl.create()
       .addElement(document.getElementById('day' + i).getElementsByTagName('ion-row')[t])
       .duration(100)
@@ -106,25 +117,7 @@ export class WeekSchedulerComponent implements OnInit {
       .easing('ease-out')
       .play()
     this.days[i].splice(t, 1);
-    this.valuesChanged(i, t);
+    this.valuesChanged();
     setTimeout(() => { this.checkInvalidData(i); })
-  }
-  async removeEmptyTurn() {
-    if (!this.emptyTurn) {
-      //Do nothing
-    }
-    else {
-      let i = this.emptyTurn.day;
-      let t = this.emptyTurn.turn;
-      await this.animationCtrl.create()
-        .addElement(document.getElementById('day' + i).getElementsByTagName('ion-row')[t])
-        .duration(100)
-        .fromTo('opacity', '1', '0')
-        .fromTo('height', '35.3px', '0')
-        .easing('ease-out')
-        .play()
-      this.days[i].splice(t, 1);
-      this.emptyTurn = null;
-    }
   }
 }
