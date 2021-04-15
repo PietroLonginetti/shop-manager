@@ -6,6 +6,54 @@ import { Apollo, gql } from 'apollo-angular'
   providedIn: 'root'
 })
 export class ShopDataExchangeService {
+  private shopsDataQuery = gql`
+  {
+    getNegozioListing(first: 10, after: 0, sortBy: "name") {
+      totalCount
+      edges {
+        node {
+          id
+          name
+          city
+          country_code
+          phone
+          province
+          image {
+            id
+            fullpath(thumbnail: "content")
+          }
+          gallery { 
+            image {
+                id
+                fullpath(thumbnail: "content")
+            } 
+          }       
+          street
+          zip
+          openings { 
+             ... on fieldcollection_Giorni {
+              dayofweek
+              closed
+              partofday
+              opening
+              closing
+            }
+          }
+          voto
+          googlemybusiness
+        }
+      }
+    }
+  }
+  `;
+  private updateShopMutation = gql`
+  mutation UpdateNegozio($id: Int!, $input: UpdateNegozioInput!) {
+    updateNegozio(id: $id, input: $input){
+      success
+      message
+    }
+  }
+`;
   private baseUrl = 'https://pimcore-tesista.sintrasviluppo.it';
   private _shops = [
     // VECCHIO MODELLO
@@ -50,53 +98,15 @@ export class ShopDataExchangeService {
 
   constructor(private apollo: Apollo) {
     this.apollo.watchQuery({
-      query: gql`
-      {
-        getNegozioListing(first: 10, after: 0, sortBy: "name") {
-          totalCount
-          edges {
-            node {
-              id
-              name
-              city
-              country_code
-              phone
-              province
-              image {
-                id
-                fullpath(thumbnail: "content")
-              }
-              gallery { 
-                image {
-                    id
-                    fullpath(thumbnail: "content")
-                } 
-              }       
-              street
-              zip
-              openings { 
-                 ... on fieldcollection_Giorni {
-                  dayofweek
-                  closed
-                  partofday
-                  opening
-                  closing
-                }
-              }
-              voto
-              googlemybusiness
-            }
-          }
-        }
-      }
-      `
+      query: this.shopsDataQuery
     })
       .valueChanges.subscribe((result: any) => {
+        console.log('query fetched')
         let numOfShops = result.data.getNegozioListing.totalCount;
         for (let i = 0; i < numOfShops; i++) {
 
           let shData = result.data.getNegozioListing.edges[i].node;
-          
+
           let imgs = [];
           imgs.push(this.baseUrl + shData.image.fullpath);
           shData.gallery.forEach(el => {
@@ -108,38 +118,38 @@ export class ShopDataExchangeService {
             switch (op.dayofweek) {
               case 'Sun':
                 if (!op.closed)
-                  hours[0].push({ from: op.opening, to: op.closing, dayOfWeek: 'Sun'})
+                  hours[0].push({ from: op.opening, to: op.closing, dayOfWeek: 'Sun' })
                 break;
               case 'Mon':
                 if (!op.closed)
-                  hours[1].push({ from: op.opening, to: op.closing, dayOfWeek: 'Mon'})
+                  hours[1].push({ from: op.opening, to: op.closing, dayOfWeek: 'Mon' })
                 break;
               case 'Tue':
                 if (!op.closed)
-                  hours[2].push({ from: op.opening, to: op.closing, dayOfWeek: 'Tue'})
+                  hours[2].push({ from: op.opening, to: op.closing, dayOfWeek: 'Tue' })
                 break;
               case 'Wed':
                 if (!op.closed)
-                  hours[3].push({ from: op.opening, to: op.closing, dayOfWeek: 'Wed'})
+                  hours[3].push({ from: op.opening, to: op.closing, dayOfWeek: 'Wed' })
                 break;
               case 'Thu':
                 if (!op.closed)
-                  hours[4].push({ from: op.opening, to: op.closing, dayOfWeek: 'Thu'})
+                  hours[4].push({ from: op.opening, to: op.closing, dayOfWeek: 'Thu' })
                 break;
               case 'Fri':
                 if (!op.closed)
-                  hours[5].push({ from: op.opening, to: op.closing, dayOfWeek: 'Fri'})
+                  hours[5].push({ from: op.opening, to: op.closing, dayOfWeek: 'Fri' })
                 break;
               case 'Sat':
                 if (!op.closed)
-                  hours[6].push({ from: op.opening, to: op.closing, dayOfWeek: 'Sat'})
+                  hours[6].push({ from: op.opening, to: op.closing, dayOfWeek: 'Sat' })
                 break;
             }
 
           });
 
           let mblink;
-          if(shData.googlemybusiness == null)
+          if (shData.googlemybusiness == null)
             mblink = '';
           else mblink = shData.googlemybusiness;
 
@@ -193,17 +203,10 @@ export class ShopDataExchangeService {
     }))
   }
 
-  updateNegozioMutation = gql`
-    mutation UpdateNegozio($id: Int!, $input: UpdateNegozioInput!) {
-      updateNegozio(id: $id, input: $input){
-        success
-        message
-      }
-    }
-  `; 
-  public modifyShop(modifications: Object, id: string) {
+
+  public modifyShop(modifications: Object, id: string): Promise<void> {
     let turns = []
-    for(let i = 0; i < 7; i++){
+    for (let i = 0; i < 7; i++) {
       modifications['hours'][i].forEach(turn => {
         turns.push({
           closed: false,
@@ -213,31 +216,44 @@ export class ShopDataExchangeService {
         })
       });
     }
-    console.log(turns)
-    this.apollo.mutate({
-      mutation: this.updateNegozioMutation,
-      variables: {
-        id: modifications['id'],
-        input: {
-          phone: modifications['telephone'],
-          street: modifications['street'],
-          zip: modifications['zip'],
-          city: modifications['city'],
-          province: modifications['province'],
-          country_code: modifications['countryCode'],
-          googlemybusiness: modifications['MBLink'],
-          openings: {
-            replace: true,
-            items: {
-              Giorni: turns
+
+    return new Promise<void>((resolve, reject) => {
+      this.apollo.mutate({
+        mutation: this.updateShopMutation,
+        variables: {
+          id: modifications['id'],
+          input: {
+            phone: modifications['telephone'],
+            street: modifications['street'],
+            zip: modifications['zip'],
+            city: modifications['city'],
+            province: modifications['province'],
+            country_code: modifications['countryCode'],
+            googlemybusiness: modifications['MBLink'],
+            openings: {
+              replace: true,
+              items: {
+                Giorni: turns
+              }
             }
           }
+        },
+        refetchQueries: [
+          {query: this.shopsDataQuery}
+        ],
+        awaitRefetchQueries: true
+      }).subscribe(
+        ({ data }) => {
+          console.log('got data', data);
+          resolve();
+        },
+        (error) => {
+          console.log('error:', error)
+          reject();
         }
-      }
-    }).subscribe(
-      ({data}) => {console.log('got data', data)},
-      (error) => {console.log('error:', error)}
-    )
+      )
+    })
+
     //TODO: send http request to update db
     // for (let i = 0; i < this._shops.length; i++) {
     //   if (this._shops[i].value['id'] == id) {

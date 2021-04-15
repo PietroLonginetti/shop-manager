@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { WeekSchedulerComponent } from 'src/app/tabs/shops/shop-editor/week-scheduler/week-scheduler.component';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 
@@ -25,7 +25,7 @@ export class ShopEditorComponent implements OnInit {
   formCtrl: FormGroup;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private shopService: ShopDataExchangeService,
-    private alertController: AlertController, private toast: ToastController) {
+    private alertController: AlertController, private toast: ToastController, private loadingController: LoadingController) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
     this.shopService.getShopById(this.id).subscribe(shop => { this.shop = shop });
@@ -46,7 +46,16 @@ export class ShopEditorComponent implements OnInit {
   ngOnInit() {
   }
 
-  // Alerts 
+  // Alerts/Povers/Loaders
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Please wait...',
+      duration: 100000 //100 seconds
+    });
+    await loading.present();
+  }
+
   async confirmAlert() {
     if (this.ws.emptyTurn) {
       await this.ws.removeEmptyTurn()
@@ -64,8 +73,16 @@ export class ShopEditorComponent implements OnInit {
             {
               text: 'Yes',
               handler: () => {
-                this.shopService.modifyShop(this.modifications, this.id);
-                this.router.navigate(['/tabs/shops/shop-details/' + this.id]);
+                this.presentLoading()
+                this.shopService.modifyShop(this.modifications, this.id)
+                  .then(res => {
+                    this.loadingController.dismiss()
+                    this.router.navigate(['/tabs/shops/shop-details/' + this.id]);
+                  })
+                  .catch( err => {
+                    console.log(err)
+                  })
+
               }
             }
           ]

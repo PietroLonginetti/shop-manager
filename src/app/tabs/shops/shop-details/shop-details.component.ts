@@ -24,11 +24,10 @@ export class ShopDetailsComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute ,private shopService: ShopDataExchangeService, 
     private popoverController: PopoverController, private callNumber: CallNumber) {
+      this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
+      this.shopService.getShopById(this.id).subscribe(shop => {this.shop = shop})
   }
-  ngOnInit() {
-    this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.shopService.getShopById(this.id).subscribe(shop => {this.shop = shop})
-  }
+  ngOnInit() {}
 
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
