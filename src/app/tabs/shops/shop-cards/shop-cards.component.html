@@ -1,5 +1,13 @@
-<div id="shop-cards">
-  <ion-card class="active" *ngFor="let shop of shops; let i = index;" routerLink="shop-details/{{shop.value.id}}">
+<div id="shop-cards" *ngIf="shops.fetched == false; then spinner else cards"></div>
+
+<ng-template #spinner>
+  <div id="spinner-container">
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
+</ng-template>
+
+<ng-template #cards>
+  <ion-card class="active" *ngFor="let shop of shops.data; let i = index;" routerLink="shop-details/{{shop.value.id}}">
     <img [src]="shop.value.imgs[0]">
     <ion-card-header>
       <ion-card-title class="card-title">{{shop.value.name}}</ion-card-title>
@@ -17,4 +25,4 @@
       </div>
     </ion-card-content>
   </ion-card>
-</div>
+</ng-template>

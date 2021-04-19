@@ -56,7 +56,10 @@ export class ShopDataExchangeService {
   }
 `;
   private baseUrl = 'https://pimcore-tesista.sintrasviluppo.it';
-  private _shops;
+  private _shops = {
+    fetched : false,
+    data : []
+  };
 
   constructor(private apollo: Apollo) {
     this.apollo.watchQuery({
@@ -64,13 +67,12 @@ export class ShopDataExchangeService {
     })
       .valueChanges.subscribe((result: any) => {
         this.numOfShops = result.data.getNegozioListing.totalCount;
-        if(!this._shops){
-          this._shops = [];
-          for(let n = 0; n < this.numOfShops; n++){
-            this._shops.push(new BehaviorSubject<Object>({}))
+        if (this._shops.data.length === 0) {
+          for (let n = 0; n < this.numOfShops; n++) {
+            this._shops.data.push(new BehaviorSubject<Object>({}))
           }
         }
-        
+
         for (let i = 0; i < this.numOfShops; i++) {
           let shData = result.data.getNegozioListing.edges[i].node;
 
@@ -120,7 +122,7 @@ export class ShopDataExchangeService {
             mblink = '';
           else mblink = shData.googlemybusiness;
 
-          this._shops[i].next({
+          this._shops.data[i].next({
             id: shData.id,
             MBLink: mblink,
             name: shData.name,
@@ -138,13 +140,15 @@ export class ShopDataExchangeService {
             automations: { music: false, heating: false }
           })
         }
+        setTimeout(() => this._shops.fetched = true, 2000)
+        
         console.log(this._shops)
       })
   }
 
   public addShop() {
-    this._shops.push(new BehaviorSubject<Object>({
-      id: (this.shops.length * 2) + 1, //Generazione pseudocasuale degli id NON basata su valori posizionali
+    this._shops.data.push(new BehaviorSubject<Object>({
+      id: (this._shops.data.length * 2) + 1, //Generazione pseudocasuale degli id NON basata su valori posizionali
       MBLink: '',
       name: '',
       imgs: [],
@@ -171,7 +175,7 @@ export class ShopDataExchangeService {
   }
 
 
-  public modifyShop(modifications: Object, id: string): Promise<void> {
+  public modifyShop(modifications: Object): Promise<void> {
     let turns = []
     for (let i = 0; i < 7; i++) {
       modifications['hours'][i].forEach(turn => {
@@ -206,7 +210,7 @@ export class ShopDataExchangeService {
           }
         },
         refetchQueries: [
-          {query: this.shopsDataQuery}
+          { query: this.shopsDataQuery }
         ],
         awaitRefetchQueries: true
       }).subscribe(
@@ -223,9 +227,9 @@ export class ShopDataExchangeService {
   }
   public deleteShop(id: string) {
     //TODO: send http request to update db
-    for (let i = 0; i < this._shops.length; i++) {
+    for (let i = 0; i < this._shops.data.length; i++) {
       if (this._shops[i].value['id'] === parseInt(id)) {
-        this._shops.splice(i, 1);
+        this._shops.data.splice(i, 1);
         return;
       }
     }
@@ -235,14 +239,15 @@ export class ShopDataExchangeService {
   }
   public getShopById(id) {
     let target = null
-    this._shops.forEach((shop) => {
+    this._shops.data.forEach((shop) => {
       if (shop.value['id'] == id) {
         target = shop;
       }
     })
     return target.asObservable();
   }
-  get shops() {
+
+  get shops(){
     return this._shops
   }
 }

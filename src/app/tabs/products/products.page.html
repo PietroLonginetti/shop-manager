@@ -28,7 +28,7 @@
   <ion-item color="sintra-secondary">
     <ion-label style="margin-left: 7px">FILTER:</ion-label>
     <ion-select multiple="true" (ionChange)="changeFilter($event)">
-      <ion-select-option *ngFor="let shopOb of this.shops" [value]="shopOb.value.id">{{shopOb.value.name}}</ion-select-option>
+      <ion-select-option *ngFor="let shopOb of this.shops.data" [value]="shopOb.value.id">{{shopOb.value.name}}</ion-select-option>
     </ion-select>
   </ion-item>
 

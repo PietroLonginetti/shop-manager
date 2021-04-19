@@ -20,7 +20,7 @@ export class ProductsPage {
   isSearchBarOpened: boolean = false;
   products = [];
   fProducts = []
-  shops = [];
+  shops: any;
   list: any;
   shopIds: number[] = []
   scanSub: any;

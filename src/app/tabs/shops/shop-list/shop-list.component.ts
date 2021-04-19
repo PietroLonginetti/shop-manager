@@ -10,22 +10,24 @@ export class ShopListComponent implements OnInit {
   shops: any;
 
   intValutation(i: number) {
-    return Array(parseInt(this.shops[i].value.valutation));
+    return Array(parseInt(this.shops.data[i].value.valutation));
   }
   decValutation(i: number) {
-    return this.shops[i].value.valutation % 1 != 0;
+    return this.shops.data[i].value.valutation % 1 != 0;
   }
 
   constructor(private shopService: ShopDataExchangeService) { 
     this.shops = this.shopService.shops;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('shop-list is initialized')
+  }
 
   getListAvatar(i: number): string {
-    if (this.shops[i].value.imgs[0] == null) {
+    if (this.shops.data[i].value.imgs[0] == null) {
       return '../assets/img/shops/generic-shop.jpg'
-    } else return this.shops[i].value.imgs[0]
+    } else return this.shops.data[i].value.imgs[0]
   }
 
 }

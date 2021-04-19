@@ -71,7 +71,7 @@ export class ShopEditorComponent implements OnInit {
               text: 'Yes',
               handler: () => {
                 this.presentLoading()
-                this.shopService.modifyShop(this.modifications, this.id)
+                this.shopService.modifyShop(this.modifications)
                   .then(res => {
                     this.loadingController.dismiss()
                     this.router.navigate(['/tabs/shops/shop-details/' + this.id]);

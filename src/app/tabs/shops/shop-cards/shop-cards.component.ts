@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChange } from '@angular/core';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 
@@ -11,17 +11,20 @@ export class ShopCardsComponent implements OnInit {
   shops: any;
 
   intValutation(i: number) {
-    return Array(parseInt(this.shops[i].value.valutation));
+    return Array(parseInt(this.shops.data[i].value.valutation));
   }
   decValutation(i: number) {
-    return this.shops[i].value.valutation % 1 != 0;
+    return this.shops.data[i].value.valutation % 1 != 0;
   }
 
   constructor(private callNumber: CallNumber, private shopService: ShopDataExchangeService) {
+    console.log(this.shopService.shops)
     this.shops = this.shopService.shops;
    }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('shop-cards is initialized')
+  }
 
   isOpen(i: number): boolean {
     let now = new Date();
@@ -30,7 +33,7 @@ export class ShopCardsComponent implements OnInit {
     let minutes: number = now.getUTCMinutes();
 
     let open: boolean = false;
-    this.shops[i].value.hours[day].forEach(turn => {
+    this.shops.data[i].value.hours[day].forEach(turn => {
       let fromHour: number, toHour: number, fromMinutes: number, toMinutes: number;
       fromHour = parseInt(turn.from.slice(0, 2));
       toHour = parseInt(turn.to.slice(0, 2));

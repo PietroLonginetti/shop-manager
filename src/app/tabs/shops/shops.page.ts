@@ -17,40 +17,44 @@ export class ShopsPage {
   visualization: string;
   isSearchBarOpened: boolean = false;
   searchBar: any;
-  shops = []
+  shops: any;
 
   constructor(private popoverController: PopoverController, private resolver: ComponentFactoryResolver,
     private storage: Storage, private shopService: ShopDataExchangeService, private router: Router) {
     this.shops = this.shopService.shops;
   }
-  ngOnInit(): void {
+  ngAfterViewInit(){  
+    this.loadShops()
+  }
+
+  loadShops(){
     this.storage.get('visualization')
-      .then(res => {
-        if (res == null) {
-          this.storage.set('visualization', 'cards')
-            .then((res) => {
-              this.visualization = res;
-            });
-        } else {
-          this.visualization = res;
-        }
-      })
-      .catch(() => {
-        console.error('No visualization variable found in storage')
-        this.storage.set('visualization', 'cards');
-        this.visualization = 'cards';
-      })
-      .finally(() => this.updateVis());
+    .then(res => {
+      if (res == null) {
+        this.storage.set('visualization', 'cards')
+          .then((res) => {
+            this.visualization = res;
+          });
+      } else {
+        this.visualization = res;
+      }
+    })
+    .catch(() => {
+      console.error('No visualization variable found in storage')
+      this.storage.set('visualization', 'cards');
+      this.visualization = 'cards';
+    })
+    .finally(() => this.updateVis());
   }
 
   private updateVis() {
     this.container.clear();
     if (this.visualization === 'cards') {
       const factory = this.resolver.resolveComponentFactory(ShopCardsComponent);
-      this.container.createComponent(factory, 0);
+      this.container.createComponent(factory);
     } else if (this.visualization === 'list') {
       const factory = this.resolver.resolveComponentFactory(ShopListComponent);
-      this.container.createComponent(factory, 0);
+      this.container.createComponent(factory);
     }
 
   }
