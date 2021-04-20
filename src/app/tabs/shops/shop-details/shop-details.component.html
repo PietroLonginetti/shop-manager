@@ -35,19 +35,25 @@
   </div>
 
   <ion-grid class="main-grid">
-    <ion-row>
+    <ion-row *ngIf="shop.street">
       <ion-col left size="3">Address:</ion-col>
       <ion-col size="9">{{shop.street}}, {{shop.zip}}, {{shop.city}} ({{shop.province}})</ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col left size="3">Phone:</ion-col>
-      <ion-col size="9">
-        <ion-chip *ngIf="this.shop.telephone != ''" color="primary" outline (click)="callShop($event)">{{shop.telephone}}</ion-chip>
-      </ion-col>
+    <ion-row *ngIf="shop.telephone">
+        <ion-col left size="3">Phone:</ion-col>
+        <ion-col size="9">
+          <ion-chip color="sintra" outline (click)="callShop($event)">{{shop.telephone}}</ion-chip>
+        </ion-col>
     </ion-row>
+    <ion-row *ngIf="shop.email">
+      <ion-col left size="3">Email:</ion-col>
+      <ion-col size="9">
+        <ion-chip color="sintra" outline>{{shop.email}}</ion-chip>
+      </ion-col>
+  </ion-row>
     <ion-row>
       <ion-col left size="3" style="align-self: flex-start;">Hours:</ion-col>
-      <ion-col size="9" style="padding-left: 0; padding-top: 0;">
+      <ion-col size="9" style="padding-left: 0">
         <ion-grid class="hours-grid">
           <ion-row *ngFor="let day of shop.hours; let i = index">
             <ion-col size="2">{{weekDays[i]}}</ion-col>
@@ -68,7 +74,7 @@
     <ion-toolbar style="margin-top: 2%;">
       <ion-buttons style="justify-content: center;">
         <ion-button color="success" fill="solid" [disabled]="this.shop.MBLink == null? true: false"
-        [href]="this.shop.MBLink">
+          [href]="this.shop.MBLink">
           Go to My Business
         </ion-button>
       </ion-buttons>

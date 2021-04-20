@@ -24,12 +24,21 @@ export class ShopDataExchangeService {
           name
           city
           country_code
+          email
           phone
           province
           image {
             id
             fullpath(thumbnail: "content")
-          }      
+          }  
+          image1 {
+            id
+            fullpath(thumbnail: "content")
+          }   
+          image2 {
+            id
+            fullpath(thumbnail: "content")
+          }       
           street
           zip
           openings { 
@@ -86,8 +95,12 @@ export class ShopDataExchangeService {
           let shData = result.data.getNegozioListing.edges[i].node;
 
           let imgs = [];
-          if(!shData.image){}
-          else imgs.push(this.baseUrl + shData.image.fullpath);
+          if(shData.image)
+          imgs.push(this.baseUrl + shData.image.fullpath);
+          if(shData.image1)
+          imgs.push(this.baseUrl + shData.image1.fullpath);
+          if(shData.image2)
+          imgs.push(this.baseUrl + shData.image2.fullpath);
 
           let hours = [[], [], [], [], [], [], []];
           if(!shData.openings){}
@@ -144,12 +157,12 @@ export class ShopDataExchangeService {
             countryCode: shData.country_code,
             // -----------------
             telephone: shData.phone,
+            email: shData.email,
             hours: hours,
             automations: { music: false, heating: false }
           })
         }
         setTimeout(() => this._shops.fetched = true, 2000)
-
         console.log(this._shops)
       })
   }
@@ -179,6 +192,7 @@ export class ShopDataExchangeService {
           path: '/Negozi',
           input: {
             phone: newShop['telephone'],
+            email: newShop['email'],
             street: newShop['street'],
             zip: newShop['zip'],
             city: newShop['city'],
@@ -233,6 +247,7 @@ export class ShopDataExchangeService {
           id: modifications['id'],
           input: {
             phone: modifications['telephone'],
+            email: modifications['email'],
             street: modifications['street'],
             zip: modifications['zip'],
             city: modifications['city'],
@@ -292,11 +307,11 @@ export class ShopDataExchangeService {
   // Syncronous Methods
   public createEmptyShop() {
     this._shops.data.push(new BehaviorSubject<Object>({
-      id: 999, //valore che poi verra modificato nel BE
+      id: 0, //valore che poi verra modificato nel BE
       MBLink: '',
       name: '',
       imgs: [],
-      valutation: Array(0),
+      valutation: 0,
       // ---- address ----
       street: '',
       zip: '',
@@ -305,6 +320,7 @@ export class ShopDataExchangeService {
       countryCode: '',
       // -----------------
       telephone: '',
+      email: '',
       hours: [
         [],
         [],

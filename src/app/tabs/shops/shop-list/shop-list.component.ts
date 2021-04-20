@@ -10,9 +10,11 @@ export class ShopListComponent implements OnInit {
   shops: any;
 
   intValutation(i: number) {
+    if(this.shops.data[i].value.valutation)
     return Array(parseInt(this.shops.data[i].value.valutation));
   }
   decValutation(i: number) {
+    if(this.shops.data[i].value.valutation)
     return this.shops.data[i].value.valutation % 1 != 0;
   }
 

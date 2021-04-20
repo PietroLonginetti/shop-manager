@@ -37,7 +37,7 @@ export class ShopEditorComponent implements OnInit {
       street: new FormControl(`${this.modifications.street}`, Validators.minLength(3)),
       zip: new FormControl(`${this.modifications.zip}`, Validators.pattern('[0-9]{5}')),
       city: new FormControl(`${this.modifications.city}`, Validators.pattern('^[a-zA-Z]*$')),
-      province: new FormControl(`${this.modifications.province}`, Validators.maxLength(2)),
+      province: new FormControl(`${this.modifications.province}`),
       countryCode: new FormControl(`${this.modifications.countryCode}`, Validators.maxLength(2)),
       telephone: new FormControl(`${this.modifications.telephone}`, [Validators.pattern('^[+]?[0-9]+$'), Validators.minLength(8)]),
       MBLink: new FormControl(`${this.modifications.MBLink}`)
