@@ -1,4 +1,4 @@
-<div id="shop-cards" *ngIf="shops.fetched == false; then spinner else cards"></div>
+<div *ngIf="shops.fetched == false; then spinner else cards"></div>
 
 <ng-template #spinner>
   <div id="spinner-container">
@@ -7,22 +7,25 @@
 </ng-template>
 
 <ng-template #cards>
-  <ion-card class="active" *ngFor="let shop of shops.data; let i = index;" routerLink="shop-details/{{shop.value.id}}">
-    <img [src]="shop.value.imgs[0]">
-    <ion-card-header>
-      <ion-card-title class="card-title">{{shop.value.name}}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <div style="width: 80px">
-        <ion-icon *ngFor="let star of intValutation(i)" name="star" class="stars"></ion-icon>
-        <ion-icon *ngIf="decValutation(i)" name="star-half" class="stars"></ion-icon>
-      </div>
-      <ion-chip color="primary" outline="true" [disabled]="shop.value.telephone != ''? false : true">
-        <ion-icon name="call" style="margin: 0" (click)="callShop($event, i);"></ion-icon>
-      </ion-chip>
-      <div style="width: 80px; text-align: end;">
-        <p class="card-open">{{isOpen(i)?'Now Open':'Now Closed'}}</p>
-      </div>
-    </ion-card-content>
-  </ion-card>
+  <div id="shop-cards">
+    <ion-card class="active" *ngFor="let shop of shops.data; let i = index;"
+      routerLink="shop-details/{{shop.value.id}}">
+      <img [src]="shop.value.imgs[0]">
+      <ion-card-header>
+        <ion-card-title class="card-title">{{shop.value.name}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div style="width: 80px">
+          <ion-icon *ngFor="let star of intValutation(i)" name="star" class="stars"></ion-icon>
+          <ion-icon *ngIf="decValutation(i)" name="star-half" class="stars"></ion-icon>
+        </div>
+        <ion-chip color="primary" outline="true" [disabled]="shop.value.telephone != ''? false : true">
+          <ion-icon name="call" style="margin: 0" (click)="callShop($event, i);"></ion-icon>
+        </ion-chip>
+        <div style="width: 80px; text-align: end;">
+          <p class="card-open">{{isOpen(i)?'Now Open':'Now Closed'}}</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ng-template>

@@ -48,16 +48,7 @@
 
   <ion-grid class="main-grid">
     <ion-row>
-      <ion-col size="3"><strong>ID:</strong></ion-col>
-      <ion-col size="9">
-        <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'id')">
-          <ion-input formControlName="id" type="text" (ionInput)="this.modified = true"
-            placeholder="Insert identificator"></ion-input>
-        </form>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="3"><strong>Adrress:</strong></ion-col>
+      <ion-col size="3"><strong>Address:</strong></ion-col>
       <ion-col size="9">
         <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'street')">
           <ion-input formControlName="street" type="text" (ionInput)="this.modified = true"
@@ -87,6 +78,15 @@
         <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'telephone')">
           <ion-input formControlName="telephone" type="tel" (ionInput)="this.modified = true"
             placeholder="Insert shop number"></ion-input>
+        </form>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="3"><strong>Email:</strong></ion-col>
+      <ion-col size="9">
+        <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'email')">
+          <ion-input formControlName="email" type="text" (ionInput)="this.modified = true"
+            placeholder="Insert email"></ion-input>
         </form>
       </ion-col>
     </ion-row>

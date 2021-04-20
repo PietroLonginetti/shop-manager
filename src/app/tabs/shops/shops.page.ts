@@ -18,13 +18,14 @@ export class ShopsPage {
   isSearchBarOpened: boolean = false;
   searchBar: any;
   shops: any;
+  searchbar: any;
 
   constructor(private popoverController: PopoverController, private resolver: ComponentFactoryResolver,
     private storage: Storage, private shopService: ShopDataExchangeService, private router: Router) {
     this.shops = this.shopService.shops;
   }
-  ngAfterViewInit(){  
-    this.loadShops()
+  ngOnInit(){  
+    this.loadShops();
   }
 
   loadShops(){
@@ -91,7 +92,6 @@ export class ShopsPage {
     this.findShop();
   }
   findShop() {
-    this.searchBar = document.getElementById('shop-searchbar');
     const text = this.searchBar.value.toLowerCase();
     let searchList;
     switch (this.visualization) {

@@ -163,7 +163,7 @@ export class ShopDataExchangeService {
             automations: { music: false, heating: false }
           })
         }
-        setTimeout(() => this._shops.fetched = true, 2000)
+        setTimeout(() => this._shops.fetched = true, 1000)
       })
   }
 
