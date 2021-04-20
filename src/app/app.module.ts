@@ -10,6 +10,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicStorageModule } from '@ionic/storage';
+import { EmailComposer } from '@ionic-native/email-composer/ngx'
 
 import { HttpClientModule } from '@angular/common/http';
 import { APOLLO_OPTIONS } from 'apollo-angular';
@@ -28,6 +29,7 @@ import { InMemoryCache } from '@apollo/client/core';
     },
     CallNumber,
     QRScanner,
+    EmailComposer,
 
     //----- Apollo Client --------
     {

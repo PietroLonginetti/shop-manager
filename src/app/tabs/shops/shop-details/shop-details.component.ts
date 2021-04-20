@@ -4,6 +4,7 @@ import { PopoverController } from '@ionic/angular';
 import { ShopDataExchangeService } from 'src/app/services/shop-data-exchange/shop-data-exchange.service';
 import { ShopPopoverComponent } from './shop-popover/shop-popover.component';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { EmailComposer } from '@ionic-native/email-composer/ngx'
 
 @Component({
   selector: 'app-shop-details',
@@ -25,7 +26,7 @@ export class ShopDetailsComponent implements OnInit {
   }
 
   constructor(private activatedRoute: ActivatedRoute ,private shopService: ShopDataExchangeService, 
-    private popoverController: PopoverController, private callNumber: CallNumber) {
+    private popoverController: PopoverController, private callNumber: CallNumber, private emailComposer: EmailComposer) {
       this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
       this.shopService.getShopById(this.id).subscribe(shop => {this.shop = shop})
   }
@@ -49,10 +50,14 @@ export class ShopDetailsComponent implements OnInit {
     })
     return await popover.present();
   }
-  callShop(ev: MouseEvent) {
-    ev.stopPropagation();
+  callShop() {
     this.callNumber.callNumber(this.shop.telephone, true)
       .then(res => console.log('calling shop'))
       .catch(err => console.error('Error opening dialer'));
+  }
+  openEmailComposer(){
+    this.emailComposer.open({
+      to: this.shop.email
+    })
   }
 }

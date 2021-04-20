@@ -42,13 +42,13 @@
     <ion-row *ngIf="shop.telephone">
         <ion-col left size="3">Phone:</ion-col>
         <ion-col size="9">
-          <ion-chip color="sintra" outline (click)="callShop($event)">{{shop.telephone}}</ion-chip>
+          <ion-chip color="sintra" outline (click)="callShop()">{{shop.telephone}}</ion-chip>
         </ion-col>
     </ion-row>
     <ion-row *ngIf="shop.email">
       <ion-col left size="3">Email:</ion-col>
       <ion-col size="9">
-        <ion-chip color="sintra" outline>{{shop.email}}</ion-chip>
+        <ion-chip color="sintra" outline (click)="openEmailComposer()">{{shop.email}}</ion-chip>
       </ion-col>
   </ion-row>
     <ion-row>
