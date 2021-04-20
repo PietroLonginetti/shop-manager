@@ -73,9 +73,9 @@ export class ShopsPage {
     return popover.present();
   }
   addShop() {
-    this.shopService.addShop();
+    this.shopService.createEmptyShop();
     let lastElIndex = this.shopService.numOfShops - 1;
-    let newShopId = this.shops[lastElIndex].value.id;
+    let newShopId = this.shops.data[lastElIndex].value.id;
     this.router.navigate(['/tabs/shops/shop-editor', newShopId, 'create']);
   }
   setFocus() {

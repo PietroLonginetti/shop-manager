@@ -70,16 +70,30 @@ export class ShopEditorComponent implements OnInit {
             {
               text: 'Yes',
               handler: () => {
-                this.presentLoading()
-                this.shopService.modifyShop(this.modifications)
-                  .then(res => {
-                    this.loadingController.dismiss()
-                    this.router.navigate(['/tabs/shops/shop-details/' + this.id]);
-                  })
-                  .catch( err => {
-                    console.log(err)
-                  })
+                this.presentLoading();
+                switch (this.mode){
+                  case 'create':
+                    this.shopService.addShop(this.modifications)
+                    .then(() => {
+                      this.loadingController.dismiss()
+                      this.router.navigate(['/tabs/shops'])
+                    })
+                    .catch( err => {
+                      console.error(err)
+                    })
+                    break;
 
+                  case 'edit':
+                    this.shopService.modifyShop(this.modifications)
+                    .then(() => {
+                      this.loadingController.dismiss()
+                      this.router.navigate(['/tabs/shops/shop-details/' + this.id]);
+                    })
+                    .catch( err => {
+                      console.error(err)
+                    })
+                    break;
+                }
               }
             }
           ]
@@ -112,7 +126,6 @@ export class ShopEditorComponent implements OnInit {
   async discardAlert() {
     switch (this.mode) {
       case 'create':
-        this.shopService.deleteShop(this.id);
         this.router.navigate(['/tabs/shops']);
         break;
 
@@ -154,8 +167,15 @@ export class ShopEditorComponent implements OnInit {
         {
           text: 'Yes',
           handler: () => {
-            this.shopService.deleteShop(this.id);
-            this.router.navigate(['/tabs/shops']);
+            this.presentLoading();
+            this.shopService.deleteShop(parseInt(this.id))
+            .then( () => {
+              this.loadingController.dismiss()
+              this.router.navigate(['/tabs/shops'])
+            })
+            .catch( err => {
+              console.error(err)
+            });
           }
         }
       ]

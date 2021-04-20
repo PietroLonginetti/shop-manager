@@ -16,9 +16,11 @@ export class ShopDetailsComponent implements OnInit {
   weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   get intValutation(){
+    if(this.shop.valutation)
     return Array(parseInt(this.shop.valutation));
   }
   get decValutation(){
+    if(this.shop.valutation)
     return this.shop.valutation % 1 != 0;
   }
 
