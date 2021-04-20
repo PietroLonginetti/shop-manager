@@ -85,9 +85,6 @@ export class WeekSchedulerComponent implements OnInit {
     return valid;
   }
   async loadNewTurn(i: number) {
-    console.log(this.days[i])
-    console.log(this.days[i].length)
-    console.log(this.days[i][this.days[i].length - 1])
     let closingTurn = this.days[i][this.days[i].length - 1];
     let newTurn = {from: '', to: '', dayOfWeek: this.weekDays[i]['day']}
     if(closingTurn){
@@ -104,7 +101,6 @@ export class WeekSchedulerComponent implements OnInit {
       newTurn.from = '08:00';
       newTurn.to = '12:00';
     }
-    console.log(newTurn)
     this.days[i].push(newTurn);
     this.valuesChanged();
   }

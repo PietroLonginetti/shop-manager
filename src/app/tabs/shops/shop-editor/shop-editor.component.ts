@@ -74,7 +74,8 @@ export class ShopEditorComponent implements OnInit {
                 switch (this.mode){
                   case 'create':
                     this.shopService.addShop(this.modifications)
-                    .then(() => {
+                    .then((newId) => {
+                      this.shop.id = newId;
                       this.loadingController.dismiss()
                       this.router.navigate(['/tabs/shops'])
                     })

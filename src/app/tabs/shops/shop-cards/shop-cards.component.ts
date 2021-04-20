@@ -20,12 +20,10 @@ export class ShopCardsComponent implements OnInit {
   }
 
   constructor(private callNumber: CallNumber, private shopService: ShopDataExchangeService) {
-    console.log(this.shopService.shops)
     this.shops = this.shopService.shops;
    }
 
   ngOnInit() {
-    console.log('shop-cards is initialized')
   }
 
   isOpen(i: number): boolean {

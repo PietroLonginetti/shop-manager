@@ -23,7 +23,6 @@ export class ShopListComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('shop-list is initialized')
   }
 
   getListAvatar(i: number): string {

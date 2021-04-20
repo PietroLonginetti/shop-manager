@@ -8,6 +8,7 @@ import { Apollo, gql } from 'apollo-angular'
 export class ShopDataExchangeService {
   private allocateVectorFlag: boolean = true;
   private baseUrl = 'https://pimcore-tesista.sintrasviluppo.it';
+  private query;
   private _shops = {
     fetched: false,
     data: []
@@ -71,7 +72,7 @@ export class ShopDataExchangeService {
     }
   }`;
   private deleteShopMutation = gql`
-  mutation DeketeNegozio($id: Int!){
+  mutation DeleteNegozio($id: Int!){
     deleteNegozio(id: $id){
       success
     }
@@ -79,10 +80,10 @@ export class ShopDataExchangeService {
 
   // Constructor
   constructor(private apollo: Apollo) {
-    this.apollo.watchQuery({
+    this.query = this.apollo.watchQuery({
       query: this.shopsDataQuery
     })
-      .valueChanges.subscribe((result: any) => {
+    this.query.valueChanges.subscribe((result: any) => {
         const numOfShops = result.data.getNegozioListing.totalCount;
         if (this.allocateVectorFlag) {
           this._shops.data = []
@@ -163,13 +164,12 @@ export class ShopDataExchangeService {
           })
         }
         setTimeout(() => this._shops.fetched = true, 2000)
-        console.log(this._shops)
       })
   }
 
 
   // Asyncronous Methods
-  public addShop(newShop: Object): Promise<void> {
+  public addShop(newShop: Object): Promise<number> {
     this.allocateVectorFlag = true;
 
     let turns = []
@@ -184,7 +184,7 @@ export class ShopDataExchangeService {
       });
     }
 
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<number>((resolve, reject) => {
       this.apollo.mutate({
         mutation: this.addShopMutation,
         variables: {
@@ -205,16 +205,12 @@ export class ShopDataExchangeService {
                 Giorni: turns
               }
             }
-          },
-          refetchQueries: [
-            { query: this.shopsDataQuery }
-          ],
-          awaitRefetchQueries: true
+          }
         }
       }).subscribe(
         ({ data }) => {
-          console.log('got data', data);
-          resolve();
+          this.query.refetch()
+          resolve(parseInt(data['createNegozio']['message'].slice(-2)));
         },
         (error) => {
           console.log('error:', error)
@@ -286,13 +282,10 @@ export class ShopDataExchangeService {
         mutation: this.deleteShopMutation,
         variables: {
           id: id
-        },
-        refetchQueries: [
-          {query: this.shopsDataQuery}
-        ],
-        awaitRefetchQueries: true
+        }
       }).subscribe(
         ({ data }) => {
+          this.query.refetch();
           console.log('got data', data);
           resolve();
         },
