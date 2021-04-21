@@ -202,13 +202,13 @@ export class ShopDataExchangeService {
             country_code: modifications['countryCode'],
             googlemybusiness: modifications['MBLink'],
             image: {
-              id: modifications['imgs'][0].id
+              id: modifications['imgs'][0]? modifications['imgs'][0].id : null
             },
             image1: {
-              id: modifications['imgs'][1].id
+              id: modifications['imgs'][1]? modifications['imgs'][1].id : null
             },
             image2: {
-              id: modifications['imgs'][2].id
+              id: modifications['imgs'][2]? modifications['imgs'][2].id : null
             },
             openings: {
               replace: true,

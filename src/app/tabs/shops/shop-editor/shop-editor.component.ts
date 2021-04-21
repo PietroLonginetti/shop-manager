@@ -28,9 +28,11 @@ export class ShopEditorComponent implements OnInit {
     private alertController: AlertController, private toast: ToastController, private loadingController: LoadingController) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
-    this.shopService.getShopById(this.id).subscribe(shop => { this.shop = shop });
-    this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
-
+    this.shopService.getShopById(this.id).subscribe(shop => { 
+      this.shop = shop;
+      this.modifications = JSON.parse(JSON.stringify(this.shop)); //Deep copy
+    });
+    
     this.formCtrl = new FormGroup({
       name: new FormControl(this.modifications.name, [Validators.required, Validators.minLength(2)]),
       street: new FormControl(this.modifications.street, Validators.minLength(3)),

@@ -36,7 +36,7 @@
 
   <ion-grid class="main-grid">
     <ion-row *ngIf="shop.street">
-      <ion-col left size="3">Address:</ion-col>
+      <ion-col left size="3"><span class="key">Address:</span></ion-col>
       <ion-col id="address-content" size="9">
         {{shop.street}}<span *ngIf="shop.zip">,&nbsp;</span>
         {{shop.zip}}<span *ngIf="shop.city">,&nbsp;</span>
@@ -45,30 +45,32 @@
       </ion-col>
     </ion-row>
     <ion-row *ngIf="shop.telephone">
-      <ion-col left size="3">Phone:</ion-col>
+      <ion-col left size="3"><span class="key">Phone:</span></ion-col>
       <ion-col size="9">
         <ion-chip color="sintra" outline (click)="callShop()">{{shop.telephone}}</ion-chip>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="shop.email">
-      <ion-col left size="3">Email:</ion-col>
+      <ion-col left size="3"><span class="key">Email:</span></ion-col>
       <ion-col size="9">
         <ion-chip color="sintra" outline (click)="openEmailComposer()">{{shop.email}}</ion-chip>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="!noHours()">
-      <ion-col left size="3" style="align-self: flex-start;">Hours:</ion-col>
+      <ion-col left size="3"><span class="key">Hours:</span></ion-col>
       <ion-col size="9" style="padding-left: 0">
         <ion-grid class="hours-grid">
           <ion-row *ngFor="let day of shop.hours; let i = index">
             <ion-col size="2">{{weekDays[i]}}</ion-col>
             <ion-col size="10" style="flex-wrap: wrap;">
-              <span *ngIf="day.length == 0" style="color:rgb(153, 153, 153)"><em>Closed</em></span>
-              <div style="display: flex;" *ngFor="let turn of day; let t = index">
-                <ion-datetime readonly="true" [value]="turn.from" display-format="H:mm"></ion-datetime>
-                <span style="margin: 0 2px;">-</span>
-                <ion-datetime readonly="true" [value]="turn.to" display-format="H:mm"></ion-datetime>
-                <pre *ngIf="t != day.length - 1" style="margin: 0;">, </pre>
+              <span *ngIf="day.length == 0" style="color: var(--ion-color-sintra-secondary)"><em>Closed</em></span>
+              <div style="display: inherit" *ngFor="let turn of day; let t = index">
+                <div style="display: flex">
+                  <ion-datetime readonly="true" [value]="turn.from" display-format="H:mm"></ion-datetime>
+                  <span style="margin: 0 2px">-</span>
+                  <ion-datetime readonly="true" [value]="turn.to" display-format="H:mm"></ion-datetime>
+                </div>
+                <span *ngIf="t != day.length - 1" style="margin: 0;">,&nbsp;</span>
               </div>
             </ion-col>
           </ion-row>

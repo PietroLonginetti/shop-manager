@@ -5,6 +5,9 @@ ion-slides img{
     width: 100%;
     max-height: initial;
 }
+.key{
+    font-weight: bold;
+}
 .main-grid{
     padding: 5px 15px;
     display: flex;
@@ -17,6 +20,9 @@ ion-slides img{
 .main-grid ion-col{
     display: flex;
     align-items: center;
+}
+.main-grid ion-row{
+    align-items: baseline;
 }
 #address-content{
     flex-wrap: wrap;
