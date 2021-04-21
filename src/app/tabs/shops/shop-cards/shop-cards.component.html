@@ -10,7 +10,7 @@
   <div id="shop-cards">
     <ion-card class="active" *ngFor="let shop of shops.data; let i = index;"
       routerLink="shop-details/{{shop.value.id}}">
-      <img [src]="shop.value.imgs[0]">
+      <img [src]="shop.value.imgs[0].fullpath">
       <ion-card-header>
         <ion-card-title class="card-title">{{shop.value.name}}</ion-card-title>
       </ion-card-header>

@@ -25,7 +25,7 @@
 <ion-content>
   <ion-slides pager="true" *ngIf="shop.imgs.length!=0">
     <ion-slide *ngFor="let img of shop.imgs">
-      <img [src]="img">
+      <img [src]="img.fullpath">
     </ion-slide>
   </ion-slides>
 
@@ -78,8 +78,7 @@
 
     <ion-toolbar>
       <ion-buttons style="justify-content: center;">
-        <ion-button color="success" fill="solid" [disabled]="this.shop.MBLink == ''? true: false"
-          [href]="this.shop.MBLink">
+        <ion-button color="success" fill="solid" [disabled]="!this.shop.MBLink" [href]="this.shop.MBLink">
           Go to My Business
         </ion-button>
       </ion-buttons>

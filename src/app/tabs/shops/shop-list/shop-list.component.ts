@@ -26,9 +26,9 @@ export class ShopListComponent implements OnInit {
   }
 
   getListAvatar(i: number): string {
-    if (this.shops.data[i].value.imgs[0] == null) {
+    if (!this.shops.data[i].value.imgs[0]) {
       return '../assets/img/shops/generic-shop.jpg'
-    } else return this.shops.data[i].value.imgs[0]
+    } else return this.shops.data[i].value.imgs[0].fullpath
   }
 
 }

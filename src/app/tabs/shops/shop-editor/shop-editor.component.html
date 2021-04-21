@@ -35,11 +35,11 @@
         <div *ngIf="imgId == 0; then mainImg else gallery"></div>
         <ng-template #mainImg>
           <ion-badge slot="start" color="success">{{imgId + 1}}</ion-badge>
-          <img id="main-img" class="gallery-img" [src]="img">
+          <img id="main-img" class="gallery-img" [src]="img.fullpath">
         </ng-template>
         <ng-template #gallery>
           <ion-badge slot="start" color="light">{{imgId + 1}}</ion-badge>
-          <img class="gallery-img" [src]="img">
+          <img class="gallery-img" [src]="img.fullpath">
         </ng-template>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>

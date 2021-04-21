@@ -97,11 +97,20 @@ export class ShopDataExchangeService {
 
           let imgs = [];
           if(shData.image)
-          imgs.push(this.baseUrl + shData.image.fullpath); //TODO: imgs.push({id: shData.image.id, path: shData.image.fullpath})
+          imgs.push({
+            id: shData.image.id,
+            fullpath:this.baseUrl + shData.image.fullpath
+          })
           if(shData.image1)
-          imgs.push(this.baseUrl + shData.image1.fullpath);
+          imgs.push({
+            id: shData.image1.id,
+            fullpath:this.baseUrl + shData.image1.fullpath
+          })
           if(shData.image2)
-          imgs.push(this.baseUrl + shData.image2.fullpath);
+          imgs.push({
+            id: shData.image2.id,
+            fullpath:this.baseUrl + shData.image2.fullpath
+          })
 
           let hours = [[], [], [], [], [], [], []];
           if(!shData.openings){}
@@ -139,14 +148,9 @@ export class ShopDataExchangeService {
 
           });
 
-          let mblink;
-          if (!shData.googlemybusiness)
-            mblink = '';
-          else mblink = shData.googlemybusiness;
-
           this._shops.data[i].next({
             id: shData.id,
-            MBLink: mblink,
+            MBLink: shData.googlemybusiness,
             name: shData.name,
             imgs: imgs,
             valutation: shData.voto,
@@ -182,13 +186,13 @@ export class ShopDataExchangeService {
         })
       });
     }
-
     return new Promise<void>((resolve, reject) => {
       this.apollo.mutate({
         mutation: this.updateShopMutation,
         variables: {
           id: modifications['id'],
           input: {
+            name: modifications['name'],
             phone: modifications['telephone'],
             email: modifications['email'],
             street: modifications['street'],
@@ -197,6 +201,15 @@ export class ShopDataExchangeService {
             province: modifications['province'],
             country_code: modifications['countryCode'],
             googlemybusiness: modifications['MBLink'],
+            image: {
+              id: modifications['imgs'][0].id
+            },
+            image1: {
+              id: modifications['imgs'][1].id
+            },
+            image2: {
+              id: modifications['imgs'][2].id
+            },
             openings: {
               replace: true,
               items: {
@@ -243,6 +256,7 @@ export class ShopDataExchangeService {
           keyName: newShop['name'],
           path: '/Negozi',
           input: {
+            name: newShop['name'],
             phone: newShop['telephone'],
             email: newShop['email'],
             street: newShop['street'],
@@ -299,9 +313,9 @@ export class ShopDataExchangeService {
   // Syncronous Methods
   public createEmptyShop() {
     this._shops.data.push(new BehaviorSubject<Object>({
-      id: 0, //valore che poi verra modificato nel BE
-      MBLink: '',
-      name: '',
+      id: 'new', //valore che poi verra modificato nel BE
+      MBLink: undefined,
+      name: undefined,
       imgs: [],
       valutation: undefined,
       // ---- address ----
@@ -311,8 +325,8 @@ export class ShopDataExchangeService {
       province: undefined,
       countryCode: undefined,
       // -----------------
-      telephone: '',
-      email: '',
+      telephone: undefined,
+      email: undefined,
       hours: [
         [],
         [],
