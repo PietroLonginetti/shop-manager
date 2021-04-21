@@ -17,11 +17,9 @@ export class ShopDetailsComponent implements OnInit {
   weekDays: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   get intValutation(){
-    if(this.shop.valutation)
     return Array(parseInt(this.shop.valutation));
   }
   get decValutation(){
-    if(this.shop.valutation)
     return this.shop.valutation % 1 != 0;
   }
 
@@ -59,5 +57,14 @@ export class ShopDetailsComponent implements OnInit {
     this.emailComposer.open({
       to: this.shop.email
     })
+  }
+
+  noHours(): boolean {
+    let noHours = true;
+    this.shop.hours.forEach(day => {
+      if(day.length != 0)
+        noHours = false;
+    });
+    return noHours;
   }
 }

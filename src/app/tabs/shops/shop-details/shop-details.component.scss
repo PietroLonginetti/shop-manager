@@ -1,12 +1,15 @@
+ion-slides{
+    height: 30%;
+}
 ion-slides img{
     width: 100%;
+    max-height: initial;
 }
 .main-grid{
     padding: 5px 15px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 65%;
 }
 .main-grid ion-chip{
     margin: 0;
@@ -14,6 +17,9 @@ ion-slides img{
 .main-grid ion-col{
     display: flex;
     align-items: center;
+}
+#address-content{
+    flex-wrap: wrap;
 }
 ion-col[left]{
     justify-content: flex-end;

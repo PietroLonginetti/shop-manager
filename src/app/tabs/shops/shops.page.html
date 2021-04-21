@@ -6,15 +6,15 @@
 
     <ion-buttons slot="end" *ngIf="!isSearchBarOpened">
       <ion-button (click)="this.isSearchBarOpened = true; setFocus()">
-        <ion-icon name="search"></ion-icon>
+        <ion-icon name="search" color="light"></ion-icon>
       </ion-button>
       <ion-button (click)="presentPopover($event)">
-        <ion-icon name="ellipsis-vertical"></ion-icon>
+        <ion-icon name="ellipsis-vertical" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
 
     <ion-searchbar id="shop-searchbar" *ngIf="isSearchBarOpened" animated="true" (ionInput)="findShop()"
-      showCancelButton="true" (ionCancel)="closeSearchBar()" placeholder="Find your shop!" color="sintra">
+      showCancelButton="always" (ionCancel)="closeSearchBar()" placeholder="Find your shop!" color="sintra">
     </ion-searchbar>
 
   </ion-toolbar>

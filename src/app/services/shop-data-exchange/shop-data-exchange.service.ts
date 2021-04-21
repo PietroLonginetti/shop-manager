@@ -97,7 +97,7 @@ export class ShopDataExchangeService {
 
           let imgs = [];
           if(shData.image)
-          imgs.push(this.baseUrl + shData.image.fullpath);
+          imgs.push(this.baseUrl + shData.image.fullpath); //TODO: imgs.push({id: shData.image.id, path: shData.image.fullpath})
           if(shData.image1)
           imgs.push(this.baseUrl + shData.image1.fullpath);
           if(shData.image2)
@@ -167,60 +167,7 @@ export class ShopDataExchangeService {
       })
   }
 
-
   // Asyncronous Methods
-  public addShop(newShop: Object): Promise<number> {
-    this.allocateVectorFlag = true;
-
-    let turns = []
-    for (let i = 0; i < 7; i++) {
-      newShop['hours'][i].forEach(turn => {
-        turns.push({
-          closed: false,
-          dayofweek: turn.dayOfWeek,
-          opening: turn.from,
-          closing: turn.to
-        })
-      });
-    }
-
-    return new Promise<number>((resolve, reject) => {
-      this.apollo.mutate({
-        mutation: this.addShopMutation,
-        variables: {
-          keyName: newShop['name'],
-          path: '/Negozi',
-          input: {
-            phone: newShop['telephone'],
-            email: newShop['email'],
-            street: newShop['street'],
-            zip: newShop['zip'],
-            city: newShop['city'],
-            province: newShop['province'],
-            country_code: newShop['countryCode'],
-            googlemybusiness: newShop['MBLink'],
-            openings: {
-              replace: true,
-              items: {
-                Giorni: turns
-              }
-            }
-          }
-        }
-      }).subscribe(
-        ({ data }) => {
-          this.query.refetch()
-          resolve(parseInt(data['createNegozio']['message'].slice(-2)));
-        },
-        (error) => {
-          console.log('error:', error)
-          reject();
-        }
-      )
-    })
-  }
-
-
   public modifyShop(modifications: Object): Promise<void> {
     this.allocateVectorFlag = false;
 
@@ -274,6 +221,59 @@ export class ShopDataExchangeService {
       )
     })
   }
+  public addShop(newShop: Object): Promise<number> {
+    this.allocateVectorFlag = true;
+
+    let turns = []
+    for (let i = 0; i < 7; i++) {
+      newShop['hours'][i].forEach(turn => {
+        turns.push({
+          closed: false,
+          dayofweek: turn.dayOfWeek,
+          opening: turn.from,
+          closing: turn.to
+        })
+      });
+    }
+
+    return new Promise<number>((resolve, reject) => {
+      this.apollo.mutate({
+        mutation: this.addShopMutation,
+        variables: {
+          keyName: newShop['name'],
+          path: '/Negozi',
+          input: {
+            phone: newShop['telephone'],
+            email: newShop['email'],
+            street: newShop['street'],
+            zip: newShop['zip'],
+            city: newShop['city'],
+            province: newShop['province'],
+            country_code: newShop['countryCode'],
+            googlemybusiness: newShop['MBLink'],
+            openings: {
+              replace: true,
+              items: {
+                Giorni: turns
+              }
+            }
+          }
+        }
+      }).subscribe(
+        ({ data }) => {
+          this.query.refetch().then(() => {
+            const newId = parseInt(data['createNegozio']['message'].slice(-2));
+            console.log('got data', data)
+            resolve(newId);
+          })
+        },
+        (error) => {
+          console.log('error:', error)
+          reject();
+        }
+      )
+    })
+  }
   public deleteShop(id: number): Promise<void> {
     this.allocateVectorFlag = true;
 
@@ -285,9 +285,8 @@ export class ShopDataExchangeService {
         }
       }).subscribe(
         ({ data }) => {
-          this.query.refetch();
+          this.query.refetch().then(() => resolve());
           console.log('got data', data);
-          resolve();
         },
         (error) => {
           console.log('error:', error)
@@ -304,13 +303,13 @@ export class ShopDataExchangeService {
       MBLink: '',
       name: '',
       imgs: [],
-      valutation: 0,
+      valutation: undefined,
       // ---- address ----
-      street: '',
-      zip: '',
-      city: '',
-      province: '',
-      countryCode: '',
+      street: undefined,
+      zip: undefined,
+      city: undefined,
+      province: undefined,
+      countryCode: undefined,
       // -----------------
       telephone: '',
       email: '',
@@ -338,7 +337,8 @@ export class ShopDataExchangeService {
     })
     return target.asObservable();
   }
-
+ 
+  // Getters
   get shops() {
     return this._shops
   }

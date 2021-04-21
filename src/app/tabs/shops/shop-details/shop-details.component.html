@@ -3,7 +3,7 @@
 
     <ion-buttons slot="start">
       <ion-button routerLink="/tabs/shops" routerDirection="back">
-        <ion-icon name="chevron-back"></ion-icon>
+        <ion-icon name="chevron-back" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
 
@@ -11,10 +11,10 @@
 
     <ion-buttons slot="end">
       <ion-button routerLink="/tabs/shops/shop-editor/{{id}}/edit">
-        <ion-icon name="pencil" slot="start"></ion-icon>
+        <ion-icon name="pencil" slot="start" color="light"></ion-icon>
       </ion-button>
       <ion-button (click)="presentPopover($event)">
-        <ion-icon name="ellipsis-vertical"></ion-icon>
+        <ion-icon name="ellipsis-vertical" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
 
@@ -23,13 +23,13 @@
 
 
 <ion-content>
-  <ion-slides pager="true">
+  <ion-slides pager="true" *ngIf="shop.imgs.length!=0">
     <ion-slide *ngFor="let img of shop.imgs">
       <img [src]="img">
     </ion-slide>
   </ion-slides>
 
-  <div class="stars-container">
+  <div *ngIf="shop.valutation" class="stars-container">
     <ion-icon *ngFor="let star of intValutation" name="star" class="stars"></ion-icon>
     <ion-icon *ngIf="decValutation" name="star-half" class="stars"></ion-icon>
   </div>
@@ -37,21 +37,26 @@
   <ion-grid class="main-grid">
     <ion-row *ngIf="shop.street">
       <ion-col left size="3">Address:</ion-col>
-      <ion-col size="9">{{shop.street}}, {{shop.zip}}, {{shop.city}} ({{shop.province}})</ion-col>
+      <ion-col id="address-content" size="9">
+        {{shop.street}}<span *ngIf="shop.zip">,&nbsp;</span>
+        {{shop.zip}}<span *ngIf="shop.city">,&nbsp;</span>
+        {{shop.city}}<span *ngIf="shop.province">&nbsp;(</span>
+        {{shop.province}}<span *ngIf="shop.province">)</span>
+      </ion-col>
     </ion-row>
     <ion-row *ngIf="shop.telephone">
-        <ion-col left size="3">Phone:</ion-col>
-        <ion-col size="9">
-          <ion-chip color="sintra" outline (click)="callShop()">{{shop.telephone}}</ion-chip>
-        </ion-col>
+      <ion-col left size="3">Phone:</ion-col>
+      <ion-col size="9">
+        <ion-chip color="sintra" outline (click)="callShop()">{{shop.telephone}}</ion-chip>
+      </ion-col>
     </ion-row>
     <ion-row *ngIf="shop.email">
       <ion-col left size="3">Email:</ion-col>
       <ion-col size="9">
         <ion-chip color="sintra" outline (click)="openEmailComposer()">{{shop.email}}</ion-chip>
       </ion-col>
-  </ion-row>
-    <ion-row>
+    </ion-row>
+    <ion-row *ngIf="!noHours()">
       <ion-col left size="3" style="align-self: flex-start;">Hours:</ion-col>
       <ion-col size="9" style="padding-left: 0">
         <ion-grid class="hours-grid">
@@ -71,9 +76,9 @@
       </ion-col>
     </ion-row>
 
-    <ion-toolbar style="margin-top: 2%;">
+    <ion-toolbar>
       <ion-buttons style="justify-content: center;">
-        <ion-button color="success" fill="solid" [disabled]="this.shop.MBLink == null? true: false"
+        <ion-button color="success" fill="solid" [disabled]="this.shop.MBLink == ''? true: false"
           [href]="this.shop.MBLink">
           Go to My Business
         </ion-button>

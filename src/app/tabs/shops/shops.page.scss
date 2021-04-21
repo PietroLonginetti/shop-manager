@@ -1,6 +1,11 @@
 #shop-searchbar{
     animation: fade-in 0.2s ease-in;
     --box-shadow: 0;
+    padding: 2px 0;
+    height: 40px;
+}
+#shop-searchbar button{
+    color:white
 }
 @keyframes fade-in{
     0%{
