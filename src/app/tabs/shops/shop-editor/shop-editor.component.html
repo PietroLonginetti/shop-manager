@@ -2,12 +2,18 @@
   <ion-toolbar>
     <ion-grid style="padding: 5px 15px">
       <ion-row style="align-items: center; flex-wrap: nowrap; justify-content: space-between;">
-        <div style="display: flex; align-items: center; max-width: 65%;">
+        <div style="display: flex; align-items: baseline; max-width: 65%;">
           <span style="margin: 0 1rem 0 5px;"><strong>Name:</strong></span>
-          <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'name')">
-            <ion-input formControlName="name" type="text" (ionInput)="this.modified = true"
-              placeholder="Insert shop name">
+          <form class="active-form" [formGroup]="formCtrl" (focusout)="saveInput('name')">
+            <ion-input id="name" formControlName="name" type="text" (ionInput)="this.modified = true"
+              placeholder="Insert shop name" [style]="applyRedBorders('name')">
             </ion-input>
+            <span class="error-banner" [@inOutAnimation] *ngIf="formCtrl.get('name').hasError('required')">
+              Name is required.
+            </span>
+            <span class="error-banner" [@inOutAnimation] *ngIf="formCtrl.get('name').hasError('minlength')">
+              Name is too short.
+            </span>
           </form>
         </div>
         <ion-buttons>
@@ -50,43 +56,58 @@
     <ion-row>
       <ion-col size="3"><strong>Address:</strong></ion-col>
       <ion-col size="9">
-        <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'street')">
+        <form class="active-form" [formGroup]="formCtrl" (focusout)="saveInput('street')">
           <ion-input formControlName="street" type="text" (ionInput)="this.modified = true"
-            placeholder="Shop street"></ion-input>
+            placeholder="Shop street" [style]="applyRedBorders('street')"></ion-input>
+            <span class="error-banner" [@inOutAnimation] *ngIf="formCtrl.get('street').hasError('minlength')">
+              Street is too short.
+            </span>
         </form>
-        <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'zip')">
+        <form class="active-form" [formGroup]="formCtrl" (focusout)="saveInput('zip')">
           <ion-input formControlName="zip" type="text" (ionInput)="this.modified = true"
-            placeholder="Shop ZIP code"></ion-input>
+            placeholder="Shop ZIP code" [style]="applyRedBorders('zip')"></ion-input>
+            <span class="error-banner" [@inOutAnimation] *ngIf="formCtrl.get('zip').hasError('pattern')">
+              It doesn't seem to be a real zip code.
+            </span>
         </form>
-        <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'city')">
+        <form class="active-form" [formGroup]="formCtrl" (focusout)="saveInput('city')">
           <ion-input formControlName="city" type="text" (ionInput)="this.modified = true"
-            placeholder="Shop city"></ion-input>
+            placeholder="Shop city" [style]="applyRedBorders('city')"></ion-input>
+            <span class="error-banner" [@inOutAnimation] *ngIf="formCtrl.get('city').hasError('pattern')">
+              It doesn't seem to be a real city.
+            </span>
         </form>
-        <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'province')">
+        <form class="active-form" [formGroup]="formCtrl" (focusout)="saveInput('province')">
           <ion-input formControlName="province" type="text" (ionInput)="this.modified = true"
-            placeholder="Shop province"></ion-input>
+            placeholder="Shop province" [style]="applyRedBorders('province')"></ion-input>
         </form>
-        <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'countryCode')">
+        <form class="active-form" [formGroup]="formCtrl" (focusout)="saveInput('countryCode')">
           <ion-input formControlName="countryCode" type="text" (ionInput)="this.modified = true"
-            placeholder="Shop country"></ion-input>
+            placeholder="Shop country" [style]="applyRedBorders('countryCode')"></ion-input>
         </form>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size="3"><strong>Phone:</strong></ion-col>
       <ion-col size="9">
-        <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'telephone')">
+        <form class="active-form" [formGroup]="formCtrl" (focusout)="saveInput('telephone')">
           <ion-input formControlName="telephone" type="tel" (ionInput)="this.modified = true"
-            placeholder="Insert shop number"></ion-input>
+            placeholder="Insert shop number" [style]="applyRedBorders('telephone')"></ion-input>
+            <span class="error-banner" [@inOutAnimation] *ngIf="formCtrl.get('telephone').hasError('pattern')">
+              It doesn't seem to be a real phone number.
+            </span>
         </form>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size="3"><strong>Email:</strong></ion-col>
       <ion-col size="9">
-        <form [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'email')">
+        <form [formGroup]="formCtrl" (focusout)="saveInput('email')">
           <ion-input formControlName="email" type="text" (ionInput)="this.modified = true"
-            placeholder="Insert email"></ion-input>
+            placeholder="Insert email" [style]="applyRedBorders('email')"></ion-input>
+            <span class="error-banner" [@inOutAnimation] *ngIf="formCtrl.get('email').hasError('pattern')">
+              It doesn't seem to be a real email.
+            </span>
         </form>
       </ion-col>
     </ion-row>
@@ -104,9 +125,9 @@
   <ion-toolbar>
     <div id="gmlink-container">
       <span><strong>Google My Business Link:</strong></span>
-      <form class="active-form" [formGroup]="formCtrl" (focusout)="validateInput($event.target, 'MBLink')">
+      <form class="active-form" [formGroup]="formCtrl" (focusout)="saveInput('MBLink')">
         <ion-input formControlName="MBLink" type="url" (ionInput)="this.modified = true"
-          placeholder="http://example.com"></ion-input>
+          placeholder="http://example.com" [style]="applyRedBorders('MBLink')"></ion-input>
       </form>
     </div>
   </ion-toolbar>

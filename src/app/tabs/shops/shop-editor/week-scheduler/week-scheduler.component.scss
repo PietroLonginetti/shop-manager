@@ -7,7 +7,7 @@
     display: flex;
 }
 .turn-row{
-    animation-name: slide-in;
+    animation-name: turn-slide-in;
     animation-duration: 0.2s;
     align-items: center;
 }
@@ -37,7 +37,7 @@ ion-datetime{
 }
 
 // Animations
-@keyframes slide-in{
+@keyframes turn-slide-in{
     from{
         opacity: 0;
         height: 0;

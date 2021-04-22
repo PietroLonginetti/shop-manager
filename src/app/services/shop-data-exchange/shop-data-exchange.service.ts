@@ -339,6 +339,13 @@ export class ShopDataExchangeService {
       automations: { music: false, heating: false }
     }))
   }
+  public abortCreation(id: number){
+    this._shops.data.forEach((shop) => {
+      if (shop.value['id'] == id) {
+        this._shops.data.splice(this._shops.data.indexOf(shop),1)
+      }
+    })
+  }
   public getShopByPosition(i: number) {
     return this._shops[i].asObservable();
   }
