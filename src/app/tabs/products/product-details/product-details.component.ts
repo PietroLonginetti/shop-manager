@@ -3,11 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 
-import { PopoverController } from '@ionic/angular';
+import { ModalController, PopoverController } from '@ionic/angular';
 import { ProductDataExchangeService } from 'src/app/services/product-data-exchange/product-data-exchange.service';
 import { ProductDetailsPopoverComponent } from './product-details-popover/product-details-popover.component';
-import { ProductAvailabilityPopoverComponent } from './product-availability-popover/product-availability-popover.component';
 import { ProductCurrenciesPopoverComponent } from './product-currencies-popover/product-currencies-popover.component';
+import { ProductAvailabilityModalComponent } from './product-availability-modal/product-availability-modal.component';
 
 
 @Component({
@@ -22,8 +22,8 @@ export class ProductDetailsComponent implements OnInit {
   currency: string = 'USD';
 
   constructor(private activatedRoute: ActivatedRoute, private productService: ProductDataExchangeService,
-    private popoverController: PopoverController, private router: Router, private http: HttpClient,
-    private storage: Storage) {
+    private popoverController: PopoverController, private modalController:ModalController, private router: Router, 
+    private http: HttpClient, private storage: Storage) {
     this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
     try {
       this.productService.getProductById(this.id).subscribe(prod => { this.product = prod });
@@ -109,12 +109,13 @@ export class ProductDetailsComponent implements OnInit {
     return await currenciesPopover.present();
 
   }
-  async presentSellingTable(ev) {
-    const tablePopover = await this.popoverController.create({
-      component: ProductAvailabilityPopoverComponent,
+  async presentSellingTable() {
+    const tableModal = await this.modalController.create({
+      component: ProductAvailabilityModalComponent,
       componentProps: { prod: this.product },
-      event: ev
+      swipeToClose: true,
+      showBackdrop: true
     })
-    return await tablePopover.present();
+    return await tableModal.present();
   }
 }

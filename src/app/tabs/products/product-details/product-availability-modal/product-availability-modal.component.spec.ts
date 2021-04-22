@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ProductAvailabilityPopoverComponent } from './product-availability-popover.component';
+import { ProductAvailabilityModalComponent } from './product-availability-modal.component';
 
-describe('ProductAvailabilityPopoverComponent', () => {
-  let component: ProductAvailabilityPopoverComponent;
-  let fixture: ComponentFixture<ProductAvailabilityPopoverComponent>;
+describe('ProductAvailabilityModalComponent', () => {
+  let component: ProductAvailabilityModalComponent;
+  let fixture: ComponentFixture<ProductAvailabilityModalComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProductAvailabilityPopoverComponent ],
+      declarations: [ ProductAvailabilityModalComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ProductAvailabilityPopoverComponent);
+    fixture = TestBed.createComponent(ProductAvailabilityModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

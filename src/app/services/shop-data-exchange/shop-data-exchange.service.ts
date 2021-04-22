@@ -351,8 +351,8 @@ export class ShopDataExchangeService {
   }
   public getShopById(id) {
     let target = null
-    this._shops.data.forEach((shop) => {
-      if (shop.value['id'] == id) {
+    this._shops.data.forEach( shop => {
+      if (shop.value['id'] == id && !target) {
         target = shop;
       }
     })
