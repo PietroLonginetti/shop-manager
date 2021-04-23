@@ -7,6 +7,7 @@ import { SettingsPageRoutingModule } from './settings-routing.module';
 
 import { LoginComponent } from '../login/login.component'
 import { UserComponent } from './user/user.component'
+import { CurrencyComponent } from './currency/currency.component' 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -21,6 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     SettingsPage,
     LoginComponent,
+    CurrencyComponent,
     UserComponent
   ]
 })

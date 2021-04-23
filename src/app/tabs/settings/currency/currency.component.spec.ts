@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ProductCurrenciesPopoverComponent } from './product-currencies-popover.component';
+import { CurrencyComponent } from './currency.component';
 
-describe('ProductCurrenciesPopoverComponent', () => {
-  let component: ProductCurrenciesPopoverComponent;
-  let fixture: ComponentFixture<ProductCurrenciesPopoverComponent>;
+describe('CurrencyComponent', () => {
+  let component: CurrencyComponent;
+  let fixture: ComponentFixture<CurrencyComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProductCurrenciesPopoverComponent ],
+      declarations: [ CurrencyComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ProductCurrenciesPopoverComponent);
+    fixture = TestBed.createComponent(CurrencyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

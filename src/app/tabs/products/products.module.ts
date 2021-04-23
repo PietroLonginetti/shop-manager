@@ -10,7 +10,6 @@ import { SharedDirectivesModule } from 'src/app/directives/shared-directives.mod
 import { ProductsPopoverComponent } from './products-popover/products-popover.component'
 import { ProductDetailsPopoverComponent } from './product-details/product-details-popover/product-details-popover.component'
 import { ProductAvailabilityModalComponent} from './product-details/product-availability-modal/product-availability-modal.component'
-import { ProductCurrenciesPopoverComponent } from './product-details/product-currencies-popover/product-currencies-popover.component'
 import { ProductDetailsComponent } from './product-details/product-details.component'
 import { ProductEditorComponent } from './product-editor/product-editor.component'
 
@@ -30,7 +29,6 @@ import { ProductEditorComponent } from './product-editor/product-editor.componen
     ProductDetailsPopoverComponent,
     ProductEditorComponent,
     ProductAvailabilityModalComponent,
-    ProductCurrenciesPopoverComponent,
     ProductDetailsComponent
   ]
 })

@@ -30,14 +30,14 @@
       <ion-row>
         <ion-col left size="6">Price:</ion-col>
         <ion-col size="6">
-          <ion-chip outline color="danger" (click)="presentCurrenciesPopover()">
+          <ion-chip outline color="danger">
             {{this.priceToDisplay | currency: this.currency}}</ion-chip>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col left size="6">Available:</ion-col>
         <ion-col size="6">
-          <ion-chip outline color="success" (click)="presentSellingTable($event)">
+          <ion-chip outline color="success" (click)="presentSellingTable()">
             {{calculateTotalPieces()}} pieces</ion-chip>
         </ion-col>
       </ion-row>
