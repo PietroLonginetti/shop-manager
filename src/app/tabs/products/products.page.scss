@@ -9,6 +9,10 @@
 #prod-searchbar{
     --box-shadow: 0;
 }
+#no-prod-banner{
+   text-align: center; 
+   color: var(--ion-color-sintra-secondary);
+}
 
 .active{
     height: 100%;

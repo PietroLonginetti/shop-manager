@@ -85,7 +85,7 @@ export class ProductsPage {
       let isInshops = false;
       this.shopIds.forEach(shopId => {
         for (let i = 0; i < prod.value.available.length; i++) {
-          if (prod.value.available[i].shop === shopId)
+          if (prod.value.available[i].shop == shopId)
             isInshops = true
         }
       })

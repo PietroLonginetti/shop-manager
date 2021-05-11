@@ -39,6 +39,9 @@
       <ion-badge color="sintra-secondary">{{calculateTotalPieces(prod.value)}}</ion-badge>
     </ion-item>
   </ion-list>
+  <div id="no-prod-banner" *ngIf="fProducts.length === 0">
+    <em>No products found</em>
+  </div>
 
   <ion-fab #add vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addProduct()" color="sintra">
